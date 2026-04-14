@@ -1,0 +1,77 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: poppins, sans-serif;
+    box-sizing: border-box;
+}
+
+body{
+    background: #080808;
+    color: #fff;
+}
+
+/* FULL‑SCREEN HEADER */
+#header{
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* FULL‑SCREEN IMAGE BEHIND NAV */
+.logo{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1; /* image behind nav */
+}
+
+/* NAVIGATION ON TOP OF IMAGE */
+nav{
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    padding: 0 10%;
+    z-index: 10; /* nav above image */
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.container{
+    padding: 10px 10%;
+}
+
+nav ul li{
+    display: inline;
+    list-style: none;
+    margin: 10px 20px;
+}
+
+nav ul li a{
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    position: relative;
+}
+
+nav ul li a::after{
+    content: '';
+    width: 0;
+    height: 3px;
+    background: #ff004f;
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    transition: 0.5s;
+}
+
+nav ul li a:hover::after{
+    width: 100%;
+}

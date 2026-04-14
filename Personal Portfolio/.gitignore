@@ -1,0 +1,18 @@
+# User/system files
+.bash_history
+
+# VS Code
+.vscode/
+.vscode/extensions/
+
+# Copilot / Codex artifacts
+.codex/
+.copilot/
+
+# SQLite databases and logs
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.log
+*.jsonl
+*.lock
