@@ -1,77 +1,311 @@
-*{
+/* --- Global Reset & Fonts --- */
+* {
     margin: 0;
     padding: 0;
-    font-family: poppins, sans-serif;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-body{
-    background: #080808;
-    color: #fff;
+body {
+    background-color: #0d0d0d; /* Very dark gray instead of pure black */
+    color: #f3f4f6; /* Off-white text for better readability */
+    overflow-x: hidden;
 }
 
-/* FULL‑SCREEN HEADER */
-#header{
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-}
-
-/* FULL‑SCREEN IMAGE BEHIND NAV */
-.logo{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    position: absolute;
+/* --- Navigation Bar --- */
+#header {
+    position: absolute; /* Allows nav to sit on top of the image/background */
     top: 0;
     left: 0;
-    z-index: 1; /* image behind nav */
-}
-
-/* NAVIGATION ON TOP OF IMAGE */
-nav{
-    position: absolute;
-    top: 20px;
-    left: 0;
     width: 100%;
-    padding: 0 10%;
-    z-index: 10; /* nav above image */
+    padding: 20px 0;
+    z-index: 10; /* Keeps it above the hero section */
+    background: rgba(19, 51, 156, 0.3); /* Slight dark fade behind nav */
+    backdrop-filter: blur(5px); /* Modern glass blur effect */
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+nav {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
 }
 
-.container{
-    padding: 10px 10%;
+.logo {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 
-nav ul li{
-    display: inline;
+nav ul {
+    display: flex;
     list-style: none;
-    margin: 10px 20px;
+    gap: 30px; /* Space between links */
 }
 
-nav ul li a{
+nav ul li a {
+    color: #f3f4f6;
     text-decoration: none;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #a54005; /* A nice blue hover color */
+}
+
+/* --- Split Screen Hero Section --- */
+.hero {
+    display: flex;
+    height: 100vh; /* Takes up the full height of the screen */
+    width: 100vw;
+    margin-top: 20px; /* To account for the nav bar height */
+}
+
+/* Left Side (Image) */
+.hero-left {
+    width: 50%;
+    height: 100%;
     position: relative;
 }
 
-nav ul li a::after{
+.profile-img {
+    
+    margin-top: 70px;
+    margin-left: 80px;
+    height: 80%;
+    object-fit: cover; /* Acts like a background image, prevents squishing */
+    object-position: center top; /* Focuses on the top/center of the photo */
+    width: 100%;
+    max-width: 400px; /* Prevents the image from getting too wide */
+    border-radius: 15px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
+}
+
+/* Subtle gradient overlay to blend the image into the dark side */
+.hero-left::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, #0d0d0d);
+}
+
+/* Right Side (Text) */
+.hero-right {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center; /* Centers vertically */
+    justify-content: center; /* Centers horizontally */
+    padding: 40px;
+}
+
+.hero-content {
+    max-width: 500px;
+}
+
+.hero-content h2 {
+    font-size: 48px;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.highlight {
+    color: #4facfe; /* Matches nav hover color */
+}
+
+.hero-content p {
+    font-size: 18px;
+    color: #a0a0a0;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* Call to Action Button */
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: #4facfe;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 5px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #3b8cd9;
+    transform: translateY(-3px); /* Slight lift effect on hover */
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column; /* Stacks image and text on small screens */
+    }
+    .hero-left, .hero-right {
+        width: 100%;
+        height: 50%; /* Each gets half the screen vertically */
+    }
+    .hero-left::after {
+        background: linear-gradient(to bottom, transparent, #0d0d0d); /* Adjust gradient for stacking */
+        width: 100%;
+        height: 30%;
+        top: auto;
+        bottom: 0;
+    }
+    nav ul {
+        display: none; /* Hide nav links on mobile for now (needs a hamburger menu later) */
+    }
+}
+/* --- ABOUT SECTION --- */
+#about {
+    padding: 80px 0;
+    color: #ababab; /* Softer gray text so it's not blindingly white */
+    margin-right: 100px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* THIS CENTERS THE TEXT VERTICALLY */
+    flex-wrap: wrap; 
+}
+
+/* Left Column (Image) */
+.about-col-1 {
+    flex-basis: 35%; 
+    display: flex; 
+    justify-content: center; /* Centers the image inside its column */
+}
+
+.about-col-1 img {
+    width: 100%;
+    max-width: 400px; /* Prevents the image from getting too wide */
+    border-radius: 15px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
+}
+
+/* Right Column (Text) */
+.about-col-2 {
+    flex-basis: 60%; 
+}
+
+.sub-title {
+    font-size: 60px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.about-col-2 p {
+    line-height: 1.8; 
+    font-size: 18px;
+}
+.sub-title {
+    font-size: 60px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.about-col-2 p {
+    line-height: 1.8; /* Makes the paragraph easier to read */
+    font-size: 18px;
+}
+
+/* Skills List */
+.skills-list {
+    margin-top: 40px;
+}
+
+.skills-list ul li {
+    list-style: none;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.skills-list ul li span {
+    color: #ff004f; /* Matches your navigation hover color! */
+    font-weight: 600;
+    font-size: 20px;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+/* This kicks in when the screen is smaller than 768px (tablets and phones) */
+@media only screen and (max-width: 768px) {
+    .about-col-1, .about-col-2 {
+        flex-basis: 100%; /* Makes both columns take up the full width */
+    }
+    
+    .about-col-1 {
+        margin-bottom: 30px; /* Adds space below the image when stacked */
+    }
+    
+    .sub-title {
+        font-size: 40px; /* Makes the heading slightly smaller for mobile */
+    }
+}
+/* --- TAB TITLES --- */
+.tab-titles {
+    display: flex;
+    margin: 20px 0 40px;
+}
+
+.tab-links {
+    margin-right: 50px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+}
+
+/* The animated red underline for the tabs */
+.tab-links::after {
     content: '';
     width: 0;
     height: 3px;
     background: #ff004f;
     position: absolute;
     left: 0;
-    bottom: -6px;
+    bottom: -8px;
     transition: 0.5s;
 }
 
-nav ul li a:hover::after{
-    width: 100%;
+/* Keeps the underline full width when the tab is active */
+.tab-links.active-link::after {
+    width: 50%; /* Change to 100% if you want the line to span the whole word */
+}
+
+/* --- TAB CONTENTS --- */
+.tab-contents {
+    display: none; /* Hides all tab content by default */
+}
+
+.tab-contents.active-tab {
+    display: block; /* Shows only the active tab content */
+}
+
+.tab-contents ul li {
+    list-style: none;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.tab-contents ul li span {
+    color: #ff004f;
+    font-size: 20px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 5px;
 }
