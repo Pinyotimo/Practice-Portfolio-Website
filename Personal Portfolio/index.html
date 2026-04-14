@@ -1,23 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en">    
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Portfolio Website</title>
+    <title>Personal Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="header">
-        <div class="container"></div>
-            
+
+    <header id="header">
+        <div class="container">
             <nav>
-          
+                <h1 class="logo">Welcome</h1>
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Projects</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
             </nav>
-</body>
-</html>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-left">
+            <img src="Images\logo.png" alt="Steve" class="profile-img">
+        </div>
+        <div class="hero-right">
+            <div class="hero-content">
+                <h2>Hi, I'm <span class="highlight">Steve</span></h2>
+                <p>A passionate Web Developer & Designer building modern web experiences.</p>
+                <a href="#" class="btn">View My Work</a>
+            </div>
+        </div>
+    </section>
+
+    <div id="about">
+    <div class="container">
+        <div class="row">
+            
+            <div class="about-col-1">
+                <img src="Images\background.jpg" alt="About Steve"> 
+            </div>
+            
+            <div class="about-col-2">
+                <h1 class="sub-title">About Me</h1>
+                <p>
+                    I am a passionate Software Engineer and Web Developer currently studying Computer Science 
+                    at The Co-operative University of Kenya. I love building responsive, user-friendly applications 
+                    and writing clean, scalable code.
+                </p>
+
+                <div class="tab-titles">
+                    <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
+                    <p class="tab-links" onclick="opentab('experience')">Experience</p>
+                    <p class="tab-links" onclick="opentab('education')">Education</p>
+                    <p class="tab-links" onclick="opentab('Hobbies')">Hobbies</p>
+                </div>
+
+                <div class="tab-contents active-tab" id="skills">
+                    <ul>
+                        <li><span>UI/UX Design</span><br>Designing intuitive Web/App interfaces</li>
+                        <li><span>Web Development</span><br>Building responsive web applications</li>
+                        <li><span>Software Engineering</span><br>Writing scalable and clean code</li>
+                    </ul>
+                </div>
+
+                <div class="tab-contents" id="experience">
+                    <ul>
+                        <li><span>2023 - Present</span><br>Freelance Web Developer at Upwork</li>
+                        <li><span>2021 - 2023</span><br>Junior Software Engineer at Tech Corp</li>
+                        <li><span>2020 - 2021</span><br>Web Design Intern at Creative Studio</li>
+                    </ul>
+                </div>
+
+
+                <div class="tab-contents" id="education">
+                    <ul>
+                        <li><span>2024 - 2028</span><br>BSc in Computer Science - The Co-operative University of Kenya</li>
+                        <li><span>Nov 2025</span><br>Web Development Bootcamp - eMobilis Technology Training Institute</li>
+                        <li><span>Jan 2020 - Nov 2023</span><br>Sawagongo National School</li>
+                    </ul>
+                </div>
+
+                <div class="tab-contents" id="Hobbies">
+                    <ul>
+                        <li> Travelling</li>
+                        <li> Reading books</li>
+                        <li> Swimming</li>
+                    </ul>
+                </div
+
+            </div>  </div> </div> </div> <script>
+    var tablinks = document.getElementsByClassName("tab-links");
+    var tabcontents = document.getElementsByClassName("tab-contents");
+
+    function opentab(tabname) {
+        for(let tablink of tablinks) {
+            tablink.classList.remove("active-link");
+        }
+        for(let tabcontent of tabcontents) {
+            tabcontent.classList.remove("active-tab");
+        }
+        event.currentTarget.classList.add("active-link");
+        document.getElementById(tabname).classList.add("active-tab");
+    }
+</script>
