@@ -16,3 +16,32 @@
 *.log
 *.jsonl
 *.lock
+# Dependencies
+node_modules/
+
+# Build outputs
+build/
+dist/
+
+# Environment files
+.env
+
+# IDE/editor configs
+.vscode/
+.idea/
+
+# Logs and databases
+*.log
+*.sqlite*
+
+# SQLite database files
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
