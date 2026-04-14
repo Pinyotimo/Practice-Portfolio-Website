@@ -1,47 +1,53 @@
-# User/system files
+# ========================
+# System / OS files
+# ========================
+.DS_Store
+Thumbs.db
 .bash_history
 
-# VS Code
-.vscode/
-.vscode/extensions/
-
-# Copilot / Codex artifacts
-.codex/
-.copilot/
-
-# SQLite databases and logs
-*.sqlite
-*.sqlite-shm
-*.sqlite-wal
-*.log
-*.jsonl
-*.lock
-# Dependencies
-node_modules/
-
-# Build outputs
-build/
-dist/
-
-# Environment files
-.env
-
-# IDE/editor configs
+# ========================
+# IDE / Editor
+# ========================
 .vscode/
 .idea/
 
-# Logs and databases
+# ========================
+# AI / Dev tools
+# ========================
+.codex/
+.copilot/
+
+# ========================
+# Node dependencies
+# ========================
+node_modules/
+
+# ========================
+# Build outputs
+# ========================
+build/
+dist/
+
+# ========================
+# Environment files
+# ========================
+.env
+
+# ========================
+# Logs
+# ========================
 *.log
+*.lock
+
+# ========================
+# SQLite databases
+# ========================
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
 *.sqlite*
 
-# SQLite database files
-*.sqlite
-*.sqlite-wal
-*.sqlite-shm
-
-# Logs
-*.log
-
-# OS files
-.DS_Store
-Thumbs.db
+# ========================
+# Misc
+# ========================
+*.jsonl
