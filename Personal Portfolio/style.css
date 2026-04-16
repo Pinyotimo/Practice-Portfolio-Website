@@ -12,6 +12,10 @@ body {
     overflow-x: hidden;
 }
 
+:root {
+    --navbar-bg: #13339c;
+}
+
 /* --- Navigation Bar --- */
 #header {
     position: absolute; /* Allows nav to sit on top of the image/background */
@@ -20,7 +24,7 @@ body {
     width: 100%;
     padding: 20px 0;
     z-index: 10; /* Keeps it above the hero section */
-    background: rgba(19, 51, 156, 0.3); /* Slight dark fade behind nav */
+    background: var(--navbar-bg); /* Shared navbar color across every page */
     backdrop-filter: blur(5px); /* Modern glass blur effect */
 }
 
@@ -81,13 +85,13 @@ nav ul {
 nav ul li a {
     color: #f3f4f6;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 nav ul li a:hover {
-    color: #a54005; /* A nice blue hover color */
+    color: #10dc50; /* A nice blue hover color */
 }
 
 /* --- Split Screen Hero Section --- */
@@ -378,7 +382,7 @@ nav ul li a:hover {
    5. SERVICES SECTION
    ========================================= */
 #services {
-    padding: 60px 0;
+    padding: 140px 0 60px;
 }
 
 /* CSS Grid automatically spaces out the cards */
@@ -420,7 +424,7 @@ nav ul li a:hover {
 
 /* The Awesome Hover Effect */
 .services-list div:hover {
-    background: #ff004f; /* Fills the card with your signature red */
+    background: #43badf; /* Fills the card with your signature red */
     transform: translateY(-10px); /* Makes the card "float" up */
 }
 
@@ -433,7 +437,7 @@ nav ul li a:hover {
    6. PORTFOLIO / PROJECTS SECTION
    ========================================= */
 #portfolio {
-    padding: 60px 0;
+    padding: 140px 0 60px;
 }
 
 .work-list {
@@ -521,7 +525,9 @@ nav ul li a:hover {
    7. CONTACT SECTION
    ========================================= */
 #contact {
-    padding: 60px 0;
+    padding: 140px 0 60px;
+    
+    
 }
 
 .contact-left {
@@ -539,7 +545,7 @@ nav ul li a:hover {
 }
 
 .contact-left p i {
-    color: #ff004f;
+    color: #928c8e;
     margin-right: 15px;
     font-size: 25px;
 }
@@ -559,7 +565,7 @@ nav ul li a:hover {
 }
 
 .social-icons a:hover {
-    color: #ff004f;
+    color: #2b0884;
     transform: translateY(-5px);
 }
 
@@ -568,7 +574,7 @@ nav ul li a:hover {
     display: block;
     margin: 50px auto;
     width: fit-content;
-    border: 1px solid #ff004f;
+    border: 1px solid #6951d4;
     padding: 14px 50px;
     border-radius: 6px;
     text-decoration: none;
@@ -577,13 +583,13 @@ nav ul li a:hover {
 }
 
 .btn:hover {
-    background: #ff004f;
+    background: #1bb9b9;
 }
 
 /* Specific styling for left-aligned buttons */
 .btn.btn2 {
     display: inline-block;
-    background: #ff004f;
+    background: #0b4fe1;
     margin-top: 20px;
     margin-bottom: 0;
     cursor: pointer;
