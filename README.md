@@ -1,35 +1,59 @@
-# Stephen Oduor Portfolio Website
+<h1 align="center">Stephen Oduor Portfolio Website</h1>
 
-A modern personal portfolio website built with HTML, CSS, and JavaScript.
+<p align="center">
+  A modern single-page portfolio website built with HTML, CSS, and JavaScript.
+</p>
 
-The site is now structured as a single-page portfolio inside `Personal Portfolio/index.html`, with smooth in-page navigation for:
+<p align="center">
+  <img src="https://img.shields.io/badge/HTML5-Markup-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5 badge">
+  <img src="https://img.shields.io/badge/CSS3-Styling-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3 badge">
+  <img src="https://img.shields.io/badge/JavaScript-Interactivity-F7DF1E?style=for-the-badge&logo=javascript&logoColor=111111" alt="JavaScript badge">
+  <img src="https://img.shields.io/badge/Responsive-Mobile%20Friendly-49dcb1?style=for-the-badge" alt="Responsive badge">
+</p>
 
-- Home
-- About
-- Services
-- Projects
-- Contact
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Active-1fa2ff?style=flat-square" alt="Project status badge">
+  <img src="https://img.shields.io/badge/Type-Personal%20Portfolio-7c6cff?style=flat-square" alt="Project type badge">
+</p>
 
-The design includes a polished floating navbar, a responsive hero section, animated project cards, tabbed About content, and a contact section with social links and CV download support.
+## Overview
 
-## Live Project Goal
+This repository contains Stephen Oduor's personal portfolio website. The site is designed as a polished single-page experience with smooth in-page navigation and a modern interface for presenting professional background, services, projects, and contact information.
 
-This project is designed to present Stephen Oduor's:
+The main portfolio lives in `Personal Portfolio/index.html`, while the older `services.html`, `projects.html`, and `contact.html` files now redirect visitors to their matching sections inside the main page.
 
-- Personal introduction
-- Skills and education background
-- Professional experience
-- Services offered
-- Featured projects
-- Contact information and social profiles
+## Preview
 
-## Built With
+![Portfolio Preview](Personal%20Portfolio/Images/logo.png)
+
+> Replace the preview image above with a full homepage screenshot later for a more polished GitHub presentation.
+
+## Highlights
+
+- Single-page portfolio layout with section-based navigation
+- Sticky floating navbar with mobile menu support
+- Modern hero section with call-to-action button
+- Interactive About section with tab switching
+- Services cards with polished hover states
+- Project showcase with image overlays and GitHub links
+- Contact section with social links and CV download
+- Fully responsive layout for desktop and mobile
+
+## Tech Stack
 
 - HTML5
 - CSS3
 - JavaScript
 - Font Awesome
 - Google Fonts (`Poppins`)
+
+## Sections
+
+- `Home` for the introduction and hero content
+- `About` for skills, experience, education, and hobbies
+- `Services` for the main offerings
+- `Projects` for featured work and GitHub links
+- `Contact` for direct contact details, social profiles, and CV access
 
 ## Project Structure
 
@@ -52,161 +76,96 @@ Portfolio Website/
         └── Steve cv.pdf
 ```
 
-## Important Notes
+## How It Works
 
-- `index.html` is the main page of the portfolio.
-- `services.html`, `projects.html`, and `contact.html` are lightweight redirect pages that send visitors to the correct section inside `index.html`.
-- `style.css` contains the full visual system for the site.
-- `script.js` handles the mobile navbar toggle and the About section tabs.
+- `index.html` contains the full portfolio experience
+- `style.css` controls the complete visual design system
+- `script.js` handles the mobile navigation and About tab switching
+- `services.html`, `projects.html`, and `contact.html` act as redirect pages for section links
 
-## Features
+## Getting Started
 
-- Responsive single-page portfolio layout
-- Sticky floating navigation bar
-- Smooth scrolling between sections
-- Mobile-friendly hamburger menu
-- Hero section with call-to-action button
-- About section with interactive tabs
-- Services cards with hover effects
-- Projects section with animated overlays
-- Contact section with social media links
-- Downloadable CV button
-
-## Sections Included
-
-### 1. Home
-
-Introduces Stephen Oduor with a strong hero layout, profile image, and portfolio call-to-action.
-
-### 2. About
-
-Shows:
-
-- Skills
-- Experience
-- Education
-- Hobbies
-
-This section uses JavaScript-powered tabs for a cleaner layout.
-
-### 3. Services
-
-Highlights core offerings such as:
-
-- Web Development
-- UI/UX Design
-- App Design
-
-### 4. Projects
-
-Displays selected portfolio work with project images, summaries, and GitHub links.
-
-### 5. Contact
-
-Includes:
-
-- Email
-- Phone number
-- WhatsApp number
-- Location
-- Social media links
-- Contact form UI
-- CV download link
-
-## How to Run the Project
-
-Since this is a static website, you can run it very easily:
-
-1. Clone or download the repository.
+1. Clone or download this repository.
 2. Open the `Personal Portfolio` folder.
-3. Open `index.html` in your browser.
+3. Launch `index.html` in your browser.
 
-You can also use a local development server if you want a smoother workflow.
-
-Example with VS Code Live Server:
+For a better local development workflow, you can use VS Code Live Server:
 
 1. Open the project in VS Code.
 2. Right-click `index.html`.
-3. Choose `Open with Live Server`.
+3. Select `Open with Live Server`.
 
-## Customization Guide
-
-You can easily personalize the site by editing the following files:
+## Customization
 
 ### Update Content
 
-Edit `Personal Portfolio/index.html` to change:
+Edit `Personal Portfolio/index.html` to update:
 
-- Name
-- Intro text
-- About information
-- Experience
-- Education
-- Hobbies
+- Name and introduction
+- About section details
+- Skills, experience, education, and hobbies
 - Services
-- Projects
-- Contact details
+- Featured projects
+- Contact information
 - Social links
 
 ### Update Styling
 
-Edit `Personal Portfolio/style.css` to change:
+Edit `Personal Portfolio/style.css` to customize:
 
-- Colors
+- Color palette
 - Typography
-- Layout spacing
-- Section backgrounds
-- Button styles
-- Card appearance
+- Spacing
+- Section layouts
+- Buttons
+- Cards
 - Hover effects
 - Mobile responsiveness
 
 ### Update Interactivity
 
-Edit `Personal Portfolio/script.js` to change:
+Edit `Personal Portfolio/script.js` to adjust:
 
-- Mobile navigation behavior
-- About tab switching behavior
+- Mobile navbar behavior
+- About tab interactions
 
 ### Update Assets
 
-Replace files inside `Personal Portfolio/Images/` to update:
+Replace files inside `Personal Portfolio/Images/` to change:
 
-- Profile images
-- Project images
+- Profile image
 - Background image
+- Project images
 - CV file
+- Preview image for the README
 
-## Current Design Direction
+## Design Direction
 
-The portfolio currently uses:
+The portfolio currently follows a modern developer portfolio style with:
 
-- A dark modern background
-- Glass-style content panels
-- Rounded cards and containers
+- Dark layered backgrounds
+- Glass-style panels
+- Rounded cards and soft shadows
 - Bright accent gradients
-- Responsive layouts for desktop and mobile
+- Clean spacing and responsive layouts
 
 ## Future Improvements
 
-Possible next upgrades for this project:
-
-- Add an active nav link state while scrolling
-- Connect the contact form to Formspree or a backend service
-- Add animations on scroll
-- Add project filtering
-- Add a testimonials section
-- Add a footer
-- Optimize images for faster loading
-- Improve accessibility with deeper keyboard and screen reader support
+- Add a dedicated screenshot for the README preview section
+- Highlight the active navbar section while scrolling
+- Connect the contact form to a real backend or form service
+- Add motion on scroll
+- Add a footer section
+- Improve accessibility and keyboard support further
+- Optimize image loading and performance
 
 ## Author
 
-Stephen Oduor
+**Stephen Oduor**
 
 - GitHub: [Pinyotimo](https://github.com/Pinyotimo)
 - LinkedIn: [stephen-oduor-8817992b9](https://www.linkedin.com/in/stephen-oduor-8817992b9/)
 
 ## License
 
-This project is open for personal learning, practice, and portfolio use.
+This project is available for learning, practice, and portfolio inspiration.
