@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">    
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
@@ -16,24 +15,27 @@
     <header id="header">
         <div class="container">
             <nav>
-                <h1 class="logo">Welcome</h1>
+                <a href="#home" class="logo" aria-label="Go to homepage">
+                    <span class="logo-mark">SO</span>
+                    <span class="logo-text">Stephen  Oduor</span>
+                </a>
                 <div class="nav-toggle" id="navToggle" role="button" aria-label="Toggle navigation" aria-expanded="false" tabindex="0">
                     <span></span>
                     <span></span>
                     <span></span>
                 </div>
                 <ul id="navLinks">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="index.html#about">About</a></li>
-                    <li><a href="services.html">Services</a></li>
-                    <li><a href="projects.html">Projects</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#portfolio">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <section class="hero">
+    <section class="hero" id="home">
         <div class="hero-left">
             <img src="Images\logo.png" alt="Steve" class="profile-img">
         </div>
@@ -41,85 +43,167 @@
             <div class="hero-content">
                 <h2>Hi, I'm <span class="highlight">Steve</span></h2>
                 <p>A passionate Web Developer & Designer building modern web experiences.</p>
-                <a href="https://github.com/Pinyotimo" class="btn">View My Work</a>
+                <a href="#portfolio" class="btn">View My Work</a>
             </div>
         </div>
     </section>
 
-    <div id="about">
-    <div class="container">
-        <div class="row">
-            
-            <div class="about-col-1">
-                <img src="Images\background.jpg" alt="About Steve"> 
-            </div>
-            
-            <div class="about-col-2">
-                <h1 class="sub-title">About Me</h1>
-                <p>
-                    I am a passionate Software Engineer and Web Developer currently studying Computer Science 
-                    at The Co-operative University of Kenya. I love building responsive, user-friendly applications 
-                    and writing clean, scalable code.
-                </p>
-
-                <div class="tab-titles">
-                    <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
-                    <p class="tab-links" onclick="opentab('experience')">Experience</p>
-                    <p class="tab-links" onclick="opentab('education')">Education</p>
-                    <p class="tab-links" onclick="opentab('Hobbies')">Hobbies</p>
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="about-col-1">
+                    <img src="Images\background.jpg" alt="About Steve">
                 </div>
 
-                <div class="tab-contents active-tab" id="skills">
-                    <ul>
-                        <li><span>UI/UX Design</span><br>Designing intuitive Web/App interfaces</li>
-                        <li><span>Web Development</span><br>Building responsive web applications</li>
-                        <li><span>Software Engineering</span><br>Writing scalable and clean code</li>
-                    </ul>
+                <div class="about-col-2">
+                    <h1 class="sub-title">About Me</h1>
+                    <p>
+                        I am a passionate Software Engineer and Web Developer currently studying Computer Science
+                        at The Co-operative University of Kenya. I love building responsive, user-friendly applications
+                        and writing clean, scalable code.
+                    </p>
+
+                    <div class="tab-titles">
+                        <button class="tab-links active-link" data-tab="skills" type="button">Skills</button>
+                        <button class="tab-links" data-tab="experience" type="button">Experience</button>
+                        <button class="tab-links" data-tab="education" type="button">Education</button>
+                        <button class="tab-links" data-tab="hobbies" type="button">Hobbies</button>
+                    </div>
+
+                    <div class="tab-contents active-tab" id="skills">
+                        <ul>
+                            <li><span>UI/UX Design</span><br>Designing intuitive Web/App interfaces</li>
+                            <li><span>Web Development</span><br>Building responsive web applications</li>
+                            <li><span>Software Engineering</span><br>Writing scalable and clean code</li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-contents" id="experience">
+                        <ul>
+                            <li><span>March 2026 - Present</span><br>Web Developer at SkillyMe Africa</li>
+                            <li><span>Nov 2025 - Dec 2025</span><br>Designing Property Hub Website</li>
+                            <li><span>Jan 2026 - March 2026</span><br>AI Technical Writing Intern at GAO TEK</li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-contents" id="education">
+                        <ul>
+                            <li><span>2024 - 2028</span><br>BSc in Computer Science - The Co-operative University of Kenya</li>
+                            <li><span>December 2025</span><br>AI for Software Development Training - Moringa School</li>
+                            <li><span>Nov 2025</span><br>Web Development Bootcamp - eMobilis Technology Training Institute</li>
+                            <li><span>September 2025 - January 2026</span><br>Huawei Certified ICT Associate (HCIA) - Huawei Kenya</li>
+                            <li><span>2025</span><br>Aspire Leaders Program - Aspire Institute</li>
+                            <li><span>Jan 2020 - Nov 2023</span><br>Sawagongo National School</li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-contents" id="hobbies">
+                        <ul>
+                            <li>Travelling</li>
+                            <li>Reading books</li>
+                            <li>Swimming</li>
+                        </ul>
+                    </div>
                 </div>
-
-                <div class="tab-contents" id="experience">
-                    <ul>
-                        <li><span>March 2026 - Present</span><br> Web Developer at SkillyMe Africa</li>
-                        <li><span>Nov 2025 -Dec 2025</span><br>Designing Property Hub Website </li>
-                        <li><span>Jan 2026 - March 2026</span><br>AI Technical Writing Intern at GAO TEK </li>
-                    </ul>
-                </div>
-
-
-                <div class="tab-contents" id="education">
-                    <ul>
-                        <li><span>2024 - 2028</span><br>BSc in Computer Science - The Co-operative University of Kenya</li>
-                        <li><span>December 2025 </span><br>AI for Software Development Training - Moringa School</li>
-                        <li><span>Nov 2025</span><br>Web Development Bootcamp - eMobilis Technology Training Institute</li>
-                        <li><span>September 2025 - January 2026</span><br>Huawei Certified ICT Associate (HCIA) - Huawei Kenya</li>
-                        <li><span>Jan 2020 - Nov 2023</span><br>Sawagongo National School</li>
-                    </ul>
-                </div>
-
-                <div class="tab-contents" id="Hobbies">
-                    <ul>
-                        <li> Travelling</li>
-                        <li> Reading books</li>
-                        <li> Swimming</li>
-                    </ul>
-                </div>
-
             </div>
         </div>
-    </div>
-</div>
-<script>
-    var tablinks = document.getElementsByClassName("tab-links");
-    var tabcontents = document.getElementsByClassName("tab-contents");
+    </section>
 
-    function opentab(tabname) {
-        for(let tablink of tablinks) {
-            tablink.classList.remove("active-link");
-        }
-        for(let tabcontent of tabcontents) {
-            tabcontent.classList.remove("active-tab");
-        }
-        event.currentTarget.classList.add("active-link");
-        document.getElementById(tabname).classList.add("active-tab");
-    }
-</script>
+    <section id="services">
+        <div class="container">
+            <h1 class="sub-title">My Services</h1>
+
+            <div class="services-list">
+                <div>
+                    <i class="fa-solid fa-code"></i>
+                    <h2>Web Development</h2>
+                    <p>Building highly responsive, fast, and secure websites from scratch using modern frameworks and clean code.</p>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-crop-simple"></i>
+                    <h2>UI/UX Design</h2>
+                    <p>Designing intuitive, beautiful user interfaces that provide seamless and engaging digital experiences.</p>
+                </div>
+
+                <div>
+                    <i class="fa-brands fa-app-store"></i>
+                    <h2>App Design</h2>
+                    <p>Creating functional and aesthetically pleasing mobile application layouts for iOS and Android platforms.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio">
+        <div class="container">
+            <h1 class="sub-title">My Projects</h1>
+
+            <div class="work-list">
+                <div class="work">
+                    <img src="Images\pexels-fox-58267-969462.jpg" alt="Pharmacy Management System project">
+                    <div class="layer">
+                        <h3>Pharmacy Management System</h3>
+                        <p>A fully functional pharmacy management platform built with HTML, CSS, and JavaScript. Features a shopping cart and responsive design.</p>
+                        <a href="https://github.com/Pinyotimo/Pharmacy-UI" target="_blank" rel="noopener noreferrer" title="View on GitHub"><i class="fa-brands fa-github"></i></a>
+                    </div>
+                </div>
+
+                <div class="work">
+                    <img src="Images\pexels-tranmautritam-251225.jpg" alt="Portfolio Website project">
+                    <div class="layer">
+                        <h3>Portfolio Website</h3>
+                        <p>A personal portfolio website built from scratch using HTML, CSS (Flexbox & Grid), and modern UI design principles.</p>
+                        <a href="https://github.com/Pinyotimo/Practice-Portfolio-Website" target="_blank" rel="noopener noreferrer" title="View on GitHub"><i class="fa-brands fa-github"></i></a>
+                    </div>
+                </div>
+
+                <div class="work">
+                    <img src="Images\pexels-tima-miroshnichenko-5380642.jpg" alt="Modern HR Management System project">
+                    <div class="layer">
+                        <h3>Modern HR Management System</h3>
+                        <p>A comprehensive human resources management solution with employee records, attendance tracking, and performance evaluation features.</p>
+                        <a href="https://github.com/Pinyotimo/Employee-Management-System" target="_blank" rel="noopener noreferrer" title="View on GitHub"><i class="fa-brands fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="contact-left">
+                    <h1 class="sub-title">Contact Me</h1>
+                    <p><i class="fa-solid fa-envelope"></i> steveotieno2012005@gmail.com</p>
+                    <p><i class="fa-solid fa-phone"></i> +254 769 493 697</p>
+                    <p><i class="fa-brands fa-whatsapp"></i> +254 750 779 480</p>
+                    <p><i class="fa-solid fa-location-dot"></i> Nairobi, Kenya</p>
+
+                    <div class="social-icons">
+                        <a href="https://www.linkedin.com/in/stephen-oduor-8817992b9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="https://github.com/Pinyotimo" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i></a>
+                        <a href="https://twitter.com/Pinyotimoburu" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="https://www.facebook.com/Steve Otieno" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/steveotieno858/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@otieno_oduor1" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="https://www.reddit.com/user/Pinyotimoburu" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-reddit"></i></a>
+                    </div>
+
+                    <a href="Images\Steve cv.pdf" download class="btn btn2">Download CV</a>
+                </div>
+
+                <div class="contact-right">
+                    <form>
+                        <input type="text" name="Name" placeholder="Your Name" required>
+                        <input type="email" name="Email" placeholder="Your Email" required>
+                        <textarea name="Message" rows="6" placeholder="Your Message" required></textarea>
+                        <button type="submit" class="btn btn2">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
