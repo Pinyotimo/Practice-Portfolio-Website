@@ -747,3 +747,43 @@ form .btn {
         font-size: 0.95rem;
     }
 }
+
+.vercel-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: #f2f2f2;
+  transition: 0.3s ease;
+}
+
+.vercel-icon img {
+  width: 22px;
+}
+
+.vercel-icon:hover {
+  background: #e0e0e0;
+  transform: scale(1.1);
+}
+
+.layer a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border-radius: 50%;
+    margin: 10px;
+    text-decoration: none;
+    overflow: hidden; /* prevents arrow overflow */
+}
+
+.layer a img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    display: block;
+}
