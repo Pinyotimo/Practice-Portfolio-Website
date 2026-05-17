@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Portfolio</title>
+    <meta name="description" content="Stephen Oduor is a Nairobi-based software engineer and web developer building responsive websites, clean interfaces, and digital solutions.">
+    <meta name="author" content="Stephen Oduor">
+    <meta property="og:title" content="Stephen Oduor | Software Engineer Portfolio">
+    <meta property="og:description" content="Explore Stephen Oduor's web development projects, services, technical skills, certificates, and contact details.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="Images/logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>Stephen Oduor | Software Engineer Portfolio</title>
+    <link rel="icon" href="Images/logo.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -19,11 +27,11 @@
                     <span class="logo-mark">SO</span>
                     <span class="logo-text">Stephen  Oduor</span>
                 </a>
-                <div class="nav-toggle" id="navToggle" role="button" aria-label="Toggle navigation" aria-expanded="false" tabindex="0">
+                <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" type="button">
                     <span></span>
                     <span></span>
                     <span></span>
-                </div>
+                </button>
                 <ul id="navLinks">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
@@ -37,13 +45,17 @@
 
     <section class="hero" id="home">
         <div class="hero-left">
-            <img src="Images\logo.png" alt="Steve" class="profile-img">
+            <img src="Images/logo.png" alt="Steve" class="profile-img">
         </div>
         <div class="hero-right">
             <div class="hero-content">
+                <span class="hero-kicker">Software Engineer & Digital Solutions Builder</span>
                 <h2>Hi, I'm <span class="highlight">Steve</span></h2>
                 <p>A passionate Web Developer & Designer building modern web experiences.</p>
-                <a href="#portfolio" class="btn">View My Work</a>
+                <div class="hero-actions">
+                    <a href="#portfolio" class="btn">View My Work</a>
+                    <a href="Images/Stephen-Oduor-CV.pdf" download class="btn btn-outline">Download CV</a>
+                </div>
             </div>
         </div>
     </section>
@@ -51,10 +63,6 @@
     <section id="about">
         <div class="container">
             <div class="row">
-                <div class="about-col-1">
-                    <img src="Images\99 Inspirational Website Design Templates - DesignerPeople (1).jfif" alt="About Steve">
-                </div>
-
                 <div class="about-col-2">
                     <h1 class="sub-title">About Me</h1>
                     <p>
@@ -63,11 +71,27 @@
                         and writing clean, scalable code.
                     </p>
 
+                    <div class="about-highlights" aria-label="Professional highlights">
+                        <div>
+                            <span>Focus</span>
+                            <strong>Full-stack Web</strong>
+                        </div>
+                        <div>
+                            <span>Style</span>
+                            <strong>Clean UI & UX</strong>
+                        </div>
+                        <div>
+                            <span>Base</span>
+                            <strong>Nairobi, Kenya</strong>
+                        </div>
+                    </div>
+
                     <div class="tab-titles">
                         <button class="tab-links active-link" data-tab="skills" type="button">Skills</button>
                         <button class="tab-links" data-tab="experience" type="button">Experience</button>
                         <button class="tab-links" data-tab="education" type="button">Education</button>
-                        <button class="tab-links" data-tab="hobbies" type="button">Hobbies</button>
+                        <button class="tab-links" data-tab="core-technologies" type="button">Core Technologies</button>
+                        <button class="tab-links" data-tab="hobbies" type="button">Hobbies</button> 
                     </div>
 
                     <div class="tab-contents active-tab" id="skills">
@@ -75,6 +99,11 @@
                             <li><span>UI/UX Design</span><br>Designing intuitive Web/App interfaces</li>
                             <li><span>Web Development</span><br>Building responsive web applications</li>
                             <li><span>Software Engineering</span><br>Writing scalable and clean code</li>
+                            <li><span>Virtual Assistance</span><br>Supporting digital workflows, research, scheduling, documentation, and online task management</li>
+                            <li><span>AI Data Annotation</span><br>Training computer vision and AI models using Roboflow, Labelbox, and Label Prism</li>
+                            <li><span>E-commerce Tools</span><br>Building and managing web stores with tools such as Shopify</li>
+                            <li><span>Networking</span><br>Understanding network fundamentals, connectivity, troubleshooting, and secure system communication</li>
+                            <li><span>Cybersecurity Basics</span><br>Practicing foundational security awareness, vulnerability thinking, and beginner pentesting concepts</li>
                         </ul>
                     </div>
 
@@ -89,15 +118,159 @@
                     <div class="tab-contents" id="education">
                         <ul>
                             <li><span>2024 - 2028</span><br>BSc in Computer Science - The Co-operative University of Kenya</li>
-                            <li><span>December 2025</span><br>AI for Software Development Training - Moringa School</li>
+                            <li>
+                                <span>December 2025</span><br>AI for Software Development Training - Moringa School
+                                <a href="Images/Moringa AI course certificate.pdf" target="_blank" rel="noopener noreferrer" class="certificate-btn">
+                                    <i class="fa-solid fa-certificate"></i> View Certificate
+                                </a>
+                            </li>
                             <li><span>Nov 2025</span><br>Web Development Bootcamp - eMobilis Technology Training Institute</li>
                             <li><span>September 2025 - January 2026</span><br>Huawei Certified ICT Associate (HCIA) - Huawei Kenya</li>
-                            <li><span>September - December 2024</span><br>Digital Safety & Security Awareness – Cisco Networking Academy</li>
-                            <li><span>2025</span><br>Aspire Leaders Program - Aspire Institute</li>
+                            <li>
+                                <span>September - December 2024</span><br>Digital Safety & Security Awareness - Cisco Networking Academy
+                                <a href="Images/Digital_Safety_and_Security_Awareness_certificate_steveotieno2012005-gmail-com_2726ea6b-fe42-4882-9c63-3cf4db38f68d.pdf" target="_blank" rel="noopener noreferrer" class="certificate-btn">
+                                    <i class="fa-solid fa-certificate"></i> View Certificate
+                                </a>
+                            </li>
+                            <li>
+                                <span>2025</span><br>Aspire Leaders Program - Aspire Institute
+                                <a href="Images/Aspire Institute Badge.pdf" target="_blank" rel="noopener noreferrer" class="certificate-btn">
+                                    <i class="fa-solid fa-certificate"></i> View Certificate
+                                </a>
+                            </li>
                             <li><span>Jan 2020 - Nov 2023</span><br>Sawagongo National School</li>
+                            <li class="tech-heading">Additional Certifications</li>
+                            <li>
+                                <span>Networking</span><br>Network Technician Career Path
+                                <a href="Images/Network_Technician_Career_Path_certificate_steveotieno2012005-gmail-com_533a845c-5571-4797-b1d4-96ac69b89c91 (1).pdf" target="_blank" rel="noopener noreferrer" class="certificate-btn">
+                                    <i class="fa-solid fa-certificate"></i> View Certificate
+                                </a>
+                            </li>
+                            <li>
+                                <span>Cybersecurity</span><br>Commonwealth Introduction to Cybersecurity
+                                <a href="Images/Common Wealth Introduction to Cybersecurity Cert.pdf" target="_blank" rel="noopener noreferrer" class="certificate-btn">
+                                    <i class="fa-solid fa-certificate"></i> View Certificate
+                                </a>
+                            </li>
+                            <li>
+                                <span>Data Analytics</span><br>Data Analytics Certificate
+                                <a href="Images/Data Analytics Certificate.pdf" target="_blank" rel="noopener noreferrer" class="certificate-btn">
+                                    <i class="fa-solid fa-certificate"></i> View Certificate
+                                </a>
+                            </li>
+                            <li>
+                                <span>Digital Literacy</span><br>Disinformation and Misinformation Certification
+                                <a href="Images/Disinformation Misinformation Certification.pdf" target="_blank" rel="noopener noreferrer" class="certificate-btn">
+                                    <i class="fa-solid fa-certificate"></i> View Certificate
+                                </a>
+                            </li>
+                            <li>
+                                <span>Digital Skills</span><br>DDCN Certificate
+                                <a href="Images/DDCN cert.pdf" target="_blank" rel="noopener noreferrer" class="certificate-btn">
+                                    <i class="fa-solid fa-certificate"></i> View Certificate
+                                </a>
+                            </li>
+                            <li>
+                                <span>Learn-A-Thon 2025</span><br>Learn-A-Thon Certificate
+                                <a href="Images/Learn-A-Thon_2025_certificate_steveotieno2012005-gmail-com_.pdf" target="_blank" rel="noopener noreferrer" class="certificate-btn">
+                                    <i class="fa-solid fa-certificate"></i> View Certificate
+                                </a>
+                            </li>
                         </ul>
                     </div>
 
+                    <div class="tab-contents" id="core-technologies">
+                        <ul>
+                            <li class="tech-heading">Programming Languages</li>
+                            <li>
+                                <span class="tech-tag language">C programming</span>
+                                <br>Engineering highly optimized, low-level systems logic, custom memory management, and high-performance algorithms.
+                            </li>
+
+                            <li>
+                                <span class="tech-tag language">C++</span>
+                                <br>Developing high-performance applications, hardware-level resource control, and efficient object-oriented structures.
+                            </li>
+
+                            <li>
+                                <span class="tech-tag language">Java</span>
+                                <br>Building robust, cross-platform enterprise software, desktop applications, and highly scalable object-oriented logic
+                            </li>
+
+                            <li><span class="tech-tag language">Python</span>
+                                <br> Architecting clean, readable solutions for automated task scripting, rapid prototyping, and back-end algorithms.
+                            </li>
+
+                            <li>
+                                <span class="tech-tag language">JavaScript (ES6+)</span>
+                                <br> Engineering dynamic user interactions, clean asynchronous operations, and modular logic for modern web interfaces.
+                            </li>
+
+                            <li>
+                                <span class="tech-tag language">HTML5 & CSS3</span>
+                                <br>Designing semantically structured layouts paired with highly responsive, visually rich, and interactive modern styling rules.
+                            </li>
+
+                            <!-- Frameworks & Tools -->
+                            <li class="tech-heading">Frontend Frameworks & Tools</li>
+
+                            <li>
+                                <span class="tech-tag framework">React.js</span>
+                                <br>Constructing fast, scalable, single-page web applications utilizing reusable state-driven component mechanics.
+                            </li>
+
+                            <li>
+                                <span class="tech-tag framework">Tailwind CSS</span>
+                                <br> Creating highly optimized, bespoke user interfaces using utility-first styling frameworks without bloating stylesheets.
+                            </li>
+
+                            <li>
+                                <span class="tech-tag framework">Git / GitHub</span>
+                                <br>Managing collaborative code bases, parallel feature branching workflows, and tracking production software releases safely.
+                            </li>
+
+                            <!-- Databases & Backend -->
+                            <li class="tech-heading">Databases & Backend</li>
+                            <li>
+                                <span class="tech-tag backend">Node.js</span>
+                                <br> Engineering non-blocking, asynchronous backend network services and event-driven data streaming runtime server environments
+                            </li>
+
+                            <li>
+                                <span class="tech-tag backend">SQL / PostgreSQL</span>
+                                <br>Architecting normalized relational schema structures, indexing data layers, and optimizing query retrieval execution latencies
+                            </li>
+
+                            <li>
+                                <span class="tech-tag backend">Django</span>
+                                <br>Building highly secure, rapid full-stack web architectures utilizing robust object-relational mapping (ORM) mechanics.
+                            </li>
+
+                            <!-- AI, Web Tools & Security -->
+                            <li class="tech-heading">AI, Web Tools & Security</li>
+                            <li>
+                                <span class="tech-tag ai-tool">Roboflow</span>
+                                <br>Preparing, labeling, and managing datasets for computer vision model training workflows.
+                            </li>
+
+                            <li>
+                                <span class="tech-tag ai-tool">Labelbox & Label Prism</span>
+                                <br>Annotating image and data assets for AI model training, review, and quality control.
+                            </li>
+
+                            <li>
+                                <span class="tech-tag web-tool">Shopify</span>
+                                <br>Working with e-commerce storefront tools, product setup, and basic online store management.
+                            </li>
+
+                            <li>
+                                <span class="tech-tag security">Networking & Cybersecurity</span>
+                                <br>Applying networking fundamentals, cybersecurity basics, and beginner pentesting concepts.
+                            </li>
+                        </ul>
+                    </div>
+
+                    
                     <div class="tab-contents" id="hobbies">
                         <ul>
                             <li>Travelling</li>
@@ -105,6 +278,8 @@
                             <li>Swimming</li>
                         </ul>
                     </div>
+
+                
                 </div>
             </div>
         </div>
@@ -132,6 +307,24 @@
                     <h2>App Design</h2>
                     <p>Creating functional and aesthetically pleasing mobile application layouts for iOS and Android platforms.</p>
                 </div>
+
+                <div>
+                    <i class="fa-solid fa-robot"></i>
+                    <h2>AI Data Support</h2>
+                    <p>Preparing and labeling datasets for model training workflows using tools like Roboflow, Labelbox, and Label Prism.</p>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-shop"></i>
+                    <h2>E-commerce Support</h2>
+                    <p>Setting up and improving online storefront workflows with web tools such as Shopify.</p>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h2>Cybersecurity Basics</h2>
+                    <p>Applying networking fundamentals, security awareness, and beginner pentesting concepts to safer web systems.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -144,37 +337,34 @@
             <!--Vercel-->
             <div class="work-list">
                 <div class="work">
-                    <img src="Images\pexels-fox-58267-969462.jpg" alt="Pharmacy Management System project">
+                    <img src="Images/pexels-fox-58267-969462.jpg" alt="Pharmacy Management System project">
                     <div class="layer">
                         <h3>Pharmacy Management System</h3>
                         <p>Collaborated with my team to build a fully functional pharmacy management platform. Features a shopping cart and responsive design.</p>
-                        <a href="https://pharmaos-app.netlify.app" target="_blank" title="View on Vercel">
-                        <img src="https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-black.svg" alt="Vercel">
-                       </a>
-
-
-
+                        <a href="https://pharmaos-app.netlify.app" target="_blank" rel="noopener noreferrer" title="View live project" aria-label="View Pharmacy Management System live project">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
                     </div>
                 </div>
 
                 <div class="work">
-                    <img src="Images\pexels-tranmautritam-251225.jpg" alt="Portfolio Website project">
+                    <img src="Images/pexels-tranmautritam-251225.jpg" alt="Portfolio Website project">
                     <div class="layer">
                         <h3>Portfolio Website</h3>
                         <p>A personal portfolio website built from scratch using HTML, CSS (Flexbox & Grid), and modern UI design principles.</p>
-                        <a href="https://github.com/Pinyotimo/Practice-Portfolio-Website" target="_blank" rel="noopener noreferrer" title="View on GitHub"><i class="fa-brands fa-github"></i></a>
+                        <a href="https://github.com/Pinyotimo/Practice-Portfolio-Website" target="_blank" rel="noopener noreferrer" title="View on GitHub" aria-label="View Portfolio Website on GitHub"><i class="fa-brands fa-github"></i></a>
                     </div>
                 </div>
 
                 <div class="work">
-                    <img src="Images\pexels-tima-miroshnichenko-5380642.jpg" alt="Modern HR Management System project">
+                    <img src="Images/pexels-tima-miroshnichenko-5380642.jpg" alt="Modern HR Management System project">
                     <div class="layer">
                         <h3>Modern HR Management System</h3>
                         <p>A comprehensive human resources management solution with employee records, attendance tracking, and performance evaluation features.</p>
-                        <a href="https://oduor.wuaze.com/index.php" target="_blank" title="View on InfinityFree" class="host-icon">
-    <img src="https://infinityfree.net/images/logo.svg" alt="InfinityFree">
-</a>
-
+                        <a href="https://oduor.wuaze.com/index.php" target="_blank" rel="noopener noreferrer" title="View live project" class="host-icon" aria-label="View Modern HR Management System live project">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -185,26 +375,26 @@
             <div class="row">
                 <div class="contact-left">
                     <h1 class="sub-title">Contact Me</h1>
-                    <p><i class="fa-solid fa-envelope"></i> steveotieno2012005@gmail.com</p>
-                    <p><i class="fa-solid fa-phone"></i> +254 769 493 697</p>
-                    <p><i class="fa-brands fa-whatsapp"></i> +254 750 779 480</p>
+                    <p><i class="fa-solid fa-envelope"></i> <a href="mailto:steveotieno2012005@gmail.com">steveotieno2012005@gmail.com</a></p>
+                    <p><i class="fa-solid fa-phone"></i> <a href="tel:+254769493697">+254 769 493 697</a></p>
+                    <p><i class="fa-brands fa-whatsapp"></i> <a href="https://wa.me/254750779480" target="_blank" rel="noopener noreferrer">+254 750 779 480</a></p>
                     <p><i class="fa-solid fa-location-dot"></i> Nairobi, Kenya</p>
 
                     <div class="social-icons">
-                        <a href="https://www.linkedin.com/in/stephen-oduor-8817992b9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin"></i></a>
-                        <a href="https://github.com/Pinyotimo" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i></a>
-                        <a href="https://twitter.com/Pinyotimoburu" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-twitter"></i></a>
-                        <a href="https://www.facebook.com/Steve Otieno" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="https://www.instagram.com/steveotieno858/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="https://www.tiktok.com/@otieno_oduor1" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok"></i></a>
-                        <a href="https://www.reddit.com/user/Pinyotimoburu" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-reddit"></i></a>
+                        <a href="https://www.linkedin.com/in/stephen-oduor-8817992b9" target="_blank" rel="noopener noreferrer" aria-label="Visit Stephen Oduor on LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="https://github.com/Pinyotimo" target="_blank" rel="noopener noreferrer" aria-label="Visit Stephen Oduor on GitHub"><i class="fa-brands fa-github"></i></a>
+                        <a href="https://twitter.com/Pinyotimoburu" target="_blank" rel="noopener noreferrer" aria-label="Visit Stephen Oduor on X"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="https://www.facebook.com/Steve%20Otieno" target="_blank" rel="noopener noreferrer" aria-label="Visit Stephen Oduor on Facebook"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/steveotieno858/" target="_blank" rel="noopener noreferrer" aria-label="Visit Stephen Oduor on Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@otieno_oduor1" target="_blank" rel="noopener noreferrer" aria-label="Visit Stephen Oduor on TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="https://www.reddit.com/user/Pinyotimoburu" target="_blank" rel="noopener noreferrer" aria-label="Visit Stephen Oduor on Reddit"><i class="fa-brands fa-reddit"></i></a>
                     </div>
 
-                    <a href="Images\Steve cv.pdf" download class="btn btn2">Download CV</a>
+                    <a href="Images/Stephen-Oduor-CV.pdf" download class="btn btn2">Download CV</a>
                 </div>
 
                 <div class="contact-right">
-                    <form>
+                    <form action="mailto:steveotieno2012005@gmail.com?subject=Portfolio%20Website%20Message" method="post" enctype="text/plain">
                         <input type="text" name="Name" placeholder="Your Name" required>
                         <input type="email" name="Email" placeholder="Your Email" required>
                         <textarea name="Message" rows="6" placeholder="Your Message" required></textarea>
@@ -214,6 +404,12 @@
             </div>
         </div>
     </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Stephen Oduor. All rights reserved.</p>
+        </div>
+    </footer>
 
 </body>
 </html>
