@@ -1,31 +1,130 @@
+import { motion } from "framer-motion";
+import useMediaQuery from "../../hooks/useMediaQuery";
+
+const TECH_CATEGORIES = [
+  {
+    heading: "Programming Languages",
+    items: [
+      { tag: "C", desc: "Low-level systems logic and custom memory management." },
+      { tag: "C++", desc: "High-performance applications and object-oriented structures." },
+      { tag: "Java", desc: "Robust cross-platform enterprise software." },
+      { tag: "Python", desc: "Automation, rapid prototyping, and backend logic." },
+      { tag: "JavaScript / TypeScript", desc: "Type-safe modular logic and dynamic interfaces." },
+    ],
+  },
+  {
+    heading: "Frontend, Backend & Frameworks",
+    items: [
+      { tag: "React", desc: "Building responsive user interfaces." },
+      { tag: "Node.js & Express", desc: "Developing server-side APIs and services." },
+      { tag: "Django", desc: "Building secure, rapid full-stack architectures." },
+      { tag: "APIs", desc: "Designing and consuming RESTful interfaces." },
+      { tag: "Zustand & TanStack Query", desc: "State management and server-state caching." },
+    ],
+  },
+  {
+    heading: "Databases, Caching & Real-Time",
+    items: [
+      { tag: "MongoDB / MERN", desc: "NoSQL data storage and full-stack integration." },
+      { tag: "PostgreSQL & Supabase", desc: "Relational schemas and real-time backend services." },
+      { tag: "Redis", desc: "In-memory data caching and message brokering." },
+      { tag: "Socket.IO", desc: "Real-time bidirectional communication." },
+    ],
+  },
+  {
+    heading: "DevOps, AI & Tools",
+    items: [
+      { tag: "Docker", desc: "Containerizing applications for consistent deployment." },
+      { tag: "Kubernetes", desc: "Orchestrating containerized workloads." },
+      { tag: "Ollama", desc: "Running local large language models." },
+      { tag: "AI Data Annotation", desc: "Training datasets using Roboflow, Labelbox, and Label Studio." },
+    ],
+  },
+];
+
 export default function CoreTechTab() {
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
+  const styles = {
+    list: {
+      listStyle: "none",
+      padding: 0,
+      margin: 0,
+    },
+    categoryWrapper: {
+      marginBottom: "28px",
+    },
+    heading: {
+      color: "var(--ink)",
+      fontFamily: "'Space Grotesk', sans-serif",
+      fontSize: isMobile ? "1.1rem" : "1.2rem",
+      fontWeight: 700,
+      margin: "0 0 16px 0",
+    },
+    item: {
+      display: "flex",
+      flexDirection: isMobile ? "column" : "row",
+      alignItems: isMobile ? "flex-start" : "baseline",
+      gap: isMobile ? 6 : 12,
+      marginBottom: "14px",
+      color: "var(--ink-soft)",
+      fontSize: isMobile ? "0.95rem" : "1rem",
+      lineHeight: 1.6,
+    },
+    tag: {
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      background: "var(--bg-panel)",
+      color: "var(--accent)",
+      border: "1px solid var(--hairline)",
+      padding: "4px 10px",
+      borderRadius: 4,
+      fontSize: "0.85rem",
+      fontWeight: 500,
+      fontFamily: "'IBM Plex Mono', monospace",
+      whiteSpace: "nowrap",
+      flexShrink: 0,
+    },
+    desc: {
+      margin: 0,
+    },
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.08 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -15 },
+    show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } },
+  };
+
   return (
-    <ul>
-      <li className="tech-heading">Programming Languages</li>
-      <li><span className="tech-tag">C</span>Low-level systems logic and custom memory management.</li>
-      <li><span className="tech-tag">C++</span>High-performance applications and object-oriented structures.</li>
-      <li><span className="tech-tag">Java</span>Robust cross-platform enterprise software.</li>
-      <li><span className="tech-tag">Python</span>Automation, rapid prototyping, and backend logic.</li>
-      <li><span className="tech-tag">JavaScript / TypeScript</span>Type-safe modular logic and dynamic interfaces.</li>
-
-      <li className="tech-heading">Frontend, Backend &amp; Frameworks</li>
-      <li><span className="tech-tag">React</span>Building responsive user interfaces.</li>
-      <li><span className="tech-tag">Node.js &amp; Express</span>Developing server-side APIs and services.</li>
-      <li><span className="tech-tag">Django</span>Building secure, rapid full-stack architectures.</li>
-      <li><span className="tech-tag">APIs</span>Designing and consuming RESTful interfaces.</li>
-      <li><span className="tech-tag">Zustand &amp; TanStack Query</span>State management and server-state caching.</li>
-
-      <li className="tech-heading">Databases, Caching &amp; Real-Time</li>
-      <li><span className="tech-tag">MongoDB / MERN</span>NoSQL data storage and full-stack integration.</li>
-      <li><span className="tech-tag">PostgreSQL &amp; Supabase</span>Relational schemas and real-time backend services.</li>
-      <li><span className="tech-tag">Redis</span>In-memory data caching and message brokering.</li>
-      <li><span className="tech-tag">Socket.IO</span>Real-time bidirectional communication.</li>
-
-      <li className="tech-heading">DevOps, AI &amp; Tools</li>
-      <li><span className="tech-tag">Docker</span>Containerizing applications for consistent deployment.</li>
-      <li><span className="tech-tag">Kubernetes</span>Orchestrating containerized workloads.</li>
-      <li><span className="tech-tag">Ollama</span>Running local large language models.</li>
-      <li><span className="tech-tag">AI Data Annotation</span>Training datasets using Roboflow, Labelbox, and Label Studio.</li>
-    </ul>
+    <motion.ul
+      style={styles.list}
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+    >
+      {TECH_CATEGORIES.map((category, catIndex) => (
+        <div key={category.heading} style={styles.categoryWrapper}>
+          <motion.li style={styles.heading} variants={itemVariants}>
+            {category.heading}
+          </motion.li>
+          
+          {category.items.map((item, itemIndex) => (
+            <motion.li key={item.tag} style={styles.item} variants={itemVariants}>
+              <span style={styles.tag}>{item.tag}</span>
+              <span style={styles.desc}>{item.desc}</span>
+            </motion.li>
+          ))}
+        </div>
+      ))}
+    </motion.ul>
   );
 }

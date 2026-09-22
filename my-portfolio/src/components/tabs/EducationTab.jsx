@@ -1,4 +1,6 @@
-import { motion } from 'framer-motion';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import useMediaQuery from "../../hooks/useMediaQuery";
 
 const educationItems = [
   { label: "2024 – 2028", title: "BSc Computer Science — ", bold: "The Co-operative University of Kenya" },
@@ -19,54 +21,136 @@ const certItems = [
   { label: "Learn-A-Thon 2025", text: "Learn-A-Thon Certificate ", link: "/Images/Learn-A-Thon_2025_certificate_steveotieno2012005-gmail-com_.pdf" },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
-};
-
 export default function EducationTab() {
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
+  const styles = {
+    list: {
+      listStyle: "none",
+      padding: 0,
+      margin: 0,
+    },
+    heading: {
+      color: "var(--ink)",
+      fontFamily: "'Space Grotesk', sans-serif",
+      fontSize: isMobile ? "1.1rem" : "1.2rem",
+      fontWeight: 700,
+      margin: "32px 0 16px 0",
+      paddingTop: "16px",
+      borderTop: "1px solid var(--hairline)",
+    },
+    item: {
+      display: "flex",
+      flexDirection: isMobile ? "column" : "row",
+      alignItems: isMobile ? "flex-start" : "baseline",
+      gap: isMobile ? 8 : 16,
+      marginBottom: "20px",
+      color: "var(--ink-soft)",
+      fontSize: isMobile ? "0.95rem" : "1rem",
+      lineHeight: 1.6,
+    },
+    tag: {
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      background: "var(--bg-panel)",
+      color: "var(--accent)",
+      border: "1px solid var(--hairline)",
+      padding: "4px 10px",
+      borderRadius: 4,
+      fontSize: "0.85rem",
+      fontWeight: 500,
+      fontFamily: "'IBM Plex Mono', monospace",
+      whiteSpace: "nowrap",
+      flexShrink: 0,
+      minWidth: isMobile ? "auto" : "160px", 
+    },
+    contentWrapper: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "4px",
+    },
+    boldText: {
+      color: "var(--ink)",
+      fontWeight: 600,
+    },
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -15 },
+    show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } },
+  };
+
   return (
     <motion.ul
+      style={styles.list}
       variants={containerVariants}
       initial="hidden"
       animate="show"
     >
       {/* Education Section */}
       {educationItems.map((item, index) => (
-        <motion.li key={`edu-${index}`} variants={itemVariants}>
-          <span>{item.label}</span>
-          {item.title}
-          <strong>{item.bold}</strong>
-          {item.link && (
-            <a href={item.link} target="_blank" rel="noopener noreferrer" className="certificate-btn">
-              <i className="fa-solid fa-certificate" aria-hidden="true"></i> View Certificate
-            </a>
-          )}
+        <motion.li key={`edu-${index}`} style={styles.item} variants={itemVariants}>
+          <span style={styles.tag}>{item.label}</span>
+          <div style={styles.contentWrapper}>
+            <div>
+              {item.title}
+              <strong style={styles.boldText}>{item.bold}</strong>
+            </div>
+            {item.link && <CertificateLink href={item.link} />}
+          </div>
         </motion.li>
       ))}
 
       {/* Certifications Section */}
-      <motion.li variants={itemVariants} className="tech-heading">
+      <motion.li style={styles.heading} variants={itemVariants}>
         Additional Certifications
       </motion.li>
-      
+
       {certItems.map((item, index) => (
-        <motion.li key={`cert-${index}`} variants={itemVariants}>
-          <span>{item.label}</span>
-          {item.text}
-          <a href={item.link} target="_blank" rel="noopener noreferrer" className="certificate-btn">
-            <i className="fa-solid fa-certificate" aria-hidden="true"></i> View Certificate
-          </a>
+        <motion.li key={`cert-${index}`} style={styles.item} variants={itemVariants}>
+          <span style={styles.tag}>{item.label}</span>
+          <div style={styles.contentWrapper}>
+            <div>{item.text}</div>
+            <CertificateLink href={item.link} />
+          </div>
         </motion.li>
       ))}
     </motion.ul>
+  );
+}
+
+// Sub-component to handle individual hover states for the certificate buttons cleanly
+function CertificateLink({ href }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const linkStyle = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "6px",
+    fontSize: "0.85rem",
+    color: isHovered ? "var(--ink)" : "var(--accent)",
+    textDecoration: "none",
+    fontWeight: 500,
+    marginTop: "2px",
+    transition: "color 0.2s ease",
+  };
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={linkStyle}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <i className="fa-solid fa-certificate" aria-hidden="true"></i> View Certificate
+    </a>
   );
 }
