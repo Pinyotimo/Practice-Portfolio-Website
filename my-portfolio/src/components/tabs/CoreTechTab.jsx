@@ -34,6 +34,7 @@ const TECH_CATEGORIES = [
   {
     heading: "DevOps, AI & Tools",
     items: [
+      { tag: "Git & GitHub", desc: "Version control, source code management, and collaborative development." },
       { tag: "Docker", desc: "Containerizing applications for consistent deployment." },
       { tag: "Kubernetes", desc: "Orchestrating containerized workloads." },
       { tag: "Ollama", desc: "Running local large language models." },

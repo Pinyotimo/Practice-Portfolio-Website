@@ -102,7 +102,7 @@ export default function Hero() {
     >
       <div>
         <motion.img
-          src="/Images/logo.png"
+          src="/Images/profile-photo.jpg"
           alt="Stephen Oduor"
           style={styles.profileImg}
           initial={{ opacity: 0, scale: 0.94 }}
