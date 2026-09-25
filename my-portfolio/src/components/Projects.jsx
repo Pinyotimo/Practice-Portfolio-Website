@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useMediaQuery from '../hooks/useMediaQuery';
 
@@ -66,12 +66,15 @@ const projects = [
 ];
 
 const SWIPE_THRESHOLD = 80;
+const AUTOPLAY_DELAY = 5000;
 
 export default function Projects() {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
   const isTablet = useMediaQuery('(max-width: 900px)');
+  const timerRef = useRef(null);
 
   const go = (dir) => {
     setDirection(dir);
@@ -82,6 +85,17 @@ export default function Projects() {
     setDirection(i > index ? 1 : -1);
     setIndex(i);
   };
+
+  // Autoplay — restarts whenever index changes (manual or automatic) so the
+  // interval doesn't fire right after the user just navigated.
+  useEffect(() => {
+    if (isPaused) return;
+    timerRef.current = setInterval(() => {
+      setDirection(1);
+      setIndex((i) => (i + 1) % projects.length);
+    }, AUTOPLAY_DELAY);
+    return () => clearInterval(timerRef.current);
+  }, [index, isPaused]);
 
   const project = projects[index];
 
@@ -128,6 +142,21 @@ export default function Projects() {
       fontFamily: "'IBM Plex Mono', monospace",
       fontSize: '.78rem',
       fontWeight: 500,
+    },
+    pauseBadge: {
+      position: 'absolute',
+      top: 16,
+      right: 16,
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 6,
+      padding: '4px 10px',
+      background: 'rgba(241,240,236,.92)',
+      border: '1px solid var(--hairline)',
+      borderRadius: 3,
+      color: 'var(--ink-muted)',
+      fontFamily: "'IBM Plex Mono', monospace",
+      fontSize: '.72rem',
     },
     content: {
       padding: isMobile ? 24 : 40,
@@ -219,7 +248,11 @@ export default function Projects() {
       <div style={styles.container}>
         <h2 style={styles.subTitle}>My Projects</h2>
 
-        <div style={styles.stage}>
+        <div
+          style={styles.stage}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={project.id}
@@ -233,9 +266,11 @@ export default function Projects() {
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.15}
+              onDragStart={() => setIsPaused(true)}
               onDragEnd={(e, info) => {
                 if (info.offset.x < -SWIPE_THRESHOLD) go(1);
                 else if (info.offset.x > SWIPE_THRESHOLD) go(-1);
+                setIsPaused(false);
               }}
             >
               <div style={styles.imgWrap}>
@@ -243,6 +278,7 @@ export default function Projects() {
                 <span style={styles.counter}>
                   {String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
                 </span>
+                {isPaused && <span style={styles.pauseBadge}>❚❚ paused</span>}
               </div>
 
               <div style={styles.content}>
@@ -254,7 +290,7 @@ export default function Projects() {
                   ))}
                 </div>
                 
-                {/* Fixed line below: Added the opening <a ...> tag */}
+                {/* Fixed line below: Added opening `<a` */}
                 <a
                   href={project.href}
                   target="_blank"
@@ -271,10 +307,10 @@ export default function Projects() {
 
         <div style={styles.controls}>
           <div style={styles.arrows}>
-            <button style={styles.arrowBtn} onClick={() => go(-1)} aria-label="Previous project" type="button">
+            <button style={styles.arrowBtn} onClick={() => jumpTo((index - 1 + projects.length) % projects.length)} aria-label="Previous project" type="button">
               <i className="fa-solid fa-arrow-left" aria-hidden="true"></i>
             </button>
-            <button style={styles.arrowBtn} onClick={() => go(1)} aria-label="Next project" type="button">
+            <button style={styles.arrowBtn} onClick={() => jumpTo((index + 1) % projects.length)} aria-label="Next project" type="button">
               <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
             </button>
           </div>
