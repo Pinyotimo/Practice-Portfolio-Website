@@ -23,32 +23,33 @@ const certItems = [
 
 export default function EducationTab() {
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const [hovered, setHovered] = useState(null);
 
   const styles = {
-    list: {
-      listStyle: "none",
-      padding: 0,
-      margin: 0,
-    },
+    list: { listStyle: "none", padding: 0, margin: 0 },
     heading: {
       color: "var(--ink)",
       fontFamily: "'Space Grotesk', sans-serif",
       fontSize: isMobile ? "1.1rem" : "1.2rem",
       fontWeight: 700,
       margin: "32px 0 16px 0",
-      paddingTop: "16px",
+      paddingTop: 16,
       borderTop: "1px solid var(--hairline)",
     },
-    item: {
+    item: (isHovered) => ({
       display: "flex",
       flexDirection: isMobile ? "column" : "row",
       alignItems: isMobile ? "flex-start" : "baseline",
       gap: isMobile ? 8 : 16,
-      marginBottom: "20px",
+      padding: "14px",
+      marginBottom: 2,
+      borderLeft: `2px solid ${isHovered ? "var(--accent)" : "transparent"}`,
+      background: isHovered ? "var(--accent-soft)" : "transparent",
       color: "var(--ink-soft)",
       fontSize: isMobile ? "0.95rem" : "1rem",
       lineHeight: 1.6,
-    },
+      transition: "background-color .15s ease, border-color .15s ease",
+    }),
     tag: {
       display: "inline-flex",
       alignItems: "center",
@@ -63,57 +64,43 @@ export default function EducationTab() {
       fontFamily: "'IBM Plex Mono', monospace",
       whiteSpace: "nowrap",
       flexShrink: 0,
-      minWidth: isMobile ? "auto" : "160px", 
+      minWidth: isMobile ? "auto" : "160px",
     },
-    contentWrapper: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "4px",
-    },
-    boldText: {
-      color: "var(--ink)",
-      fontWeight: 600,
-    },
+    contentWrapper: { display: "flex", flexDirection: "column", gap: 4 },
+    boldText: { color: "var(--ink)", fontWeight: 600 },
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.1 } },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, x: -15 },
-    show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } },
-  };
+  const containerVariants = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
+  const itemVariants = { hidden: { opacity: 0, x: -15 }, show: { opacity: 1, x: 0, transition: { duration: 0.35, ease: "easeOut" } } };
 
   return (
-    <motion.ul
-      style={styles.list}
-      variants={containerVariants}
-      initial="hidden"
-      animate="show"
-    >
-      {/* Education Section */}
+    <motion.ul style={styles.list} variants={containerVariants} initial="hidden" animate="show">
       {educationItems.map((item, index) => (
-        <motion.li key={`edu-${index}`} style={styles.item} variants={itemVariants}>
+        <motion.li
+          key={`edu-${index}`}
+          style={styles.item(hovered === `edu-${index}`)}
+          variants={itemVariants}
+          onMouseEnter={() => setHovered(`edu-${index}`)}
+          onMouseLeave={() => setHovered(null)}
+        >
           <span style={styles.tag}>{item.label}</span>
           <div style={styles.contentWrapper}>
-            <div>
-              {item.title}
-              <strong style={styles.boldText}>{item.bold}</strong>
-            </div>
+            <div>{item.title}<strong style={styles.boldText}>{item.bold}</strong></div>
             {item.link && <CertificateLink href={item.link} />}
           </div>
         </motion.li>
       ))}
 
-      {/* Certifications Section */}
-      <motion.li style={styles.heading} variants={itemVariants}>
-        Additional Certifications
-      </motion.li>
+      <motion.li style={styles.heading} variants={itemVariants}>Additional Certifications</motion.li>
 
       {certItems.map((item, index) => (
-        <motion.li key={`cert-${index}`} style={styles.item} variants={itemVariants}>
+        <motion.li
+          key={`cert-${index}`}
+          style={styles.item(hovered === `cert-${index}`)}
+          variants={itemVariants}
+          onMouseEnter={() => setHovered(`cert-${index}`)}
+          onMouseLeave={() => setHovered(null)}
+        >
           <span style={styles.tag}>{item.label}</span>
           <div style={styles.contentWrapper}>
             <div>{item.text}</div>
@@ -125,31 +112,21 @@ export default function EducationTab() {
   );
 }
 
-// Sub-component to handle individual hover states for the certificate buttons cleanly
 function CertificateLink({ href }) {
   const [isHovered, setIsHovered] = useState(false);
-
   const linkStyle = {
     display: "inline-flex",
     alignItems: "center",
-    gap: "6px",
+    gap: 6,
     fontSize: "0.85rem",
     color: isHovered ? "var(--ink)" : "var(--accent)",
     textDecoration: "none",
     fontWeight: 500,
-    marginTop: "2px",
+    marginTop: 2,
     transition: "color 0.2s ease",
   };
-
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={linkStyle}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <a href={href} target="_blank" rel="noopener noreferrer" style={linkStyle} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       <i className="fa-solid fa-certificate" aria-hidden="true"></i> View Certificate
     </a>
   );

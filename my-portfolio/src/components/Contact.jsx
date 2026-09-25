@@ -12,22 +12,31 @@ const SOCIAL_LINKS = [
   { id: "reddit", href: "https://www.reddit.com/user/Pinyotimoburu", icon: "fa-brands fa-reddit", label: "Reddit" },
 ];
 
+const CONTACT_DETAILS = [
+  { icon: "fa-solid fa-envelope", label: "Email", value: "steveotieno2012005@gmail.com", href: "mailto:steveotieno2012005@gmail.com" },
+  { icon: "fa-solid fa-phone", label: "Phone", value: "+254 769 493 697", href: "tel:+254769493697" },
+  { icon: "fa-brands fa-whatsapp", label: "WhatsApp", value: "+254 750 779 480", href: "https://wa.me/254750779480", external: true },
+  { icon: "fa-solid fa-location-dot", label: "Location", value: "Nairobi, Kenya", href: null },
+];
+
 export default function Contact() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [hoveredSocial, setHoveredSocial] = useState(null);
   const [hoveredBtn, setHoveredBtn] = useState(null);
+  const [hoveredDetail, setHoveredDetail] = useState(null);
+  const [focusedField, setFocusedField] = useState(null);
 
   const styles = {
     section: { padding: isMobile ? "44px 0 18px" : "100px 0 40px" },
     container: { width: "min(1120px, 90%)", margin: "0 auto" },
-    row: {
-      display: "flex",
-      flexDirection: isMobile ? "column" : "row",
-      justifyContent: "space-between",
-      gap: isMobile ? 48 : 60,
+    kicker: {
+      display: "block",
+      marginBottom: 8,
+      color: "var(--accent)",
+      fontFamily: "'IBM Plex Mono', monospace",
+      fontSize: ".82rem",
+      fontWeight: 500,
     },
-    contactLeft: { flexBasis: isMobile ? "100%" : "35%" },
-    contactRight: { flexBasis: isMobile ? "100%" : "60%" },
     subTitle: {
       margin: "0 0 24px",
       color: "var(--ink)",
@@ -36,92 +45,112 @@ export default function Contact() {
       fontSize: "clamp(1.8rem, 2.6vw + .8rem, 2.8rem)",
       lineHeight: 1.1,
     },
-    contactDetail: {
+    row: {
+      display: "flex",
+      flexDirection: isMobile ? "column" : "row",
+      alignItems: "stretch",
+      gap: isMobile ? 20 : 24,
+      marginTop: isMobile ? 24 : 40,
+    },
+    panel: {
+      background: "var(--bg-panel)",
+      border: "1px solid var(--hairline)",
+      borderRadius: 8,
+      padding: isMobile ? 22 : 36,
+    },
+    contactLeft: { flexBasis: isMobile ? "100%" : "38%" },
+    contactRight: { flexBasis: isMobile ? "100%" : "62%" },
+    detailRow: (isHovered) => ({
       display: "flex",
       alignItems: "center",
-      gap: 16,
-      margin: "18px 0",
-      fontSize: isMobile ? "1rem" : "1.05rem",
-      color: "var(--ink-soft)",
-    },
-    contactIcon: {
-      color: "var(--accent)",
-      fontSize: "1.2rem",
-      width: 24,
-      textAlign: "center",
-    },
-    contactLink: {
-      color: "inherit",
-      textDecoration: "none",
-      transition: "color 0.2s ease",
-    },
-    socialIcons: {
-      display: "flex",
       gap: 14,
-      flexWrap: "wrap",
-      marginTop: 32,
-      marginBottom: 32,
+      padding: "14px 0",
+      borderBottom: "1px solid var(--hairline)",
+      fontSize: "1rem",
+      color: isHovered ? "var(--accent)" : "var(--ink-soft)",
+      transition: "color .2s ease",
+    }),
+    detailIcon: {
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: 32,
+      height: 32,
+      flexShrink: 0,
+      borderRadius: 6,
+      background: "var(--accent-soft)",
+      color: "var(--accent)",
+      fontSize: "1rem",
     },
+    detailText: { display: "flex", flexDirection: "column", gap: 2, minWidth: 0 },
+    detailLabel: {
+      fontFamily: "'IBM Plex Mono', monospace",
+      fontSize: ".7rem",
+      color: "var(--ink-muted)",
+      textTransform: "uppercase",
+      letterSpacing: ".04em",
+    },
+    detailValue: { color: "inherit", textDecoration: "none", overflowWrap: "anywhere" },
+    socialIcons: { display: "flex", gap: 10, flexWrap: "wrap", marginTop: 24, marginBottom: 24 },
     socialLink: (isHovered) => ({
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
-      width: 42,
-      height: 42,
-      borderRadius: "50%",
-      background: isHovered ? "var(--accent)" : "var(--bg-panel)",
-      color: isHovered ? "#fff" : "var(--ink)",
+      width: 40,
+      height: 40,
+      borderRadius: 6,
+      background: isHovered ? "var(--accent)" : "var(--bg-main)",
+      color: isHovered ? "#fff" : "var(--ink-soft)",
       textDecoration: "none",
-      fontSize: "1.2rem",
+      fontSize: "1.1rem",
       border: "1px solid var(--hairline)",
-      transition: "all 0.25s ease",
+      transition: "background-color .2s ease, color .2s ease",
     }),
     btn: (isHovered) => ({
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
       gap: 10,
-      background: isHovered ? "var(--ink)" : "var(--accent)",
+      background: isHovered ? "var(--accent)" : "var(--ink)",
       color: "#fff",
-      padding: isMobile ? "14px 24px" : "16px 32px",
-      fontSize: "1rem",
+      padding: isMobile ? "14px 24px" : "14px 28px",
+      fontSize: ".98rem",
+      fontWeight: 600,
       borderRadius: 6,
       textDecoration: "none",
       border: "none",
       cursor: "pointer",
-      fontWeight: 500,
-      transition: "background-color 0.25s ease",
+      transition: "background-color .2s ease",
       fontFamily: "inherit",
       width: isMobile ? "100%" : "max-content",
     }),
-    form: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 16,
-    },
-    input: {
+    form: { display: "flex", flexDirection: "column", gap: 16 },
+    fieldWrap: { display: "flex", flexDirection: isMobile ? "column" : "row", gap: 16 },
+    field: (name) => ({
       width: "100%",
-      padding: "16px",
-      background: "var(--bg-panel)",
+      padding: "14px 16px",
+      background: "var(--bg-main)",
       color: "var(--ink)",
-      border: "1px solid var(--hairline)",
+      border: `1px solid ${focusedField === name ? "var(--accent)" : "var(--hairline)"}`,
       borderRadius: 6,
       fontSize: "1rem",
       fontFamily: "inherit",
       outline: "none",
-    },
+      transition: "border-color .15s ease",
+    }),
     textarea: {
       width: "100%",
-      padding: "16px",
-      background: "var(--bg-panel)",
+      padding: "14px 16px",
+      background: "var(--bg-main)",
       color: "var(--ink)",
-      border: "1px solid var(--hairline)",
+      border: `1px solid ${focusedField === "message" ? "var(--accent)" : "var(--hairline)"}`,
       borderRadius: 6,
       fontSize: "1rem",
       fontFamily: "inherit",
       outline: "none",
       resize: "vertical",
-      minHeight: "160px",
+      minHeight: 160,
+      transition: "border-color .15s ease",
     },
   };
 
@@ -135,50 +164,50 @@ export default function Contact() {
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div style={styles.container}>
+        <span style={styles.kicker}>Get in touch</span>
+        <h2 style={styles.subTitle}>Contact Me</h2>
+
         <div style={styles.row}>
-          {/* Left Column */}
           <motion.div
-            style={styles.contactLeft}
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            style={{ ...styles.panel, ...styles.contactLeft }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
           >
-            <h2 style={styles.subTitle}>Contact Me</h2>
-            
-            <p style={styles.contactDetail}>
-              <i className="fa-solid fa-envelope" style={styles.contactIcon} aria-hidden="true"></i>
-              <a href="mailto:steveotieno2012005@gmail.com" style={styles.contactLink}>
-                steveotieno2012005@gmail.com
-              </a>
-            </p>
-            
-            <p style={styles.contactDetail}>
-              <i className="fa-solid fa-phone" style={styles.contactIcon} aria-hidden="true"></i>
-              <a href="tel:+254769493697" style={styles.contactLink}>
-                +254 769 493 697
-              </a>
-            </p>
-            
-            <p style={styles.contactDetail}>
-              <i className="fa-brands fa-whatsapp" style={styles.contactIcon} aria-hidden="true"></i>
-              <a
-                href="https://wa.me/254750779480"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={styles.contactLink}
-              >
-                +254 750 779 480
-              </a>
-            </p>
-            
-            <p style={styles.contactDetail}>
-              <i className="fa-solid fa-location-dot" style={styles.contactIcon} aria-hidden="true"></i>
-              Nairobi, Kenya
-            </p>
+            {CONTACT_DETAILS.map((detail) => {
+              const body = (
+                <>
+                  <span style={styles.detailIcon}>
+                    <i className={detail.icon} aria-hidden="true"></i>
+                  </span>
+                  <span style={styles.detailText}>
+                    <span style={styles.detailLabel}>{detail.label}</span>
+                    <span style={styles.detailValue}>{detail.value}</span>
+                  </span>
+                </>
+              );
+              return detail.href ? (
+                /* Fixed line below: Added opening `<a` */
+                <a
+                  key={detail.label}
+                  href={detail.href}
+                  target={detail.external ? "_blank" : undefined}
+                  rel={detail.external ? "noopener noreferrer" : undefined}
+                  style={{ ...styles.detailRow(hoveredDetail === detail.label), textDecoration: "none" }}
+                  onMouseEnter={() => setHoveredDetail(detail.label)}
+                  onMouseLeave={() => setHoveredDetail(null)}
+                >
+                  {body}
+                </a>
+              ) : (
+                <div key={detail.label} style={styles.detailRow(false)}>{body}</div>
+              );
+            })}
 
             <div style={styles.socialIcons}>
               {SOCIAL_LINKS.map((social) => (
+                /* Fixed line below: Added opening `<a` */
                 <a
                   key={social.id}
                   href={social.href}
@@ -194,6 +223,7 @@ export default function Contact() {
               ))}
             </div>
 
+            {/* Fixed line below: Added opening `<a` */}
             <a
               href="/Images/Stephen-Oduor-CV.pdf"
               download
@@ -205,13 +235,12 @@ export default function Contact() {
             </a>
           </motion.div>
 
-          {/* Right Column */}
           <motion.div
-            style={styles.contactRight}
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            style={{ ...styles.panel, ...styles.contactRight }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+            transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
           >
             <form
               action="https://formsubmit.co/steveotieno2012005@gmail.com"
@@ -220,32 +249,44 @@ export default function Contact() {
             >
               <input type="hidden" name="_subject" value="Portfolio Website Message" />
               <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_next" value="https://stephen-oduor-portfolio-website.vercel.app/thanks" />
+              <input
+                type="hidden"
+                name="_next"
+                value="https://stephenoduor-software-developer-por.vercel.app/#contact"
+              />
 
-              <input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                required
-                autoComplete="name"
-                style={styles.input}
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Your Email"
-                required
-                autoComplete="email"
-                style={styles.input}
-              />
+              <div style={styles.fieldWrap}>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  required
+                  autoComplete="name"
+                  style={styles.field("name")}
+                  onFocus={() => setFocusedField("name")}
+                  onBlur={() => setFocusedField(null)}
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email"
+                  required
+                  autoComplete="email"
+                  style={styles.field("email")}
+                  onFocus={() => setFocusedField("email")}
+                  onBlur={() => setFocusedField(null)}
+                />
+              </div>
               <textarea
                 name="message"
                 placeholder="Your Message"
                 rows="6"
                 required
                 style={styles.textarea}
+                onFocus={() => setFocusedField("message")}
+                onBlur={() => setFocusedField(null)}
               ></textarea>
-              
+
               <button
                 type="submit"
                 style={styles.btn(hoveredBtn === "submit")}

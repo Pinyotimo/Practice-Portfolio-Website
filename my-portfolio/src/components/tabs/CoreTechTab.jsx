@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import useMediaQuery from "../../hooks/useMediaQuery";
 
@@ -45,33 +46,34 @@ const TECH_CATEGORIES = [
 
 export default function CoreTechTab() {
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const [hovered, setHovered] = useState(null);
 
   const styles = {
-    list: {
-      listStyle: "none",
-      padding: 0,
-      margin: 0,
-    },
-    categoryWrapper: {
-      marginBottom: "28px",
-    },
+    list: { listStyle: "none", padding: 0, margin: 0 },
+    categoryWrapper: { marginBottom: 28 },
     heading: {
       color: "var(--ink)",
       fontFamily: "'Space Grotesk', sans-serif",
       fontSize: isMobile ? "1.1rem" : "1.2rem",
       fontWeight: 700,
       margin: "0 0 16px 0",
+      paddingBottom: 8,
+      borderBottom: "1px solid var(--hairline)",
     },
-    item: {
+    item: (isHovered) => ({
       display: "flex",
       flexDirection: isMobile ? "column" : "row",
       alignItems: isMobile ? "flex-start" : "baseline",
       gap: isMobile ? 6 : 12,
-      marginBottom: "14px",
+      padding: "10px 12px",
+      marginBottom: 2,
+      borderLeft: `2px solid ${isHovered ? "var(--accent)" : "transparent"}`,
+      background: isHovered ? "var(--accent-soft)" : "transparent",
       color: "var(--ink-soft)",
       fontSize: isMobile ? "0.95rem" : "1rem",
       lineHeight: 1.6,
-    },
+      transition: "background-color .15s ease, border-color .15s ease",
+    }),
     tag: {
       display: "inline-flex",
       alignItems: "center",
@@ -87,39 +89,28 @@ export default function CoreTechTab() {
       whiteSpace: "nowrap",
       flexShrink: 0,
     },
-    desc: {
-      margin: 0,
-    },
+    desc: { margin: 0 },
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.08 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, x: -15 },
-    show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } },
-  };
+  const containerVariants = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.06 } } };
+  const itemVariants = { hidden: { opacity: 0, x: -15 }, show: { opacity: 1, x: 0, transition: { duration: 0.35, ease: "easeOut" } } };
 
   return (
-    <motion.ul
-      style={styles.list}
-      variants={containerVariants}
-      initial="hidden"
-      animate="show"
-    >
-      {TECH_CATEGORIES.map((category, catIndex) => (
+    <motion.ul style={styles.list} variants={containerVariants} initial="hidden" animate="show">
+      {TECH_CATEGORIES.map((category) => (
         <div key={category.heading} style={styles.categoryWrapper}>
           <motion.li style={styles.heading} variants={itemVariants}>
             {category.heading}
           </motion.li>
-          
-          {category.items.map((item, itemIndex) => (
-            <motion.li key={item.tag} style={styles.item} variants={itemVariants}>
+
+          {category.items.map((item) => (
+            <motion.li
+              key={item.tag}
+              style={styles.item(hovered === item.tag)}
+              variants={itemVariants}
+              onMouseEnter={() => setHovered(item.tag)}
+              onMouseLeave={() => setHovered(null)}
+            >
               <span style={styles.tag}>{item.tag}</span>
               <span style={styles.desc}>{item.desc}</span>
             </motion.li>

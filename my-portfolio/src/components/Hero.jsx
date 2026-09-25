@@ -113,16 +113,17 @@ export default function Hero() {
 
       <div style={styles.heroRight}>
         <div style={styles.heroContent}>
-          <span style={styles.kicker}>Nairobi, Kenya — Full-stack Engineer</span>
+          <span style={styles.kicker}>Open to internships & freelance gigs</span>
           <h1 style={styles.h1}>Hi, I'm <span style={styles.highlight}>Steve</span></h1>
           <p style={styles.p}>
-            I build full-stack web platforms — React and Node on the front and
-            back, Postgres and Redis underneath, Socket.IO when things need to
-            happen in real time. Recent work: a civic-reporting platform for
-            Kilimani Ward and an SMS/USSD event assistant built at a Nairobi hackathon.
+            Final-stretch Computer Science student out of Nairobi who's already
+            shipped production work — a B2B auction platform for Davis & Shirtliff,
+            a civic-reporting map for Kilimani Ward, freelance builds for real
+            clients. React, Node, Postgres, Redis, Socket.IO. I pick things up
+            fast and I'm looking for an internship or freelance gig where that's useful.
           </p>
           <div style={styles.actions}>
-            <a href="#portfolio" style={styles.btn}>View my work</a>
+            <a href="#portfolio" style={styles.btn}>See my work</a>
             <a href="/Images/Stephen-Oduor-CV.pdf" download style={{ ...styles.btn, ...styles.btnOutline }}>
               <i className="fa-solid fa-download" aria-hidden="true" style={{ marginRight: 4 }}></i> Download CV
             </a>
