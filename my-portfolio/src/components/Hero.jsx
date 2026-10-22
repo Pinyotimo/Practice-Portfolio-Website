@@ -1,133 +1,87 @@
 import { motion } from 'framer-motion';
-import useMediaQuery from '../hooks/useMediaQuery';
+import { EASE } from '../lib/motion';
+import { HERO } from '../data/portfolio';
+import './Hero.css';
+
+const rise = (delay) => ({
+  hidden: { opacity: 0, y: 22 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, delay, ease: EASE } },
+});
 
 export default function Hero() {
-  const isMobile = useMediaQuery('(max-width: 768px)');
-  const isTablet = useMediaQuery('(max-width: 900px)');
-
-  const styles = {
-    hero: {
-      width: isTablet ? '100%' : 'min(1180px, calc(100% - 40px))',
-      minHeight: isTablet ? 'auto' : 'calc(100vh - 90px)',
-      margin: '0 auto',
-      padding: isMobile ? '26px 16px 30px' : isTablet ? '40px 26px' : '56px 48px',
-      display: 'grid',
-      gridTemplateColumns: isTablet ? '1fr' : 'minmax(min(260px,100%), 380px) minmax(min(320px,100%), 1fr)',
-      gap: isTablet ? '32px' : '56px',
-      alignItems: 'center',
-    },
-    profileImg: {
-      width: '100%',
-      maxWidth: isMobile ? 260 : 380,
-      aspectRatio: '1 / 1',
-      margin: '0 auto',
-      objectFit: 'cover',
-      objectPosition: 'center top',
-      borderRadius: 28,
-      border: '1px solid var(--hairline-strong)',
-      boxShadow: '4px 4px 0 rgba(21,24,28,.06)',
-      display: 'block',
-    },
-    heroRight: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: isTablet ? 'center' : 'flex-start',
-      textAlign: isTablet ? 'center' : 'left',
-    },
-    heroContent: { maxWidth: 590 },
-    kicker: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 8,
-      margin: isTablet ? '0 auto 18px' : '0 0 18px',
-      padding: '6px 0',
-      color: 'var(--accent)',
-      fontFamily: "'IBM Plex Mono', monospace",
-      fontSize: '.82rem',
-      fontWeight: 500,
-      borderBottom: '1px solid var(--hairline)',
-      justifyContent: isTablet ? 'center' : 'flex-start',
-    },
-    h1: {
-      fontFamily: "'Space Grotesk', sans-serif",
-      fontWeight: 700,
-      fontSize: 'clamp(2rem, 4.5vw + .5rem, 3.6rem)',
-      lineHeight: 1.08,
-      margin: '0 0 20px',
-      color: 'var(--ink)',
-    },
-    highlight: { color: 'var(--accent)' },
-    p: {
-      maxWidth: 540,
-      margin: isTablet ? '0 auto 32px' : '0 0 32px',
-      color: 'var(--ink-soft)',
-      fontSize: '1.06rem',
-      lineHeight: 1.75,
-    },
-    actions: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      gap: 14,
-      justifyContent: isTablet ? 'center' : 'flex-start',
-    },
-    btn: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 10,
-      minHeight: 46,
-      padding: '12px 26px',
-      border: '1px solid var(--ink)',
-      borderRadius: 3,
-      background: 'var(--ink)',
-      color: 'var(--bg-main)',
-      textDecoration: 'none',
-      fontWeight: 600,
-      fontSize: '.98rem',
-    },
-    btnOutline: {
-      background: 'transparent',
-      borderColor: 'var(--hairline-strong)',
-      color: 'var(--ink)',
-    },
-  };
-
   return (
     <motion.section
-      style={styles.hero}
       id="home"
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="hero section"
+      initial="hidden"
+      animate="show"
     >
-      <div>
-        <motion.img
-          src="/Images/profile-photo.jpg"
-          alt="Stephen Oduor"
-          style={styles.profileImg}
-          initial={{ opacity: 0, scale: 0.94 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
-        />
-      </div>
-
-      <div style={styles.heroRight}>
-        <div style={styles.heroContent}>
-          <span style={styles.kicker}>Open to internships & freelance gigs</span>
-          <h1 style={styles.h1}>Hi, I'm <span style={styles.highlight}>Steve</span></h1>
-          <p style={styles.p}>
-            Final-stretch Computer Science student out of Nairobi who's already
-            shipped production work — a B2B auction platform for Davis & Shirtliff,
-            a civic-reporting map for Kilimani Ward, freelance builds for real
-            clients. React, Node, Postgres, Redis, Socket.IO. I pick things up
-            fast and I'm looking for an internship or freelance gig where that's useful.
-          </p>
-          <div style={styles.actions}>
-            <a href="#portfolio" style={styles.btn}>See my work</a>
-            <a href="/Images/Stephen-Oduor-CV.pdf" download style={{ ...styles.btn, ...styles.btnOutline }}>
-              <i className="fa-solid fa-download" aria-hidden="true" style={{ marginRight: 4 }}></i> Download CV
-            </a>
+      <div className="container hero__grid">
+        <motion.div className="hero__figure" variants={rise(0.05)}>
+          <div className="hero__photo">
+            <img
+              src="/Images/profile-photo.jpg"
+              width="1024"
+              height="1024"
+              alt="Portrait of Stephen Oduor"
+              fetchPriority="high"
+              decoding="async"
+            />
           </div>
+
+          <motion.div
+            className="hero__badge"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.55, ease: EASE }}
+          >
+            <i className="fa-solid fa-trophy" aria-hidden="true" />
+            <span>
+              <strong>Runner-up</strong>
+              SmartAuction B2B hackathon
+            </span>
+          </motion.div>
+        </motion.div>
+
+        <div className="hero__body">
+          <motion.p className="hero__status" variants={rise(0.1)}>
+            <span className="hero__status-dot" aria-hidden="true" />
+            {HERO.kicker}
+          </motion.p>
+
+          <motion.h1 className="hero__title" variants={rise(0.16)}>
+            {HERO.heading} <span className="hero__title-accent">{HERO.highlight}</span>
+          </motion.h1>
+
+          <motion.p className="hero__lead" variants={rise(0.24)}>
+            {HERO.lead}
+          </motion.p>
+
+          <motion.ul className="hero__tools" variants={rise(0.3)}>
+            {HERO.tools.map((tool) => (
+              <li key={tool} className="tag tag--plain">
+                {tool}
+              </li>
+            ))}
+          </motion.ul>
+
+          <motion.div className="hero__actions" variants={rise(0.36)}>
+            <a href="#portfolio" className="btn">
+              See my work
+              <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+            </a>
+            <a href="#contact" className="btn btn--ghost">
+              Get in touch
+            </a>
+            <a
+              href="/Images/Stephen-Oduor-CV.pdf"
+              download
+              className="btn btn--ghost"
+            >
+              <i className="fa-solid fa-download" aria-hidden="true" />
+              Download CV
+            </a>
+          </motion.div>
         </div>
       </div>
     </motion.section>

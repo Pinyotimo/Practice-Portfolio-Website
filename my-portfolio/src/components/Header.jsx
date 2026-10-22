@@ -1,195 +1,221 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import useMediaQuery from '../hooks/useMediaQuery';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from 'framer-motion';
+import { EASE } from '../lib/motion';
+import { NAV_LINKS } from '../data/portfolio';
+import useScrollSpy from '../hooks/useScrollSpy';
+import useTheme from '../theme/useTheme';
+import './Header.css';
 
-const NAV_LINKS = [
-  { name: 'Home', href: '#home' },
-  { name: 'About', href: '#about' },
-  { name: 'Services', href: '#services' },
-  { name: 'Projects', href: '#portfolio' },
-  { name: 'Contact', href: '#contact' },
-];
+const SECTION_IDS = NAV_LINKS.map((link) => link.id);
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [hoveredLink, setHoveredLink] = useState(null);
-  const [logoHover, setLogoHover] = useState(false);
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollRequest, setScrollRequest] = useState(0);
+  const pendingTarget = useRef(null);
+  const { theme, toggleTheme } = useTheme();
+  const activeId = useScrollSpy(SECTION_IDS);
+  const prefersReducedMotion = useReducedMotion();
 
-  const toggleMenu = () => setIsOpen(!isOpen);
-  const closeMenu = () => setIsOpen(false);
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 180,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
-  const navVariants = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.3 } },
-  };
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-  const linkVariants = {
-    hidden: { opacity: 0, y: -20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
-  };
+  /* Lock the page behind the mobile drawer, and close it on Escape. */
+  useEffect(() => {
+    if (!isOpen) return undefined;
 
-  const styles = {
-    header: {
-      position: 'sticky',
-      top: 0,
-      zIndex: 100,
-    },
-    nav: {
-      position: 'relative',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: 24,
-      padding: isMobile ? '10px 14px' : '16px 28px',
-      background: 'rgba(241,240,236,.92)',
-      borderBottom: '1px solid var(--hairline)',
-      backdropFilter: 'blur(8px)',
-    },
-    logo: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 12,
-      textDecoration: 'none',
-      color: logoHover ? 'var(--accent)' : 'var(--ink)',
-      fontWeight: 700,
-      fontFamily: "'Space Grotesk', sans-serif",
-      transition: 'color .15s ease',
-    },
-    logoMark: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: isMobile ? 36 : 40,
-      height: isMobile ? 36 : 40,
-      borderRadius: 3,
-      background: 'var(--accent)',
-      color: '#fff',
-      fontFamily: "'IBM Plex Mono', monospace",
-      fontSize: isMobile ? 13 : 14,
-      fontWeight: 500,
-      flexShrink: 0,
-    },
-    logoText: {
-      fontSize: isMobile ? '.9rem' : '.98rem',
-      whiteSpace: 'nowrap',
-      display: isMobile ? 'none' : 'inline',
-    },
-    navToggle: {
-      display: isMobile ? 'flex' : 'none',
-      width: 28,
-      height: 20,
-      padding: 0,
-      border: 0,
-      background: 'transparent',
-      cursor: 'pointer',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-    },
-    toggleSpan: (i) => ({
-      display: 'block',
-      width: '100%',
-      height: 2,
-      background: 'var(--ink)',
-      transition: 'transform .25s ease, opacity .25s ease',
-      transform:
-        isOpen && i === 0 ? 'translateY(8px) rotate(45deg)' :
-        isOpen && i === 2 ? 'translateY(-8px) rotate(-45deg)' : 'none',
-      opacity: isOpen && i === 1 ? 0 : 1,
-    }),
-    navList: {
-      display: isMobile ? (isOpen ? 'flex' : 'none') : 'flex',
-      flexDirection: isMobile ? 'column' : 'row',
-      alignItems: isMobile ? 'stretch' : 'center',
-      gap: isMobile ? 4 : 4,
-      listStyle: 'none',
-      ...(isMobile
-        ? {
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            right: 0,
-            zIndex: 20,
-            width: '100%',
-            padding: '12px 18px 18px',
-            background: 'var(--bg-main)',
-            borderBottom: '1px solid var(--hairline)',
-          }
-        : {}),
-    },
-    link: (name) => ({
-      display: 'block',
-      padding: isMobile ? '12px 14px' : '8px 14px',
-      borderRadius: 3,
-      color: hoveredLink === name ? 'var(--accent)' : 'var(--ink-soft)',
-      background: hoveredLink === name && !isMobile ? 'var(--accent-soft)' : 'transparent',
-      textDecoration: 'none',
-      fontSize: '.95rem',
-      fontWeight: 500,
-      fontFamily: "'IBM Plex Mono', monospace",
-      transition: 'color .15s ease, background-color .15s ease',
-      textAlign: isMobile ? 'left' : 'center',
-    }),
-  };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') setIsOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isOpen]);
+
+  /* The drawer locks the page behind it, so a plain #fragment navigation
+     would be swallowed: the browser resolves the jump before the lock is
+     released. Take the scroll over ourselves and run it once the lock is
+     gone. */
+  const goTo = useCallback((event, id) => {
+    event.preventDefault();
+    setIsOpen(false);
+    pendingTarget.current = id;
+    setScrollRequest((request) => request + 1);
+
+    // Keep the address bar in step with the section we are jumping to.
+    if (window.location.hash !== `#${id}`) {
+      window.history.replaceState(null, '', `#${id}`);
+    }
+  }, []);
+
+  useEffect(() => {
+    const id = pendingTarget.current;
+    if (!id) return undefined;
+
+    pendingTarget.current = null;
+    const target = document.getElementById(id);
+    if (!target) return undefined;
+
+    // A frame later the drawer is closed and the body scroll lock released.
+    const frame = requestAnimationFrame(() => {
+      target.scrollIntoView({
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        block: 'start',
+      });
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [scrollRequest, prefersReducedMotion]);
 
   return (
     <motion.header
-      id="header"
-      style={styles.header}
-      initial={{ y: -80, opacity: 0 }}
+      className={`site-header${isScrolled ? ' site-header--scrolled' : ''}`}
+      initial={{ y: -72, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ duration: 0.55, ease: EASE }}
     >
-      <div className="container">
-        <nav style={styles.nav}>
-          <motion.a
-            href="#home"
-            style={styles.logo}
-            aria-label="Go to homepage"
-            onMouseEnter={() => setLogoHover(true)}
-            onMouseLeave={() => setLogoHover(false)}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <span style={styles.logoMark}>SO</span>
-            <span style={styles.logoText}>Stephen Oduor</span>
-          </motion.a>
+      <motion.div className="site-header__progress" style={{ scaleX: progress }} />
 
+      <div className="container site-header__inner">
+        <a href="#home" className="brand" aria-label="Go to the top of the page">
+          <span className="brand__mark" aria-hidden="true">
+            SO
+          </span>
+          <span className="brand__text">
+            <span className="brand__name">Stephen Oduor</span>
+            <span className="brand__role">Software Engineer</span>
+          </span>
+        </a>
+
+        <nav className="site-nav" aria-label="Section navigation">
+          <ul className="site-nav__list">
+            {NAV_LINKS.map((link) => {
+              const isActive = activeId === link.id;
+              return (
+                <li key={link.id}>
+                  <a
+                    href={`#${link.id}`}
+                    className={`site-nav__link${isActive ? ' is-active' : ''}`}
+                    aria-current={isActive ? 'true' : undefined}
+                    onClick={(event) => goTo(event, link.id)}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-active"
+                        className="site-nav__marker"
+                        transition={{ duration: 0.35, ease: EASE }}
+                      />
+                    )}
+                    <span className="site-nav__label">{link.label}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        <div className="site-header__actions">
           <button
-            style={styles.navToggle}
-            aria-label="Toggle navigation"
-            aria-expanded={isOpen}
             type="button"
-            onClick={toggleMenu}
+            className="icon-btn theme-toggle"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
           >
-            <span style={styles.toggleSpan(0)}></span>
-            <span style={styles.toggleSpan(1)}></span>
-            <span style={styles.toggleSpan(2)}></span>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={theme}
+                className="theme-toggle__icon"
+                initial={{ opacity: 0, rotate: -35, scale: 0.7 }}
+                animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                exit={{ opacity: 0, rotate: 35, scale: 0.7 }}
+                transition={{ duration: 0.22, ease: EASE }}
+                aria-hidden="true"
+              >
+                <i className={theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon'} />
+              </motion.span>
+            </AnimatePresence>
           </button>
 
-          <motion.ul
-            style={styles.navList}
-            variants={navVariants}
-            initial="hidden"
-            animate="show"
+          <a
+            href="#contact"
+            className="btn btn--accent btn--sm site-header__cta"
+            onClick={(event) => goTo(event, 'contact')}
           >
-            {NAV_LINKS.map((link) => (
-              <motion.li key={link.name} variants={linkVariants}>
-                <a
-                  href={link.href}
-                  style={styles.link(link.name)}
-                  onMouseEnter={() => setHoveredLink(link.name)}
-                  onMouseLeave={() => setHoveredLink(null)}
-                  onClick={closeMenu}
-                >
-                  {link.name}
-                </a>
-              </motion.li>
-            ))}
-          </motion.ul>
-        </nav>
+            Let’s talk
+          </a>
+
+          <button
+            type="button"
+            className={`icon-btn nav-toggle${isOpen ? ' is-open' : ''}`}
+            onClick={() => setIsOpen((open) => !open)}
+            aria-label={isOpen ? 'Close navigation' : 'Open navigation'}
+            aria-expanded={isOpen}
+            aria-controls="mobile-nav"
+          >
+            <span aria-hidden="true" />
+            <span aria-hidden="true" />
+            <span aria-hidden="true" />
+          </button>
+        </div>
       </div>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            id="mobile-nav"
+            className="mobile-nav"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: EASE }}
+          >
+            <ul className="mobile-nav__list">
+              {NAV_LINKS.map((link, index) => (
+                <motion.li
+                  key={link.id}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 0.05 + index * 0.045, ease: EASE }}
+                >
+                  <a
+                    href={`#${link.id}`}
+                    className={`mobile-nav__link${activeId === link.id ? ' is-active' : ''}`}
+                    onClick={(event) => goTo(event, link.id)}
+                  >
+                    <span className="mobile-nav__index">{String(index + 1).padStart(2, '0')}</span>
+                    {link.label}
+                  </a>
+                </motion.li>
+              ))}
+            </ul>
+            <a
+              href="#contact"
+              className="btn btn--accent btn--block"
+              onClick={(event) => goTo(event, 'contact')}
+            >
+              Start a conversation
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }

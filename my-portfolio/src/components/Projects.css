@@ -1,0 +1,184 @@
+/* ==========================================================================
+   Projects — carousel
+   ========================================================================== */
+
+.projects__stage {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-soft);
+}
+
+.projects__stage:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+.projects__slide {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 860px) {
+    .projects__slide {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    }
+}
+
+/* --- Media ---------------------------------------------------------------- */
+
+.projects__media {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    background: var(--bg-sunken);
+}
+
+@media (min-width: 860px) {
+    .projects__media {
+        aspect-ratio: auto;
+        min-height: 100%;
+    }
+}
+
+.projects__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    transition: transform 600ms var(--ease-out);
+}
+
+.projects__slide:hover .projects__media img {
+    transform: scale(1.03);
+}
+
+.projects__type {
+    position: absolute;
+    top: 0.9rem;
+    left: 0.9rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: var(--r-pill);
+    background: color-mix(in srgb, var(--bg-elev) 88%, transparent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* --- Body ----------------------------------------------------------------- */
+
+.projects__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: clamp(1.5rem, 3.5vw, 2.75rem);
+}
+
+.projects__counter {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: 500;
+    color: var(--accent-ink);
+    letter-spacing: 0.08em;
+}
+
+.projects__title {
+    font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem);
+}
+
+.projects__desc {
+    color: var(--ink-2);
+    font-size: var(--fs-sm);
+    line-height: 1.75;
+}
+
+.projects__stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.projects__link {
+    margin-top: 0.35rem;
+}
+
+/* --- Controls ------------------------------------------------------------- */
+
+.projects__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+    margin-top: var(--sp-4);
+}
+
+.projects__arrows {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.projects__ticks {
+    display: flex;
+    flex: 1;
+    gap: 0.4rem;
+    min-width: 0;
+}
+
+.projects__tick {
+    flex: 1;
+    min-width: 0;
+    padding: 0.55rem 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.projects__tick-bar {
+    position: relative;
+    display: block;
+    height: 4px;
+    border-radius: var(--r-pill);
+    background: var(--line);
+    overflow: hidden;
+    transition: background-color var(--dur) var(--ease-out);
+}
+
+.projects__tick:hover .projects__tick-bar {
+    background: var(--line-strong);
+}
+
+.projects__tick.is-active .projects__tick-bar {
+    background: var(--accent-soft-2);
+}
+
+/* Autoplay progress, drawn on top of the active tick */
+.projects__tick-progress {
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform-origin: 0 50%;
+}
+
+.projects__hint {
+    display: none;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+}
+
+@media (min-width: 640px) {
+    .projects__hint {
+        display: inline-flex;
+    }
+}

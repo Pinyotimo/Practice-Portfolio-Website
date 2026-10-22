@@ -1,77 +1,30 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import useMediaQuery from "../../hooks/useMediaQuery";
+import { motion } from 'framer-motion';
+import { EASE } from '../../lib/motion';
+import { EXPERIENCE } from '../../data/portfolio';
+import './Tabs.css';
 
-const experiences = [
-  { period: "May 2026 – August 2026", role: "Hackathon Runner-Up", company: "Davis & Shirtliff", desc: "Built SmartAuction B2B (React, TypeScript, TanStack Query, Zustand, Socket.IO)." },
-  { period: "September 2026", role: "Finalist", company: "5th Annual Kilimani Urban Hackathon", desc: "Developed KiliPlanner: live reporting map using React, Leaflet, and Supabase." },
-  { period: "March 2026 – Present", role: "Web Developer", company: "SkillyMe Africa" },
-  { period: "Jan 2026 – March 2026", role: "AI Technical Writing Intern", company: "GAO TEK" },
-  { period: "Nov 2025 – Dec 2025", role: "Freelance Developer", company: "Property Hub Website" },
-];
+const itemVariants = {
+  hidden: { opacity: 0, x: -12 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.35, ease: EASE } },
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.07 } },
+};
 
 export default function ExperienceTab() {
-  const isMobile = useMediaQuery("(max-width: 768px)");
-  const [hovered, setHovered] = useState(null);
-
-  const styles = {
-    list: { listStyle: "none", padding: 0, margin: 0 },
-    item: (isHovered) => ({
-      display: "flex",
-      flexDirection: isMobile ? "column" : "row",
-      alignItems: isMobile ? "flex-start" : "baseline",
-      gap: isMobile ? 8 : 16,
-      padding: "14px",
-      marginBottom: 2,
-      borderLeft: `2px solid ${isHovered ? "var(--accent)" : "transparent"}`,
-      background: isHovered ? "var(--accent-soft)" : "transparent",
-      color: "var(--ink-soft)",
-      fontSize: isMobile ? "0.95rem" : "1rem",
-      lineHeight: 1.6,
-      transition: "background-color .15s ease, border-color .15s ease",
-    }),
-    tag: {
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      background: "var(--bg-panel)",
-      color: "var(--accent)",
-      border: "1px solid var(--hairline)",
-      padding: "4px 10px",
-      borderRadius: 4,
-      fontSize: "0.85rem",
-      fontWeight: 500,
-      fontFamily: "'IBM Plex Mono', monospace",
-      whiteSpace: "nowrap",
-      flexShrink: 0,
-      minWidth: isMobile ? "auto" : "190px",
-    },
-    contentWrapper: { display: "flex", flexDirection: "column", gap: 4 },
-    roleText: { color: "var(--ink)" },
-    companyText: { color: "var(--ink)", fontWeight: 600 },
-    descText: { margin: 0, fontSize: "0.9rem", color: "var(--ink-muted)" },
-  };
-
-  const containerVariants = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
-  const itemVariants = { hidden: { opacity: 0, x: -15 }, show: { opacity: 1, x: 0, transition: { duration: 0.35, ease: "easeOut" } } };
-
   return (
-    <motion.ul style={styles.list} variants={containerVariants} initial="hidden" animate="show">
-      {experiences.map((exp, index) => (
-        <motion.li
-          key={`exp-${index}`}
-          style={styles.item(hovered === index)}
-          variants={itemVariants}
-          onMouseEnter={() => setHovered(index)}
-          onMouseLeave={() => setHovered(null)}
-        >
-          <span style={styles.tag}>{exp.period}</span>
-          <div style={styles.contentWrapper}>
-            <div>
-              <span style={styles.roleText}>{exp.role}</span> at <strong style={styles.companyText}>{exp.company}</strong>
-            </div>
-            {exp.desc && <p style={styles.descText}>{exp.desc}</p>}
-          </div>
+    <motion.ul className="detail-list" variants={containerVariants} initial="hidden" animate="show">
+      {EXPERIENCE.map((exp) => (
+        <motion.li key={exp.id} className="detail-list__item" variants={itemVariants}>
+          <span className="detail-list__tag">{exp.period}</span>
+          <span className="detail-list__body">
+            <span className="detail-list__title">
+              {exp.role} <span className="detail-list__note">at</span> {exp.company}
+            </span>
+            {exp.desc && <span className="detail-list__note">{exp.desc}</span>}
+          </span>
         </motion.li>
       ))}
     </motion.ul>

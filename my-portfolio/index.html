@@ -2,21 +2,74 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Stephen Oduor — Software Engineer in Nairobi, Kenya</title>
+    <meta
+      name="description"
+      content="Software engineer and Computer Science undergraduate in Nairobi. I build full-stack web applications with React, Node, Postgres and real-time systems — and I am looking for an internship or freelance work."
+    />
+    <meta name="author" content="Stephen Oduor" />
+    <meta name="theme-color" content="#f1f0ec" />
+    <link rel="canonical" href="https://stephenoduor-software-developer-por.vercel.app/" />
+
+    <!-- Open Graph / social preview -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Stephen Oduor" />
+    <meta property="og:title" content="Stephen Oduor — Software Engineer" />
+    <meta
+      property="og:description"
+      content="Full-stack developer building React, Node and real-time web applications. Based in Nairobi, Kenya."
+    />
+    <meta property="og:url" content="https://stephenoduor-software-developer-por.vercel.app/" />
+    <meta property="og:image" content="/Images/profile-photo.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"
-      rel="stylesheet"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>my-portfolio</title>
+
+    <script>
+      /* Stamp the theme before first paint so the page never flashes the
+         wrong background. Mirrors the logic in src/theme/ThemeProvider.jsx. */
+      (function () {
+        try {
+          var stored = localStorage.getItem('st-theme');
+          var theme =
+            stored === 'light' || stored === 'dark'
+              ? stored
+              : window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+        } catch (error) {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p style="padding: 2rem; font-family: system-ui, sans-serif">
+        This portfolio uses JavaScript for the interactive sections. The written
+        content is still available by scrolling — please enable JavaScript for
+        the full experience.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

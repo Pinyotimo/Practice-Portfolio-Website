@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Thanks — confirmation screen
+   ========================================================================== */
+
+.thanks {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: var(--gutter);
+    background: var(--bg);
+}
+
+.thanks__card {
+    width: min(100%, 30rem);
+    padding: clamp(2rem, 5vw, 3rem);
+    text-align: center;
+}
+
+.thanks__check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    margin: 1.5rem 0 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    font-size: 1.4rem;
+}
+
+.thanks__title {
+    font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.1rem);
+    margin-bottom: 0.75rem;
+}
+
+.thanks__text {
+    color: var(--ink-2);
+    line-height: 1.75;
+    margin-bottom: 2rem;
+}
+
+.thanks__text a {
+    color: var(--accent-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.thanks__actions {
+    display: flex;
+    justify-content: center;
+}

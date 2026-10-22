@@ -1,0 +1,515 @@
+/* ==========================================================================
+   Charts — stat tiles, timeline, stacked bar, category bar, tables
+   ========================================================================== */
+
+.chart {
+    margin: 0;
+    padding: clamp(1.15rem, 2.5vw, 1.6rem);
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow-soft);
+    position: relative;
+}
+
+.chart__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    margin-bottom: 1.1rem;
+}
+
+.chart__title {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.chart__subtitle {
+    color: var(--ink-3);
+    font-size: var(--fs-xs);
+    line-height: 1.6;
+    max-width: 46ch;
+}
+
+.chart__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex: none;
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--bg-soft);
+    color: var(--ink-2);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color var(--dur) var(--ease-out),
+                border-color var(--dur) var(--ease-out);
+}
+
+.chart__toggle:hover {
+    color: var(--accent-ink);
+    border-color: var(--accent);
+}
+
+.chart__body {
+    position: relative;
+}
+
+/* --- Legend & key -------------------------------------------------------- */
+
+.chart__legend,
+.chart__key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.chart__key {
+    margin: 1rem 0 0;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--line-faint);
+}
+
+.chart__key-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--ink-2);
+    font-size: var(--fs-xs);
+}
+
+.chart__swatch {
+    width: 10px;
+    height: 10px;
+    flex: none;
+    border-radius: 2px;
+    background: var(--chart-1);
+}
+
+.chart__swatch--current {
+    background: var(--chart-1);
+}
+
+.chart__swatch--past {
+    background: var(--chart-muted);
+}
+
+/* --- Tooltip -------------------------------------------------------------- */
+
+.chart__tooltip {
+    position: absolute;
+    z-index: 10;
+    transform: translate(-50%, calc(-100% - 8px));
+    padding: 0.5rem 0.7rem;
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: var(--r-sm);
+    box-shadow: var(--shadow-lift);
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.chart__tooltip strong {
+    display: block;
+    font-weight: 600;
+}
+
+/* --- Table view ------------------------------------------------------------ */
+
+.chart__table-wrap {
+    overflow-x: auto;
+}
+
+.chart__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-xs);
+}
+
+.chart__table th,
+.chart__table td {
+    padding: 0.5rem 0.65rem;
+    text-align: left;
+    border-bottom: 1px solid var(--line-faint);
+    white-space: nowrap;
+}
+
+.chart__table thead th {
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.chart__table tbody th {
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.chart__table td {
+    color: var(--ink-2);
+    font-variant-numeric: tabular-nums;
+}
+
+.chart__table tbody tr:last-child th,
+.chart__table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+/* --- Stat tiles ------------------------------------------------------------ */
+
+.stat-row {
+    display: grid;
+    gap: var(--sp-4);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+}
+
+.stat-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: clamp(1rem, 2vw, 1.35rem);
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow-hard);
+    transition: transform var(--dur) var(--ease-out),
+                box-shadow var(--dur) var(--ease-out);
+}
+
+.stat-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hard-lg);
+}
+
+.stat-tile__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 0.5rem;
+    border-radius: var(--r-sm);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    font-size: 0.8rem;
+}
+
+.stat-tile__value {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.6rem + 1.4vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+}
+
+.stat-tile__label {
+    color: var(--ink);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+}
+
+.stat-tile__note {
+    color: var(--ink-3);
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+}
+
+/* --- Timeline -------------------------------------------------------------- */
+
+.timeline {
+    display: grid;
+    gap: 0.9rem;
+}
+
+.timeline__row {
+    display: grid;
+    gap: 0.4rem;
+}
+
+@media (min-width: 860px) {
+    .timeline__row {
+        grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+        gap: 1.25rem;
+        align-items: center;
+    }
+}
+
+.timeline__row--axis {
+    align-items: end;
+}
+
+.timeline__axis-spacer {
+    display: none;
+}
+
+@media (min-width: 860px) {
+    .timeline__axis-spacer {
+        display: block;
+    }
+}
+
+.timeline__label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.05rem;
+    min-width: 0;
+}
+
+.timeline__role {
+    color: var(--ink);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.timeline__company {
+    color: var(--ink-2);
+    font-size: var(--fs-xs);
+    line-height: 1.4;
+}
+
+.timeline__period {
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.02em;
+}
+
+.timeline__track {
+    position: relative;
+    min-height: 30px;
+}
+
+.timeline__months {
+    display: grid;
+    grid-template-columns: repeat(var(--tl-cols, 12), 1fr);
+    border-bottom: 1px solid var(--chart-axis);
+}
+
+.timeline__month {
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.02em;
+    text-align: center;
+    padding-bottom: 0.3rem;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Halve the month labels on narrow screens */
+@media (max-width: 700px) {
+    .timeline__month:nth-child(even) {
+        visibility: hidden;
+    }
+}
+
+.timeline__grid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--tl-cols, 12), 1fr);
+    pointer-events: none;
+}
+
+.timeline__grid span {
+    border-left: 1px solid var(--chart-grid);
+}
+
+.timeline__grid span:last-child {
+    border-right: 1px solid var(--chart-grid);
+}
+
+.timeline__bar {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 14px;
+    border-radius: 4px;
+    background: var(--chart-muted);
+    cursor: default;
+    transition: filter var(--dur) var(--ease-out);
+}
+
+.timeline__bar:hover,
+.timeline__bar:focus-visible {
+    filter: brightness(1.08);
+}
+
+.timeline__bar--current {
+    background: var(--chart-1);
+}
+
+.timeline__bar-label {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.timeline__bar--current .timeline__bar-label {
+    color: var(--chart-1-ink);
+}
+
+/* --- Stacked bar ------------------------------------------------------------ */
+
+.stack {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.stack__row {
+    display: grid;
+    gap: 0.3rem;
+}
+
+/* Below the three-column breakpoint the total would fall under its own bar,
+   so the name and total share a line and the bar spans beneath them. */
+@media (max-width: 699px) {
+    .stack__row {
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas:
+            "name total"
+            "bar  bar";
+        align-items: baseline;
+        gap: 0.35rem 0.75rem;
+    }
+
+    .stack__name {
+        grid-area: name;
+    }
+
+    .stack__track {
+        grid-area: bar;
+    }
+
+    .stack__total {
+        grid-area: total;
+    }
+}
+
+@media (min-width: 700px) {
+    .stack__row {
+        grid-template-columns: minmax(0, 12.5rem) minmax(0, 1fr) 2rem;
+        align-items: center;
+        gap: 1rem;
+    }
+}
+
+.stack__name {
+    color: var(--ink);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.stack__track {
+    min-width: 0;
+}
+
+.stack__bar {
+    display: flex;
+    /* 2px of surface between touching segments */
+    gap: 2px;
+    height: 18px;
+}
+
+.stack__segment {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 5px;
+    border-radius: 2px;
+}
+
+.stack__segment:first-child {
+    border-radius: 4px 2px 2px 4px;
+}
+
+.stack__segment:last-child {
+    border-radius: 2px 4px 4px 2px;
+}
+
+.stack__segment-label {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.stack__total {
+    color: var(--ink-2);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+/* --- Category bar ------------------------------------------------------------ */
+
+.bars {
+    display: grid;
+    gap: 0.7rem;
+}
+
+.bars__row {
+    display: grid;
+    gap: 0.25rem;
+}
+
+@media (min-width: 560px) {
+    .bars__row {
+        grid-template-columns: minmax(0, 9rem) minmax(0, 1fr);
+        align-items: center;
+        gap: 1rem;
+    }
+}
+
+.bars__name {
+    color: var(--ink);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+}
+
+.bars__bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 16px;
+    /* Square at the baseline, rounded at the data end */
+    border-radius: 0 4px 4px 0;
+    background: var(--chart-1);
+    padding-right: 0.5rem;
+}
+
+.bars__value {
+    color: var(--chart-1-ink);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}

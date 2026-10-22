@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Impact — stat tiles + charts
+   ========================================================================== */
+
+.impact__charts {
+    display: grid;
+    gap: var(--sp-4);
+    margin-top: var(--sp-5);
+}
+
+.impact__pair {
+    display: grid;
+    gap: var(--sp-4);
+}
+
+@media (min-width: 1000px) {
+    .impact__pair {
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    }
+}
+
+.impact__note {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: var(--sp-4);
+    color: var(--ink-3);
+    font-size: var(--fs-xs);
+}
+
+.impact__note i {
+    color: var(--accent-ink);
+}

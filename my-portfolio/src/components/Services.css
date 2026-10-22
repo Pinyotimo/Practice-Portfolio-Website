@@ -1,0 +1,107 @@
+/* ==========================================================================
+   Services
+   ========================================================================== */
+
+.services__grid {
+    display: grid;
+    gap: var(--sp-4);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+}
+
+@media (min-width: 700px) {
+    .services__grid {
+        gap: var(--sp-5);
+    }
+}
+
+.service-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: clamp(1.35rem, 2.5vw, 1.9rem);
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow-soft);
+    transition: border-color var(--dur) var(--ease-out),
+                box-shadow var(--dur) var(--ease-out);
+}
+
+.service-card:hover {
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-lift);
+}
+
+/* Oversized index numeral, clipped by the card */
+.service-card__index {
+    position: absolute;
+    top: -0.35rem;
+    right: 0.6rem;
+    font-family: var(--font-display);
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--accent-soft-2);
+    user-select: none;
+    pointer-events: none;
+    transition: color var(--dur) var(--ease-out);
+}
+
+.service-card:hover .service-card__index {
+    color: var(--accent-soft);
+}
+
+.service-card__icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    font-size: 1.1rem;
+    transition: transform var(--dur) var(--ease-spring),
+                background-color var(--dur) var(--ease-out),
+                color var(--dur) var(--ease-out);
+}
+
+.service-card:hover .service-card__icon {
+    transform: translateY(-2px) rotate(-3deg);
+    background: var(--accent);
+    color: var(--ink-on-accent);
+}
+
+.service-card__title {
+    position: relative;
+    margin-bottom: 0.5rem;
+    font-size: var(--fs-h3);
+}
+
+.service-card__desc {
+    position: relative;
+    color: var(--ink-2);
+    font-size: var(--fs-sm);
+    line-height: 1.7;
+}
+
+/* Accent rule that wipes in on hover */
+.service-card__rule {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform var(--dur) var(--ease-out);
+}
+
+.service-card:hover .service-card__rule {
+    transform: scaleX(1);
+}

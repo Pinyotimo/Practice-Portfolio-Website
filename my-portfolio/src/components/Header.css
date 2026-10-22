@@ -1,0 +1,280 @@
+/* ==========================================================================
+   Header — sticky navigation, scroll progress, mobile drawer
+   ========================================================================== */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    /* Opaque on purpose. A translucent bar over a busy page ghosts the
+       content behind it, and the blur that would hide that is not
+       available everywhere (older browsers, GPU-less renders). */
+    background: var(--bg);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--dur) var(--ease-out),
+                background-color var(--dur) var(--ease-out),
+                box-shadow var(--dur) var(--ease-out);
+}
+
+.site-header--scrolled {
+    border-bottom-color: var(--line);
+    box-shadow: 0 1px 0 var(--bg-inset), 0 10px 24px -22px rgba(0, 0, 0, 0.5);
+}
+
+/* Scroll progress hairline */
+.site-header__progress {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: var(--accent);
+    transform-origin: 0 50%;
+}
+
+.site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-5);
+    min-height: var(--header-h);
+    padding-block: 0.6rem;
+}
+
+/* --- Brand ------------------------------------------------------------- */
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+    color: var(--ink);
+    transition: color var(--dur) var(--ease-out);
+}
+
+.brand:hover {
+    color: var(--accent-ink);
+}
+
+.brand__mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex: none;
+    border-radius: var(--r-sm);
+    background: var(--accent);
+    color: var(--ink-on-accent);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: transform var(--dur) var(--ease-spring),
+                background-color var(--dur) var(--ease-out);
+}
+
+.brand:hover .brand__mark {
+    transform: rotate(-4deg) scale(1.04);
+}
+
+.brand__text {
+    display: none;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+.brand__name {
+    font-family: var(--font-display);
+    font-size: 0.98rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.brand__role {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    color: var(--ink-3);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+@media (min-width: 560px) {
+    .brand__text {
+        display: flex;
+    }
+}
+
+/* --- Desktop navigation ------------------------------------------------ */
+
+.site-nav {
+    display: none;
+}
+
+@media (min-width: 1024px) {
+    .site-nav {
+        display: block;
+    }
+}
+
+.site-nav__list {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+}
+
+.site-nav__link {
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.8rem;
+    border-radius: var(--r-sm);
+    color: var(--ink-2);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    transition: color var(--dur) var(--ease-out);
+}
+
+.site-nav__link:hover {
+    color: var(--ink);
+}
+
+.site-nav__link.is-active {
+    color: var(--accent-ink);
+}
+
+.site-nav__label {
+    position: relative;
+    z-index: 1;
+}
+
+/* The sliding active marker */
+.site-nav__marker {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: var(--r-sm);
+    background: var(--accent-soft);
+    box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+/* --- Header actions ---------------------------------------------------- */
+
+.site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.theme-toggle {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    overflow: hidden;
+}
+
+.theme-toggle__icon {
+    display: inline-flex;
+    font-size: 0.9rem;
+    line-height: 1;
+}
+
+.site-header__cta {
+    display: none;
+}
+
+@media (min-width: 640px) {
+    .site-header__cta {
+        display: inline-flex;
+    }
+}
+
+/* --- Hamburger --------------------------------------------------------- */
+
+.nav-toggle {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 38px;
+    height: 38px;
+    padding: 10px 9px;
+}
+
+@media (min-width: 1024px) {
+    .nav-toggle {
+        display: none;
+    }
+}
+
+.nav-toggle span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: transform var(--dur) var(--ease-out),
+                opacity var(--dur-fast) var(--ease-out);
+}
+
+.nav-toggle.is-open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle.is-open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0.4);
+}
+
+.nav-toggle.is-open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* --- Mobile drawer ----------------------------------------------------- */
+
+.mobile-nav {
+    display: none;
+}
+
+@media (max-width: 1023px) {
+    .mobile-nav {
+        display: block;
+        overflow: hidden;
+        padding: 0.5rem var(--gutter) 1.25rem;
+        background: var(--bg);
+        border-bottom: 1px solid var(--line);
+        box-shadow: var(--shadow-lift);
+    }
+}
+
+.mobile-nav__list {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.9rem;
+}
+
+.mobile-nav__link {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+    padding: 0.8rem 0.25rem;
+    border-bottom: 1px solid var(--line-faint);
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 1.08rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--dur) var(--ease-out),
+                padding-left var(--dur) var(--ease-out);
+}
+
+.mobile-nav__link:hover,
+.mobile-nav__link.is-active {
+    color: var(--accent-ink);
+    padding-left: 0.6rem;
+}
+
+.mobile-nav__index {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    color: var(--ink-3);
+}
