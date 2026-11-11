@@ -2,12 +2,137 @@
    Hero
    ========================================================================== */
 
+.shape-hero {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-height: 45rem;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    color: var(--ink);
+}
+
 .hero {
+    position: relative;
     padding-block: clamp(2.5rem, 6vw, 5.5rem) clamp(3rem, 7vw, 6rem);
     overflow: hidden;
 }
 
+.shape-hero--background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    min-height: 100%;
+    pointer-events: none;
+    background: transparent;
+}
+
+.shape-hero--background .shape-hero__layer {
+    pointer-events: auto;
+}
+
+.shape-hero__layer {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    touch-action: pan-y;
+}
+
+.shape-hero__shape {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: var(--r-pill);
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    will-change: transform;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+}
+
+.shape-hero__layer[data-dragging] .shape-hero__shape {
+    cursor: grabbing;
+}
+
+.shape-hero__pill {
+    /* Sized for ~60 pills: the whole stack has to fit in the pile */
+    min-height: 2.2rem;
+    padding-inline: 0.85rem;
+    font-size: 0.74rem;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--bg-elev) 86%, transparent);
+    color: var(--ink-2);
+    box-shadow: var(--shadow-soft);
+}
+
+.shape-hero__pill--accent {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--ink-on-accent);
+}
+
+.shape-hero__pill--dark {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--bg);
+}
+
+.shape-hero__dot {
+    width: 3.5rem;
+    height: 3.5rem;
+    box-shadow: var(--shadow-soft);
+}
+
+.shape-hero__dot--blue { background: var(--chart-1); }
+.shape-hero__dot--rust { background: var(--rust); }
+.shape-hero__dot--green { background: var(--chart-3); }
+
+.shape-hero__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 42rem;
+    text-align: center;
+    pointer-events: none;
+}
+
+.shape-hero__eyebrow,
+.shape-hero__actions {
+    pointer-events: auto;
+}
+
+.shape-hero__title {
+    font-size: var(--fs-display);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+}
+
+.shape-hero__description {
+    max-width: 32rem;
+    margin-top: 1.25rem;
+    color: var(--ink-2);
+    font-size: var(--fs-lead);
+}
+
+.shape-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
 .hero__grid {
+    position: relative;
+    z-index: 1;
     display: grid;
     gap: clamp(2rem, 5vw, 4rem);
     align-items: center;
@@ -219,4 +344,345 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.7rem;
+}
+
+/* ==========================================================================
+   Hero graphics & motion
+   Every colour is a theme token, so the whole layer re-tints per theme.
+   ========================================================================== */
+
+/* --- Backdrop: dot grid + drifting orbs --------------------------------- */
+
+.hero__backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    /* Fade into the next section instead of ending on a hard edge */
+    mask-image: linear-gradient(to bottom, #000 65%, transparent);
+}
+
+.hero__grid-dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(var(--line-strong) 1px, transparent 1.2px);
+    background-size: 22px 22px;
+    opacity: 0.55;
+    /* Fade the grid out toward the edges so it reads as texture, not a sheet */
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+}
+
+.hero__orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.5;
+    will-change: transform;
+}
+
+.hero__orb--a {
+    top: -12%;
+    left: -8%;
+    width: 42vmax;
+    height: 42vmax;
+    max-width: 640px;
+    max-height: 640px;
+    background: var(--accent-soft-2);
+    animation: orb-drift-a 22s var(--ease-in-out) infinite alternate;
+}
+
+.hero__orb--b {
+    right: -10%;
+    bottom: -18%;
+    width: 36vmax;
+    height: 36vmax;
+    max-width: 560px;
+    max-height: 560px;
+    background: var(--rust-soft);
+    opacity: 0.9;
+    animation: orb-drift-b 26s var(--ease-in-out) infinite alternate;
+}
+
+.hero__orb--c {
+    top: 30%;
+    left: 45%;
+    width: 22vmax;
+    height: 22vmax;
+    max-width: 340px;
+    max-height: 340px;
+    background: var(--accent-soft);
+    animation: orb-drift-c 18s var(--ease-in-out) infinite alternate;
+}
+
+@keyframes orb-drift-a {
+    to { transform: translate(12%, 18%) scale(1.12); }
+}
+
+@keyframes orb-drift-b {
+    to { transform: translate(-16%, -10%) scale(0.92); }
+}
+
+@keyframes orb-drift-c {
+    to { transform: translate(-30%, 25%) scale(1.25); }
+}
+
+/* --- Photo: tilt, orbit, sheen, floating chips --------------------------- */
+
+.hero__figure {
+    perspective: 900px;
+}
+
+.hero__tilt {
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.hero__photo-sheen {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.22) 50%, transparent 65%);
+    background-size: 250% 100%;
+    background-position: 120% 0;
+    mix-blend-mode: soft-light;
+    animation: hero-sheen 1.6s var(--ease-out) 0.9s both;
+    pointer-events: none;
+}
+
+@keyframes hero-sheen {
+    to { background-position: -40% 0; }
+}
+
+.hero__orbit {
+    position: absolute;
+    inset: -9%;
+    z-index: -1;
+    width: 118%;
+    height: 118%;
+    overflow: visible;
+    animation: hero-spin 40s linear infinite;
+    pointer-events: none;
+}
+
+.hero__orbit circle:first-child {
+    fill: none;
+    stroke: var(--line-strong);
+    stroke-width: 0.6;
+    stroke-dasharray: 2 5;
+}
+
+.hero__orbit-dot {
+    fill: var(--accent);
+}
+
+@keyframes hero-spin {
+    to { transform: rotate(360deg); }
+}
+
+.hero__chip {
+    position: absolute;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--bg-elev);
+    box-shadow: var(--shadow-soft);
+    font-size: 1rem;
+}
+
+.hero__chip i {
+    animation: hero-bob 4.5s var(--ease-in-out) infinite;
+}
+
+.hero__chip--code {
+    top: 8%;
+    right: -18px;
+    color: var(--accent-ink);
+}
+
+.hero__chip--spark {
+    top: 46%;
+    left: -22px;
+    color: var(--rust);
+}
+
+.hero__chip--spark i {
+    animation-delay: -2s;
+}
+
+@keyframes hero-bob {
+    0%, 100% { transform: translateY(-3px) rotate(-6deg); }
+    50%      { transform: translateY(3px) rotate(6deg); }
+}
+
+@media (max-width: 480px) {
+    .hero__chip { display: none; }
+}
+
+/* --- Copy: wave, rotating role ------------------------------------------ */
+
+.hero__wave {
+    display: inline-block;
+    margin-left: 0.25em;
+    font-size: 0.8em;
+    transform-origin: 70% 75%;
+}
+
+.hero__role {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    margin: -0.25rem 0 1.15rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 0.95rem + 0.7vw, 1.5rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.hero__role > span[aria-hidden] {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 0.35em;
+}
+
+.hero__role-prefix {
+    color: var(--ink-3);
+}
+
+.hero__role-window {
+    display: inline-grid;
+    overflow: hidden;
+    vertical-align: bottom;
+}
+
+.hero__role-word {
+    display: inline-block;
+    color: var(--accent-ink);
+    white-space: nowrap;
+}
+
+.hero__role-caret {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    margin-left: -0.2em;
+    align-self: center;
+    background: var(--rust);
+    animation: hero-caret 1s steps(1) infinite;
+}
+
+@keyframes hero-caret {
+    50% { opacity: 0; }
+}
+
+.hero__cta i {
+    transition: transform var(--dur) var(--ease-out);
+}
+
+.hero__cta:hover i {
+    transform: translateX(4px);
+}
+
+/* Room under the content for the full tech-stack pile to land in */
+.hero {
+    padding-bottom: clamp(9rem, 14vw, 12rem);
+}
+
+/* ==========================================================================
+   Below 900px: round avatar with the status + heading beside it
+   ========================================================================== */
+
+@media (max-width: 899px) {
+    .hero {
+        padding-top: 1.75rem;
+        padding-bottom: 19rem;
+    }
+
+    /* Flatten figure + body so their children share one grid */
+    .hero__figure,
+    .hero__body {
+        display: contents;
+    }
+
+    .hero__grid {
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-areas:
+            'photo status'
+            'photo title'
+            'role  role'
+            'lead  lead'
+            'tools tools'
+            'actions actions'
+            'badge badge';
+        gap: 0 1rem;
+        align-items: center;
+    }
+
+    .hero__tilt    { grid-area: photo; }
+    .hero__status  { grid-area: status; align-self: end; justify-self: start; margin-bottom: 0.5rem; }
+    .hero__title   { grid-area: title; align-self: start; margin-bottom: 0; }
+    .hero__role-wrap { grid-area: role; margin-top: 1.1rem; }
+    .hero__lead    { grid-area: lead; }
+    .hero__tools   { grid-area: tools; }
+    .hero__actions { grid-area: actions; }
+
+    .hero__photo {
+        width: clamp(88px, 26vw, 132px);
+        border-radius: 50%;
+        box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent), var(--shadow-soft);
+        animation: hero-avatar-in 0.6s var(--ease-spring) 0.1s both;
+    }
+
+    .hero__photo img {
+        object-position: center 22%;
+    }
+
+    @keyframes hero-avatar-in {
+        from { transform: scale(0.6); opacity: 0; }
+        to   { transform: scale(1); opacity: 1; }
+    }
+
+    /* Desktop-only decoration */
+    .hero__figure::before,
+    .hero__orbit,
+    .hero__chip {
+        display: none;
+    }
+
+    .hero__badge {
+        grid-area: badge;
+        position: static;
+        justify-self: start;
+        max-width: none;
+        margin-top: 1.25rem;
+    }
+
+    .hero__status {
+        padding: 0.25rem 0.6rem 0.25rem 0.5rem;
+        border-radius: var(--r-md);
+        font-size: 0.7rem;
+        line-height: 1.35;
+    }
+
+    .hero__title {
+        font-size: clamp(1.85rem, 1.2rem + 3.6vw, 2.6rem);
+        line-height: 1.1;
+    }
+
+    /* Smaller pills so the whole stack fits on a narrow screen */
+    .shape-hero__pill {
+        min-height: 1.75rem;
+        padding-inline: 0.6rem;
+        font-size: 0.64rem;
+    }
+
+    .shape-hero__dot {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
 }

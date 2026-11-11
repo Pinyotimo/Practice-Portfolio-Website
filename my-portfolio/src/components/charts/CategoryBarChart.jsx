@@ -13,9 +13,13 @@ import useChartTooltip from './useChartTooltip.jsx';
 export default function CategoryBarChart() {
   const { bind, tooltip } = useChartTooltip();
 
-  const { rows, max } = useMemo(() => {
+  const { rows, max, total } = useMemo(() => {
     const sorted = [...CERT_AREAS].sort((a, b) => b.count - a.count);
-    return { rows: sorted, max: Math.max(...sorted.map((row) => row.count)) };
+    return {
+      rows: sorted,
+      max: Math.max(...sorted.map((row) => row.count)),
+      total: sorted.reduce((sum, row) => sum + row.count, 0),
+    };
   }, []);
 
   const table = (
@@ -43,7 +47,7 @@ export default function CategoryBarChart() {
   return (
     <ChartCard
       title="Certifications by area"
-      subtitle="Nine certificates across five disciplines."
+      subtitle={`${total} certificates across ${rows.length} areas.`}
       table={table}
     >
       <div className="bars">

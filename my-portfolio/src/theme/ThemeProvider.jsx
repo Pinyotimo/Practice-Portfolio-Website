@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { MotionConfig } from 'framer-motion';
 import { ThemeContext } from './theme-context';
+import { THEMES, THEME_IDS, getTheme } from './themes';
 
 const STORAGE_KEY = 'st-theme';
 
@@ -9,7 +11,7 @@ function readInitialTheme() {
 
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored === 'light' || stored === 'dark') return stored;
+    if (THEME_IDS.includes(stored)) return stored;
   } catch {
     /* localStorage can be blocked — fall through to the OS preference */
   }
@@ -17,18 +19,21 @@ function readInitialTheme() {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
+const prefersReducedMotion = () =>
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 export default function ThemeProvider({ children }) {
   const [theme, setThemeState] = useState(readInitialTheme);
 
-  useEffect(() => {
+  /* Layout effect, so the tokens are on <html> within the same commit —
+     the view transition below snapshots the page right after it. */
+  useLayoutEffect(() => {
+    const { mode, meta } = getTheme(theme);
     const root = document.documentElement;
     root.dataset.theme = theme;
-    root.style.colorScheme = theme;
+    root.style.colorScheme = mode;
 
-    const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) {
-      meta.setAttribute('content', theme === 'dark' ? '#0f1114' : '#f1f0ec');
-    }
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', meta);
 
     try {
       window.localStorage.setItem(STORAGE_KEY, theme);
@@ -37,16 +42,36 @@ export default function ThemeProvider({ children }) {
     }
   }, [theme]);
 
-  const setTheme = useCallback((next) => {
-    setThemeState(next === 'dark' ? 'dark' : 'light');
+  /* `origin` is an optional { x, y } in viewport pixels: the new palette
+     grows out of that point as a circle, where the browser supports it. */
+  const setTheme = useCallback((next, origin) => {
+    const id = THEME_IDS.includes(next) ? next : 'light';
+    const apply = () => flushSync(() => setThemeState(id));
+
+    if (!document.startViewTransition || prefersReducedMotion()) {
+      apply();
+      return;
+    }
+
+    const root = document.documentElement;
+    const x = origin?.x ?? window.innerWidth / 2;
+    const y = origin?.y ?? 0;
+    root.style.setProperty('--vt-x', `${x}px`);
+    root.style.setProperty('--vt-y', `${y}px`);
+    root.style.setProperty(
+      '--vt-r',
+      `${Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y))}px`,
+    );
+    document.startViewTransition(apply);
   }, []);
 
+  /* Light ↔ dark shortcut, kept for anything that only wants a toggle. */
   const toggleTheme = useCallback(() => {
-    setThemeState((current) => (current === 'dark' ? 'light' : 'dark'));
-  }, []);
+    setTheme(getTheme(theme).mode === 'dark' ? 'light' : 'dark');
+  }, [theme, setTheme]);
 
   const value = useMemo(
-    () => ({ theme, setTheme, toggleTheme }),
+    () => ({ theme, themes: THEMES, setTheme, toggleTheme }),
     [theme, setTheme, toggleTheme],
   );
 

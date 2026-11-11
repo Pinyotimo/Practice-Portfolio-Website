@@ -16,6 +16,9 @@
 @media (min-width: 1000px) {
     .impact__pair {
         grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+        /* The short certifications chart keeps its own height instead of
+           stretching to the stack chart's and leaving a blank panel */
+        align-items: start;
     }
 }
 

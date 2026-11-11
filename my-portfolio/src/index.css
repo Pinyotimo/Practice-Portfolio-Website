@@ -108,7 +108,7 @@
 
 /* Dark palette — its own steps, selected against the dark surface.
    Kept in two places on purpose: the explicit toggle, and the OS setting
-   when the visitor has not chosen. Keep the two blocks identical. */
+   when no theme is stamped (JS off). Keep the two blocks identical. */
 :root[data-theme="dark"] {
     color-scheme: dark;
 
@@ -154,7 +154,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
+    :root:not([data-theme]) {
         color-scheme: dark;
 
         --bg:              #0f1114;

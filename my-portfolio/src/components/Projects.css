@@ -11,6 +11,23 @@
     box-shadow: var(--shadow-soft);
 }
 
+/* Stage, sizer and live slide all share one grid cell. The invisible
+   sizer holds the tallest slide's height; the live slide stretches to it. */
+.projects__stage {
+    display: grid;
+}
+
+.projects__stage > *,
+.projects__sizer > * {
+    grid-area: 1 / 1;
+}
+
+.projects__sizer {
+    display: grid;
+    visibility: hidden;
+    pointer-events: none;
+}
+
 .projects__stage:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
@@ -19,53 +36,140 @@
 .projects__slide {
     display: grid;
     grid-template-columns: 1fr;
+    /* Stacked: the frame keeps its natural height, the copy absorbs the rest */
+    grid-template-rows: auto 1fr;
 }
 
 @media (min-width: 860px) {
     .projects__slide {
         grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+        grid-template-rows: 1fr;
     }
 }
 
-/* --- Media ---------------------------------------------------------------- */
+/* --- Media: every image in the same browser-window frame ---------------- */
 
 .projects__media {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 3vw, 2.25rem);
     overflow: hidden;
-    aspect-ratio: 16 / 10;
-    background: var(--bg-sunken);
+    background:
+        radial-gradient(var(--line) 1px, transparent 1.2px) 0 0 / 18px 18px,
+        linear-gradient(135deg, var(--accent-soft-2), var(--rust-soft));
+    border-bottom: 1px solid var(--line);
 }
 
 @media (min-width: 860px) {
     .projects__media {
-        aspect-ratio: auto;
-        min-height: 100%;
+        border-bottom: 0;
+        border-right: 1px solid var(--line);
     }
 }
 
-.projects__media img {
+.projects__window {
+    width: 100%;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-md);
+    background: var(--bg-elev);
+    box-shadow: var(--shadow-lift);
+    overflow: hidden;
+    transition: transform 500ms var(--ease-out), box-shadow 500ms var(--ease-out);
+}
+
+.projects__slide:hover .projects__window {
+    transform: translateY(-4px);
+}
+
+.projects__chrome {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    height: 30px;
+    padding: 0 0.65rem;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-soft);
+}
+
+.projects__chrome-dots {
+    display: inline-flex;
+    flex: none;
+    gap: 5px;
+}
+
+.projects__chrome-dots i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--line-strong);
+}
+
+.projects__chrome-dots i:nth-child(1) { background: #ff5f57; }
+.projects__chrome-dots i:nth-child(2) { background: #febc2e; }
+.projects__chrome-dots i:nth-child(3) { background: #28c840; }
+
+.projects__chrome-url {
+    display: inline-flex;
+    flex: 1;
+    align-items: center;
+    gap: 0.4rem;
+    min-width: 0;
+    max-width: 22rem;
+    margin-inline: auto;
+    padding: 0.15rem 0.6rem;
+    border-radius: var(--r-pill);
+    background: var(--bg-inset);
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.projects__chrome-url i {
+    flex: none;
+    font-size: 0.6rem;
+}
+
+/* Fixed 16:10 viewport — every project gets the same shape regardless of
+   the source image's size or orientation. */
+.projects__shot {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--bg-sunken);
+}
+
+.projects__shot img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     pointer-events: none;
-    transition: transform 600ms var(--ease-out);
+    transition: transform 900ms var(--ease-out);
 }
 
-.projects__slide:hover .projects__media img {
-    transform: scale(1.03);
+.projects__slide:hover .projects__shot img {
+    transform: scale(1.04);
+}
+
+.projects__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
 }
 
 .projects__type {
-    position: absolute;
-    top: 0.9rem;
-    left: 0.9rem;
-    padding: 0.3rem 0.65rem;
-    border-radius: var(--r-pill);
-    background: color-mix(in srgb, var(--bg-elev) 88%, transparent);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    padding: 0.2rem 0.6rem;
     border: 1px solid var(--line);
-    color: var(--ink);
+    border-radius: var(--r-pill);
+    background: var(--bg-soft);
+    color: var(--ink-2);
     font-family: var(--font-mono);
     font-size: var(--fs-micro);
     font-weight: 500;
@@ -108,7 +212,12 @@
 }
 
 .projects__link {
-    margin-top: 0.35rem;
+    margin-top: auto;
+}
+
+/* Keep a gap above the button when the body is at its natural height */
+.projects__stack {
+    margin-bottom: 0.5rem;
 }
 
 /* --- Controls ------------------------------------------------------------- */
@@ -180,5 +289,91 @@
 @media (min-width: 640px) {
     .projects__hint {
         display: inline-flex;
+    }
+}
+
+/* --- Mobile pager --------------------------------------------------------- */
+
+.projects__pager {
+    display: none;
+    flex: 1;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+}
+
+.projects__pager .projects__tick-bar {
+    flex: 1;
+    background: var(--accent-soft-2);
+}
+
+.projects__pager .projects__tick-progress {
+    transition: transform var(--dur) var(--ease-out);
+}
+
+.projects__pager-count {
+    color: var(--ink-2);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- Small screens -------------------------------------------------------- */
+
+@media (max-width: 639px) {
+    /* On a phone, reserving the tallest slide leaves big gaps under short
+       ones. Let each card take its natural height and move the controls
+       above it instead, so the arrows never move under the thumb. */
+    .projects {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .projects__sizer {
+        display: none;
+    }
+
+    .projects__controls {
+        order: -1;
+        margin: 0 0 var(--sp-3);
+    }
+
+    .projects__link {
+        margin-top: 0.25rem;
+    }
+
+    /* 14 ticks are too small to tap on a phone; arrows + swipe + pager instead */
+    .projects__ticks {
+        display: none;
+    }
+
+    .projects__pager {
+        display: flex;
+    }
+
+    .projects__body {
+        gap: 0.7rem;
+        padding: 1.25rem;
+    }
+
+    .projects__title {
+        font-size: 1.4rem;
+    }
+
+    .projects__stack {
+        gap: 0.3rem;
+    }
+
+    .projects__stack .tag {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.45rem;
+    }
+
+    .projects__link {
+        width: 100%;
+    }
+
+    .projects__chrome-url {
+        font-size: 0.62rem;
     }
 }

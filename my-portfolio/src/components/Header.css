@@ -166,19 +166,6 @@
     gap: 0.5rem;
 }
 
-.theme-toggle {
-    position: relative;
-    width: 38px;
-    height: 38px;
-    overflow: hidden;
-}
-
-.theme-toggle__icon {
-    display: inline-flex;
-    font-size: 0.9rem;
-    line-height: 1;
-}
-
 .site-header__cta {
     display: none;
 }

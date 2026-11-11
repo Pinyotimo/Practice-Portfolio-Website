@@ -168,50 +168,114 @@
 
 /* --- Stat tiles ------------------------------------------------------------ */
 
+/* Four across on desktop, two by two on phones — never one tall column */
 .stat-row {
     display: grid;
     gap: var(--sp-4);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 900px) {
+    .stat-row {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 559px) {
+    .stat-row {
+        gap: 0.6rem;
+    }
 }
 
 .stat-tile {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
-    padding: clamp(1rem, 2vw, 1.35rem);
+    padding: clamp(0.9rem, 2vw, 1.35rem);
+    overflow: hidden;
     background: var(--bg-elev);
     border: 1px solid var(--line);
     border-radius: var(--r-md);
     box-shadow: var(--shadow-hard);
     transition: transform var(--dur) var(--ease-out),
-                box-shadow var(--dur) var(--ease-out);
+                box-shadow var(--dur) var(--ease-out),
+                border-color var(--dur) var(--ease-out);
+}
+
+/* Accent bar along the top that draws in on hover */
+.stat-tile::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--rust));
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 420ms var(--ease-out);
+}
+
+/* Soft glow in the corner, tinted per theme */
+.stat-tile::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -25%;
+    width: 70%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-soft), transparent 70%);
+    pointer-events: none;
 }
 
 .stat-tile:hover {
     transform: translateY(-3px);
+    border-color: var(--accent);
     box-shadow: var(--shadow-hard-lg);
 }
 
+.stat-tile:hover::before {
+    transform: scaleX(1);
+}
+
+.stat-tile__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+}
+
 .stat-tile__icon {
+    position: relative;
+    z-index: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
-    margin-bottom: 0.5rem;
+    width: 36px;
+    height: 36px;
     border-radius: var(--r-sm);
-    background: var(--accent-soft);
+    background: var(--accent-soft-2);
     color: var(--accent-ink);
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+    transition: transform var(--dur) var(--ease-spring);
+}
+
+.stat-tile:hover .stat-tile__icon {
+    transform: rotate(-10deg) scale(1.1);
 }
 
 .stat-tile__value {
+    position: relative;
+    z-index: 1;
+    order: -1;
     font-family: var(--font-display);
-    font-size: clamp(2rem, 1.6rem + 1.4vw, 2.6rem);
+    font-size: clamp(2.1rem, 1.6rem + 1.8vw, 3rem);
     font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
+    line-height: 1;
+    letter-spacing: -0.03em;
     color: var(--ink);
+    font-variant-numeric: tabular-nums;
 }
 
 .stat-tile__label {
@@ -224,6 +288,12 @@
     color: var(--ink-3);
     font-size: var(--fs-xs);
     line-height: 1.5;
+}
+
+@media (max-width: 559px) {
+    .stat-tile__note {
+        font-size: 0.72rem;
+    }
 }
 
 /* --- Timeline -------------------------------------------------------------- */

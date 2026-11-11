@@ -43,18 +43,21 @@
 
     <script>
       /* Stamp the theme before first paint so the page never flashes the
-         wrong background. Mirrors the logic in src/theme/ThemeProvider.jsx. */
+         wrong background. Mirrors src/theme/themes.js — keep the ids in sync. */
       (function () {
         try {
+          var modes = {
+            light: 'light', dark: 'dark', ocean: 'dark',
+            forest: 'light', ember: 'dark', lavender: 'light'
+          };
           var stored = localStorage.getItem('st-theme');
-          var theme =
-            stored === 'light' || stored === 'dark'
-              ? stored
-              : window.matchMedia('(prefers-color-scheme: dark)').matches
-                ? 'dark'
-                : 'light';
+          var theme = modes[stored]
+            ? stored
+            : window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
           document.documentElement.dataset.theme = theme;
-          document.documentElement.style.colorScheme = theme;
+          document.documentElement.style.colorScheme = modes[theme];
         } catch (error) {
           document.documentElement.dataset.theme = 'light';
         }

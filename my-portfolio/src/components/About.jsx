@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { EASE } from '../lib/motion';
-import { ABOUT } from '../data/portfolio';
+import { EASE, riseIn, stagger } from '../lib/motion';
+import { ABOUT, HERO } from '../data/portfolio';
 import SkillsTab from './tabs/SkillsTab';
 import ExperienceTab from './tabs/ExperienceTab';
 import EducationTab from './tabs/EducationTab';
@@ -11,12 +11,12 @@ import HobbiesTab from './tabs/HobbiesTab';
 import './About.css';
 
 const TABS = [
-  { id: 'skills', label: 'Skills' },
-  { id: 'core-technologies', label: 'Core tech' },
-  { id: 'proficiency', label: 'Proficiency' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'education', label: 'Education' },
-  { id: 'hobbies', label: 'Hobbies' },
+  { id: 'skills', label: 'Skills', icon: 'fa-solid fa-screwdriver-wrench' },
+  { id: 'core-technologies', label: 'Core tech', icon: 'fa-solid fa-microchip' },
+  { id: 'proficiency', label: 'Proficiency', icon: 'fa-solid fa-gauge-high' },
+  { id: 'experience', label: 'Experience', icon: 'fa-solid fa-briefcase' },
+  { id: 'education', label: 'Education', icon: 'fa-solid fa-graduation-cap' },
+  { id: 'hobbies', label: 'Hobbies', icon: 'fa-solid fa-person-swimming' },
 ];
 
 const TAB_COMPONENTS = {
@@ -27,6 +27,76 @@ const TAB_COMPONENTS = {
   education: EducationTab,
   hobbies: HobbiesTab,
 };
+
+/* Decorative editor window: the same facts as the highlights, written as a
+   JS object and revealed line by line. Hidden from assistive tech — the
+   <dl> beside it carries the content. */
+function CodeCard({ highlights }) {
+  const lines = [
+    [{ t: 'kw', v: 'const ' }, { t: 'var', v: 'steve' }, { t: 'pun', v: ' = {' }],
+    ...highlights.map((h) => [
+      { t: 'key', v: `  ${h.key}` },
+      { t: 'pun', v: ': ' },
+      { t: 'str', v: `'${h.value}'` },
+      { t: 'pun', v: ',' },
+    ]),
+    [
+      { t: 'key', v: '  stack' },
+      { t: 'pun', v: ': [' },
+      ...HERO.tools.slice(0, 3).flatMap((tool, i) => [
+        ...(i ? [{ t: 'pun', v: ', ' }] : []),
+        { t: 'str', v: `'${tool}'` },
+      ]),
+      { t: 'pun', v: '],' },
+    ],
+    [{ t: 'key', v: '  openToWork' }, { t: 'pun', v: ': ' }, { t: 'kw', v: 'true' }, { t: 'pun', v: ',' }],
+    [{ t: 'pun', v: '};' }],
+  ];
+
+  return (
+    <motion.div
+      className="code-card"
+      aria-hidden="true"
+      initial={{ opacity: 0, y: 20, rotate: 1.5 }}
+      whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={{ duration: 0.6, ease: EASE }}
+    >
+      <div className="code-card__bar">
+        <span />
+        <span />
+        <span />
+        <em>about.js</em>
+      </div>
+      <motion.pre
+        className="code-card__body"
+        variants={stagger(0.11, 0.35)}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.4 }}
+      >
+        {lines.map((tokens, i) => (
+          <motion.code
+            key={i}
+            className="code-card__line"
+            variants={{
+              hidden: { opacity: 0, x: -8 },
+              show: { opacity: 1, x: 0, transition: { duration: 0.3, ease: EASE } },
+            }}
+          >
+            <span className="code-card__ln">{i + 1}</span>
+            {tokens.map((tok, j) => (
+              <span key={j} className={`tok-${tok.t}`}>
+                {tok.v}
+              </span>
+            ))}
+          </motion.code>
+        ))}
+        <span className="code-card__cursor" />
+      </motion.pre>
+    </motion.div>
+  );
+}
 
 export default function About() {
   const [activeTab, setActiveTab] = useState(TABS[0].id);
@@ -70,23 +140,43 @@ export default function About() {
 
         <div className="about__grid">
           <div className="about__intro panel">
-            <p className="about__body">{ABOUT.body}</p>
+            <span className="about__glow" aria-hidden="true" />
 
-            <dl className="about__highlights">
-              {ABOUT.highlights.map((item) => (
-                <div key={item.label} className="about__highlight">
-                  <dt>{item.label}</dt>
-                  <dd>{item.value}</dd>
-                </div>
-              ))}
-            </dl>
+            <div className="about__intro-copy">
+              <p className="about__body">{ABOUT.body}</p>
 
-            <div className="about__cta">
-              <a href="#impact" className="btn btn--ghost btn--sm">
-                See the numbers
-                <i className="fa-solid fa-arrow-right" aria-hidden="true" />
-              </a>
+              <motion.dl
+                className="about__highlights"
+                variants={stagger(0.09, 0.15)}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.4 }}
+              >
+                {ABOUT.highlights.map((item) => (
+                  <motion.div
+                    key={item.label}
+                    className="about__highlight"
+                    variants={riseIn}
+                    whileHover={{ y: -3 }}
+                  >
+                    <span className="about__highlight-icon" aria-hidden="true">
+                      <i className={item.icon} />
+                    </span>
+                    <dt>{item.label}</dt>
+                    <dd>{item.value}</dd>
+                  </motion.div>
+                ))}
+              </motion.dl>
+
+              <div className="about__cta">
+                <a href="#impact" className="btn btn--ghost btn--sm">
+                  See the numbers
+                  <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+                </a>
+              </div>
             </div>
+
+            <CodeCard highlights={ABOUT.highlights} />
           </div>
 
           <div className="about__detail panel">
@@ -113,6 +203,7 @@ export default function About() {
                     tabIndex={isActive ? 0 : -1}
                     onClick={() => setActiveTab(tab.id)}
                   >
+                    <i className={`${tab.icon} tabs__icon`} aria-hidden="true" />
                     {tab.label}
                     {isActive && (
                       <motion.span

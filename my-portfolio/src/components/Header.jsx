@@ -3,7 +3,7 @@ import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from 
 import { EASE } from '../lib/motion';
 import { NAV_LINKS } from '../data/portfolio';
 import useScrollSpy from '../hooks/useScrollSpy';
-import useTheme from '../theme/useTheme';
+import ThemePicker from './ThemePicker';
 import './Header.css';
 
 const SECTION_IDS = NAV_LINKS.map((link) => link.id);
@@ -13,7 +13,6 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollRequest, setScrollRequest] = useState(0);
   const pendingTarget = useRef(null);
-  const { theme, toggleTheme } = useTheme();
   const activeId = useScrollSpy(SECTION_IDS);
   const prefersReducedMotion = useReducedMotion();
 
@@ -132,27 +131,7 @@ export default function Header() {
         </nav>
 
         <div className="site-header__actions">
-          <button
-            type="button"
-            className="icon-btn theme-toggle"
-            onClick={toggleTheme}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
-            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.span
-                key={theme}
-                className="theme-toggle__icon"
-                initial={{ opacity: 0, rotate: -35, scale: 0.7 }}
-                animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                exit={{ opacity: 0, rotate: 35, scale: 0.7 }}
-                transition={{ duration: 0.22, ease: EASE }}
-                aria-hidden="true"
-              >
-                <i className={theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon'} />
-              </motion.span>
-            </AnimatePresence>
-          </button>
+          <ThemePicker />
 
           <a
             href="#contact"

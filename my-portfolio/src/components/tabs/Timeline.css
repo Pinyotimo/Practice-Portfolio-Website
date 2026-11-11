@@ -1,0 +1,439 @@
+/* ==========================================================================
+   Experience & Education tabs — timeline, hackathon / training / cert cards
+   ========================================================================== */
+
+.exp {
+    display: grid;
+    gap: 2rem;
+}
+
+.tab-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 1rem;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.tab-heading > i {
+    color: var(--accent-ink);
+    font-size: 0.9em;
+}
+
+.tab-heading::after {
+    content: '';
+    flex: 1;
+    order: 2;
+    height: 1px;
+    background: var(--line);
+}
+
+.tab-heading__count {
+    order: 3;
+    padding: 0.05rem 0.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    font-weight: 500;
+}
+
+/* --- Timeline -------------------------------------------------------------- */
+
+.xp-timeline {
+    position: relative;
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* The rail, fading out toward the oldest entry */
+.xp-timeline::before {
+    content: '';
+    position: absolute;
+    top: 18px;
+    bottom: 18px;
+    left: 17px;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(var(--accent), var(--line) 85%);
+}
+
+.xp-timeline__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 0.9rem;
+    align-items: start;
+}
+
+.xp-timeline__marker {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 2px solid var(--line-strong);
+    border-radius: 50%;
+    background: var(--bg-elev);
+    color: var(--ink-2);
+    font-size: 0.8rem;
+    transition: transform var(--dur) var(--ease-spring);
+}
+
+.xp-timeline__item--award .xp-timeline__marker {
+    border-color: var(--rust);
+    color: var(--rust);
+}
+
+.xp-timeline__item.is-ongoing .xp-timeline__marker {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--ink-on-accent);
+}
+
+/* Current entries pulse */
+.xp-timeline__item.is-ongoing .xp-timeline__marker::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    animation: timeline-pulse 2.2s var(--ease-out) infinite;
+}
+
+@keyframes timeline-pulse {
+    from { transform: scale(0.8); opacity: 0.7; }
+    to   { transform: scale(1.35); opacity: 0; }
+}
+
+.xp-timeline__item:hover .xp-timeline__marker {
+    transform: scale(1.1);
+}
+
+.xp-timeline__card {
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--bg-elev);
+    transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out),
+                transform var(--dur) var(--ease-out);
+}
+
+.xp-timeline__item:hover .xp-timeline__card {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-hard);
+    transform: translateX(3px);
+}
+
+.xp-timeline__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.6rem;
+    margin-bottom: 0.3rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+}
+
+.xp-timeline__period {
+    color: var(--accent-ink);
+    font-weight: 500;
+}
+
+.xp-timeline__duration {
+    color: var(--ink-3);
+}
+
+.xp-timeline__duration::before {
+    content: '\00B7';
+    margin-right: 0.6rem;
+}
+
+.xp-timeline__now {
+    padding: 0.05rem 0.45rem;
+    border-radius: var(--r-pill);
+    background: var(--accent-soft-2);
+    color: var(--accent-ink);
+    font-weight: 600;
+}
+
+.xp-timeline__kind {
+    margin-left: auto;
+    padding: 0.05rem 0.45rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    color: var(--ink-3);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.xp-timeline__kind--award {
+    border-color: transparent;
+    background: var(--rust-soft);
+    color: var(--rust);
+}
+
+.xp-timeline__title {
+    color: var(--ink);
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.xp-timeline__title span {
+    color: var(--ink-3);
+    font-weight: 400;
+}
+
+.xp-timeline__desc {
+    margin-top: 0.3rem;
+    color: var(--ink-2);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+}
+
+@media (max-width: 479px) {
+    .xp-timeline__kind {
+        margin-left: 0;
+    }
+}
+
+/* --- Hackathon & training cards ------------------------------------------ */
+
+.hack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: 0.7rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.hack-card,
+.edu-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--bg-elev);
+    transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out),
+                transform var(--dur) var(--ease-out);
+}
+
+.hack-card:hover,
+.edu-card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-hard);
+    transform: translateY(-2px);
+}
+
+/* Placed entries get a warm top edge */
+.hack-card--placed {
+    border-top: 3px solid var(--rust);
+}
+
+.hack-card__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+}
+
+.hack-card__event {
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.hack-card__result {
+    padding: 0.1rem 0.5rem;
+    border-radius: var(--r-pill);
+    background: var(--rust-soft);
+    color: var(--rust);
+    font-size: var(--fs-micro);
+    font-weight: 600;
+}
+
+.hack-card__project {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.hack-card__desc {
+    color: var(--ink-2);
+    font-size: var(--fs-xs);
+    line-height: 1.6;
+}
+
+.hack-card__foot {
+    display: grid;
+    gap: 0.55rem;
+    margin-top: auto;
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--line);
+}
+
+/* Training cards: icon beside the copy */
+.edu-card {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.8rem;
+}
+
+.edu-card__icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--r-sm);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+}
+
+.edu-card__body {
+    display: grid;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+.edu-card__school {
+    color: var(--ink-2);
+    font-size: var(--fs-sm);
+}
+
+/* --- Certificates ---------------------------------------------------------- */
+
+.cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 13.5rem), 1fr));
+    gap: 0.7rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cert-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1rem;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background:
+        radial-gradient(circle at 100% 0, var(--accent-soft-2), transparent 55%),
+        var(--bg-elev);
+    transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out),
+                transform var(--dur) var(--ease-out);
+}
+
+.cert-card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-hard);
+    transform: translateY(-2px);
+}
+
+.cert-card__ribbon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 0.25rem;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--ink-on-accent);
+    font-size: 0.85rem;
+    box-shadow: 0 0 0 4px var(--accent-soft);
+    transition: transform var(--dur) var(--ease-spring);
+}
+
+.cert-card:hover .cert-card__ribbon {
+    transform: rotate(-12deg) scale(1.08);
+}
+
+.cert-card__area {
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.cert-card__title {
+    color: var(--ink);
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.cert-btn {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-pill);
+    color: var(--ink);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    text-decoration: none;
+    transition: background var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out),
+                color var(--dur) var(--ease-out);
+}
+
+.cert-card:hover .cert-btn,
+.cert-btn:hover {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--ink-on-accent);
+}
+
+/* Phones: compact rows — badge on the left, title and link beside it */
+@media (max-width: 559px) {
+    .cert-grid {
+        gap: 0.5rem;
+    }
+
+    .cert-card {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-areas:
+            'ribbon area'
+            'ribbon title'
+            'ribbon btn';
+        gap: 0.15rem 0.8rem;
+        padding: 0.8rem;
+    }
+
+    .cert-card__ribbon { grid-area: ribbon; align-self: start; margin: 0.15rem 0 0; }
+    .cert-card__area   { grid-area: area; }
+    .cert-card__title  { grid-area: title; font-size: var(--fs-sm); }
+
+    .cert-btn {
+        grid-area: btn;
+        justify-self: start;
+        margin-top: 0.35rem;
+        padding: 0.25rem 0.65rem;
+    }
+}

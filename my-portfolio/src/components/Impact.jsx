@@ -4,31 +4,40 @@ import StatTile from './charts/StatTile';
 import TimelineChart from './charts/TimelineChart';
 import StackChart from './charts/StackChart';
 import CategoryBarChart from './charts/CategoryBarChart';
+import { ALL_CERTIFICATES, CERT_AREAS, EXPERIENCE, HACKATHONS, PROJECTS } from '../data/portfolio';
 import './Impact.css';
+
+/* Every figure is counted from the data the rest of the page renders, so
+   the section can never drift out of step with it. */
+const live = PROJECTS.filter((p) => p.href).length;
+const placed = HACKATHONS.filter((h) => h.result);
+const ongoing = EXPERIENCE.filter((e) => e.ongoing).length;
 
 const STATS = [
   {
-    value: '6',
-    label: 'Projects shipped',
-    note: 'Live, linked, and still running',
+    value: PROJECTS.length,
+    label: 'Projects built',
+    note: `${live} live or open source — web, AI, automation and infrastructure`,
     icon: 'fa-solid fa-rocket',
   },
   {
-    value: '2',
-    label: 'Hackathon podiums',
-    note: 'Runner-up and finalist',
+    value: HACKATHONS.length,
+    label: 'Hackathon builds',
+    note: placed.length
+      ? `${placed.map((h) => h.result).join(' and ')} — ${placed.length} placed`
+      : 'Built under time pressure, end to end',
     icon: 'fa-solid fa-trophy',
   },
   {
-    value: '9',
+    value: ALL_CERTIFICATES.length,
     label: 'Certifications',
-    note: 'Across five disciplines',
+    note: `Across ${CERT_AREAS.length} areas`,
     icon: 'fa-solid fa-certificate',
   },
   {
-    value: '5',
+    value: EXPERIENCE.length,
     label: 'Roles & engagements',
-    note: 'Internships, freelance and full-time',
+    note: `${ongoing} ongoing — internships, freelance, hackathons and roles`,
     icon: 'fa-solid fa-briefcase',
   },
 ];
@@ -56,8 +65,8 @@ export default function Impact() {
         </div>
 
         <div className="stat-row">
-          {STATS.map((stat) => (
-            <StatTile key={stat.label} {...stat} />
+          {STATS.map((stat, index) => (
+            <StatTile key={stat.label} index={index} {...stat} />
           ))}
         </div>
 

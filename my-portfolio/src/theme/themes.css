@@ -1,0 +1,206 @@
+/* ==========================================================================
+   Extra palettes
+   Paper (light) and Midnight (dark) live in index.css. Each block below is a
+   complete token set — every theme is selected for its own surface, not
+   derived from another. Registry: src/theme/themes.js.
+   ========================================================================== */
+
+/* --- Ocean — deep teal night, aqua accent, apricot highlight (dark) ------ */
+:root[data-theme="ocean"] {
+    color-scheme: dark;
+
+    --bg:              #071a22;
+    --bg-elev:         #0c2430;
+    --bg-soft:         #102c39;
+    --bg-sunken:       #04121a;
+    --bg-inset:        rgba(255, 255, 255, 0.04);
+    --bg-scrim:        rgba(2, 8, 12, 0.7);
+
+    --ink:             #e6f4f1;
+    --ink-2:           #a9c4c6;
+    --ink-3:           #7a979b;
+    --ink-on-accent:   #04211d;
+
+    --line:            #1b3a47;
+    --line-strong:     #2a5161;
+    --line-faint:      #12303c;
+
+    --accent:          #2dd4bf;
+    --accent-hover:    #5eead4;
+    --accent-ink:      #5eead4;
+    --accent-soft:     rgba(45, 212, 191, 0.13);
+    --accent-soft-2:   rgba(45, 212, 191, 0.22);
+    --rust:            #f4a259;
+    --rust-soft:       rgba(244, 162, 89, 0.13);
+
+    --shadow-hard:     3px 3px 0 rgba(0, 0, 0, 0.42);
+    --shadow-hard-lg:  5px 5px 0 rgba(0, 0, 0, 0.46);
+    --shadow-soft:     0 1px 2px rgba(0, 0, 0, 0.5), 0 12px 28px -16px rgba(0, 0, 0, 0.7);
+    --shadow-lift:     0 2px 6px rgba(0, 0, 0, 0.55), 0 20px 42px -20px rgba(0, 0, 0, 0.85);
+
+    --chart-1:         #2dd4bf;
+    --chart-2:         #f4a259;
+    --chart-3:         #8b9cff;
+    --chart-1-ink:     #04211d;
+    --chart-2-ink:     #2a1503;
+    --chart-3-ink:     #0b1033;
+    --chart-track:     #123a40;
+    --chart-muted:     #1f6b66;
+    --chart-grid:      #163240;
+    --chart-axis:      #2a4c5a;
+}
+
+/* --- Forest — sage paper, pine accent, copper highlight (light) ---------- */
+:root[data-theme="forest"] {
+    color-scheme: light;
+
+    --bg:              #eef2ea;
+    --bg-elev:         #fbfdf9;
+    --bg-soft:         #e3e9dd;
+    --bg-sunken:       #d9e1d2;
+    --bg-inset:        rgba(22, 36, 26, 0.04);
+    --bg-scrim:        rgba(16, 28, 20, 0.55);
+
+    --ink:             #16241a;
+    --ink-2:           #475a4c;
+    --ink-3:           #6c7d72;
+    --ink-on-accent:   #ffffff;
+
+    --line:            #cfd9c9;
+    --line-strong:     #a9b8a2;
+    --line-faint:      #dfe6d9;
+
+    --accent:          #2f6b3f;
+    --accent-hover:    #24532f;
+    --accent-ink:      #2f6b3f;
+    --accent-soft:     rgba(47, 107, 63, 0.09);
+    --accent-soft-2:   rgba(47, 107, 63, 0.16);
+    --rust:            #b05e22;
+    --rust-soft:       rgba(176, 94, 34, 0.10);
+
+    --shadow-hard:     3px 3px 0 rgba(22, 36, 26, 0.07);
+    --shadow-hard-lg:  5px 5px 0 rgba(22, 36, 26, 0.08);
+    --shadow-soft:     0 1px 2px rgba(22, 36, 26, 0.04), 0 10px 26px -14px rgba(22, 36, 26, 0.18);
+    --shadow-lift:     0 2px 4px rgba(22, 36, 26, 0.05), 0 18px 38px -18px rgba(22, 36, 26, 0.30);
+
+    --chart-1:         #2f6b3f;
+    --chart-2:         #d9822b;
+    --chart-3:         #2f7fa3;
+    --chart-1-ink:     #ffffff;
+    --chart-2-ink:     #1f0f02;
+    --chart-3-ink:     #ffffff;
+    --chart-track:     #d3e3d2;
+    --chart-muted:     #93b59b;
+    --chart-grid:      #dbe2d5;
+    --chart-axis:      #b8c3b1;
+}
+
+/* --- Ember — charcoal brown, flame accent, gold highlight (dark) -------- */
+:root[data-theme="ember"] {
+    color-scheme: dark;
+
+    --bg:              #16100e;
+    --bg-elev:         #1f1714;
+    --bg-soft:         #261c18;
+    --bg-sunken:       #0f0a09;
+    --bg-inset:        rgba(255, 240, 230, 0.04);
+    --bg-scrim:        rgba(8, 4, 3, 0.7);
+
+    --ink:             #f6ece6;
+    --ink-2:           #c9b6ab;
+    --ink-3:           #9a877d;
+    --ink-on-accent:   #1a0b04;
+
+    --line:            #382a24;
+    --line-strong:     #4c3a32;
+    --line-faint:      #2a201c;
+
+    --accent:          #ff7a45;
+    --accent-hover:    #ff9a6e;
+    --accent-ink:      #ff9a6e;
+    --accent-soft:     rgba(255, 122, 69, 0.13);
+    --accent-soft-2:   rgba(255, 122, 69, 0.22);
+    --rust:            #f2c14e;
+    --rust-soft:       rgba(242, 193, 78, 0.13);
+
+    --shadow-hard:     3px 3px 0 rgba(0, 0, 0, 0.45);
+    --shadow-hard-lg:  5px 5px 0 rgba(0, 0, 0, 0.5);
+    --shadow-soft:     0 1px 2px rgba(0, 0, 0, 0.5), 0 12px 28px -16px rgba(0, 0, 0, 0.75);
+    --shadow-lift:     0 2px 6px rgba(0, 0, 0, 0.55), 0 20px 42px -20px rgba(0, 0, 0, 0.9);
+
+    --chart-1:         #ff7a45;
+    --chart-2:         #f2c14e;
+    --chart-3:         #4fb3a9;
+    --chart-1-ink:     #1a0b04;
+    --chart-2-ink:     #241a02;
+    --chart-3-ink:     #04201d;
+    --chart-track:     #3a2219;
+    --chart-muted:     #7a3f28;
+    --chart-grid:      #2c211d;
+    --chart-axis:      #4a3a33;
+}
+
+/* --- Lavender — lilac paper, violet accent, rose highlight (light) ------- */
+:root[data-theme="lavender"] {
+    color-scheme: light;
+
+    --bg:              #f3f1f8;
+    --bg-elev:         #ffffff;
+    --bg-soft:         #ebe7f4;
+    --bg-sunken:       #e2dcef;
+    --bg-inset:        rgba(30, 22, 52, 0.04);
+    --bg-scrim:        rgba(24, 18, 40, 0.55);
+
+    --ink:             #1d1830;
+    --ink-2:           #4f4866;
+    --ink-3:           #756e8e;
+    --ink-on-accent:   #ffffff;
+
+    --line:            #dcd6ea;
+    --line-strong:     #bdb4d6;
+    --line-faint:      #e7e3f1;
+
+    --accent:          #6a4fc9;
+    --accent-hover:    #5539ad;
+    --accent-ink:      #5f44bf;
+    --accent-soft:     rgba(106, 79, 201, 0.09);
+    --accent-soft-2:   rgba(106, 79, 201, 0.16);
+    --rust:            #c43d70;
+    --rust-soft:       rgba(196, 61, 112, 0.10);
+
+    --shadow-hard:     3px 3px 0 rgba(30, 22, 52, 0.07);
+    --shadow-hard-lg:  5px 5px 0 rgba(30, 22, 52, 0.08);
+    --shadow-soft:     0 1px 2px rgba(30, 22, 52, 0.04), 0 10px 26px -14px rgba(30, 22, 52, 0.2);
+    --shadow-lift:     0 2px 4px rgba(30, 22, 52, 0.05), 0 18px 38px -18px rgba(30, 22, 52, 0.32);
+
+    --chart-1:         #6a4fc9;
+    --chart-2:         #e0719a;
+    --chart-3:         #2a9d8f;
+    --chart-1-ink:     #ffffff;
+    --chart-2-ink:     #2a0715;
+    --chart-3-ink:     #ffffff;
+    --chart-track:     #e2dbf6;
+    --chart-muted:     #b3a5e3;
+    --chart-grid:      #e4e0ee;
+    --chart-axis:      #c4bdd6;
+}
+
+/* ==========================================================================
+   Theme switch — the new palette grows as a circle from the picker.
+   --vt-x / --vt-y / --vt-r are set on <html> by ThemeProvider.
+   ========================================================================== */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+    animation: theme-reveal 620ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@keyframes theme-reveal {
+    from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0)); }
+    to   { clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 50%) var(--vt-y, 0)); }
+}
