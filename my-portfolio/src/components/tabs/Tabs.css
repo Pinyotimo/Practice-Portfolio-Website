@@ -845,25 +845,17 @@
     color: var(--rust);
 }
 
-/* Phones: one swipeable row of filter chips instead of a tall wrapped block */
+/* Phones: wrap the chips so every filter is on screen. A sideways scroller
+   hid the last few options from anyone who didn't think to swipe. */
 @media (max-width: 639px) {
     .skills__filters {
-        flex-wrap: nowrap;
-        margin-inline: -1.25rem;
-        padding: 0.15rem 1.25rem;
-        overflow-x: auto;
-        scroll-snap-type: x proximity;
-        scrollbar-width: none;
-        -webkit-mask-image: linear-gradient(to right, transparent, #000 1rem, #000 calc(100% - 1.5rem), transparent);
-        mask-image: linear-gradient(to right, transparent, #000 1rem, #000 calc(100% - 1.5rem), transparent);
-    }
-
-    .skills__filters::-webkit-scrollbar {
-        display: none;
+        gap: 0.35rem;
     }
 
     .skills__filter {
-        flex: none;
-        scroll-snap-align: start;
+        flex: 1 1 auto;
+        justify-content: center;
+        min-height: 38px;
+        padding: 0.3rem 0.65rem;
     }
 }

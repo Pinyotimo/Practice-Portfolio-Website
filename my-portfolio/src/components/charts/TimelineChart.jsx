@@ -61,7 +61,7 @@ export default function TimelineChart() {
 
   const table = (
     <div className="chart__table-wrap">
-      <table className="chart__table">
+      <table className="chart__table chart__table--stack">
         <caption className="sr-only">Roles, companies and durations</caption>
         <thead>
           <tr>
@@ -75,9 +75,9 @@ export default function TimelineChart() {
           {rows.map((row) => (
             <tr key={row.id}>
               <th scope="row">{row.role}</th>
-              <td>{row.company}</td>
-              <td>{row.period}</td>
-              <td>
+              <td data-label="Company">{row.company}</td>
+              <td data-label="Period">{row.period}</td>
+              <td data-label="Length">
                 {row.months} {row.months === 1 ? 'month' : 'months'}
               </td>
             </tr>

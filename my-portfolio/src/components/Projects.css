@@ -292,6 +292,78 @@
     }
 }
 
+/* --- "Up next" teaser under the slide ----------------------------------- */
+
+.projects__next {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: var(--sp-3);
+    padding: 0.7rem 1rem;
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--r-md);
+    background: transparent;
+    color: var(--ink-2);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color var(--dur) var(--ease-out),
+                background-color var(--dur) var(--ease-out),
+                color var(--dur) var(--ease-out);
+}
+
+.projects__next:hover,
+.projects__next:focus-visible {
+    border-style: solid;
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+}
+
+.projects__next-hint {
+    flex: none;
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+}
+
+.projects__next-title {
+    min-width: 0;
+    overflow: hidden;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.projects__next-type {
+    flex: none;
+    margin-left: auto;
+    color: var(--ink-3);
+    font-size: var(--fs-xs);
+}
+
+.projects__next i {
+    flex: none;
+    font-size: 0.8rem;
+    transition: transform var(--dur) var(--ease-spring);
+}
+
+.projects__next:hover i {
+    transform: translateX(3px);
+}
+
+@media (max-width: 639px) {
+    .projects__next-type {
+        display: none;
+    }
+
+    .projects__next i {
+        margin-left: auto;
+    }
+}
+
 /* --- Mobile pager --------------------------------------------------------- */
 
 .projects__pager {

@@ -125,11 +125,16 @@
 /* --- Table view ------------------------------------------------------------ */
 
 .chart__table-wrap {
+    max-width: 100%;
     overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
 }
 
 .chart__table {
     width: 100%;
+    min-width: 32rem;
     border-collapse: collapse;
     font-size: var(--fs-xs);
 }
@@ -164,6 +169,79 @@
 .chart__table tbody tr:last-child th,
 .chart__table tbody tr:last-child td {
     border-bottom: 0;
+}
+
+@media (max-width: 559px) {
+    /* Fit the screen instead of forcing a sideways scroll */
+    .chart__table {
+        min-width: 0;
+    }
+
+    .chart__table th,
+    .chart__table td {
+        padding: 0.45rem 0.55rem;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .chart__table td {
+        text-align: right;
+    }
+
+    .chart__table thead th:not(:first-child) {
+        text-align: right;
+    }
+
+    /* Wide tables: each row becomes a labelled card */
+    .chart__table--stack thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+
+    .chart__table--stack,
+    .chart__table--stack tbody,
+    .chart__table--stack tr {
+        display: block;
+    }
+
+    .chart__table--stack tr {
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--line-faint);
+    }
+
+    .chart__table--stack tbody tr:last-child {
+        border-bottom: 0;
+    }
+
+    .chart__table--stack tbody th,
+    .chart__table--stack td {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 1rem;
+        padding: 0.2rem 0;
+        border-bottom: 0;
+    }
+
+    .chart__table--stack tbody th {
+        padding-bottom: 0.35rem;
+        font-size: var(--fs-sm, 0.875rem);
+    }
+
+    .chart__table--stack td::before {
+        content: attr(data-label);
+        flex-shrink: 0;
+        color: var(--ink-3);
+        font-family: var(--font-mono);
+        font-size: var(--fs-micro);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        text-align: left;
+    }
 }
 
 /* --- Stat tiles ------------------------------------------------------------ */

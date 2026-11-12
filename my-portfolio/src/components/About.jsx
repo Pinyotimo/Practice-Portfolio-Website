@@ -100,8 +100,29 @@ function CodeCard({ highlights }) {
 
 export default function About() {
   const [activeTab, setActiveTab] = useState(TABS[0].id);
+  const [visited, setVisited] = useState(() => new Set([TABS[0].id]));
   const tabRefs = useRef([]);
+  const tablistRef = useRef(null);
   const ActivePanel = TAB_COMPONENTS[activeTab];
+  const activeIndex = TABS.findIndex((t) => t.id === activeTab);
+  const prevTab = TABS[activeIndex - 1];
+  const nextTab = TABS[activeIndex + 1];
+  const unseen = TABS.length - visited.size;
+
+  const selectTab = (id) => {
+    setActiveTab(id);
+    setVisited((prev) => (prev.has(id) ? prev : new Set(prev).add(id)));
+  };
+
+  /* Pager at the bottom of a panel: switch tab, then bring the tab bar back
+     into view so the new section starts from its top. */
+  const stepTo = (tab) => {
+    selectTab(tab.id);
+    const bar = tablistRef.current;
+    if (bar && bar.getBoundingClientRect().top < 0) {
+      bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   const onKeyDown = (event) => {
     const lastIndex = TABS.length - 1;
@@ -116,7 +137,7 @@ export default function About() {
 
     event.preventDefault();
     const nextId = TABS[nextIndex].id;
-    setActiveTab(nextId);
+    selectTab(nextId);
     tabRefs.current[nextIndex]?.focus();
   };
 
@@ -181,6 +202,7 @@ export default function About() {
 
           <div className="about__detail panel">
             <div
+              ref={tablistRef}
               className="tabs"
               role="tablist"
               aria-label="About me, by section"
@@ -188,6 +210,7 @@ export default function About() {
             >
               {TABS.map((tab, index) => {
                 const isActive = activeTab === tab.id;
+                const isNew = !visited.has(tab.id);
                 return (
                   <button
                     key={tab.id}
@@ -195,16 +218,19 @@ export default function About() {
                       tabRefs.current[index] = node;
                     }}
                     id={`tab-${tab.id}`}
-                    className={`tabs__tab${isActive ? ' is-active' : ''}`}
+                    className={`tabs__tab${isActive ? ' is-active' : ''}${isNew ? ' is-new' : ''}`}
                     role="tab"
                     type="button"
                     aria-selected={isActive}
                     aria-controls={`panel-${tab.id}`}
                     tabIndex={isActive ? 0 : -1}
-                    onClick={() => setActiveTab(tab.id)}
+                    onClick={() => selectTab(tab.id)}
                   >
                     <i className={`${tab.icon} tabs__icon`} aria-hidden="true" />
-                    {tab.label}
+                    <span className="tabs__label">{tab.label}</span>
+                    {isNew && (
+                      <span className="tabs__new" aria-hidden="true" />
+                    )}
                     {isActive && (
                       <motion.span
                         layoutId="tab-underline"
@@ -234,6 +260,67 @@ export default function About() {
                 </motion.div>
               </AnimatePresence>
             </div>
+
+            <nav className="tabs__pager" aria-label="About sections">
+              {prevTab ? (
+                <button
+                  type="button"
+                  className="tabs__step tabs__step--prev"
+                  onClick={() => stepTo(prevTab)}
+                >
+                  <i className="fa-solid fa-arrow-left" aria-hidden="true" />
+                  <span className="tabs__step-text">
+                    <span className="tabs__step-hint">Previous</span>
+                    <span className="tabs__step-label">{prevTab.label}</span>
+                  </span>
+                </button>
+              ) : (
+                <span className="tabs__step-spacer" />
+              )}
+
+              <span className="tabs__progress" aria-live="polite">
+                <span className="tabs__progress-dots" aria-hidden="true">
+                  {TABS.map((tab) => (
+                    <span
+                      key={tab.id}
+                      className={`tabs__progress-dot${tab.id === activeTab ? ' is-active' : ''}${
+                        visited.has(tab.id) ? ' is-seen' : ''
+                      }`}
+                    />
+                  ))}
+                </span>
+                <span className="tabs__progress-text">
+                  {activeIndex + 1} of {TABS.length}
+                  {unseen > 0 && ` · ${unseen} more to explore`}
+                </span>
+              </span>
+
+              {nextTab ? (
+                <button
+                  type="button"
+                  className="tabs__step tabs__step--next"
+                  onClick={() => stepTo(nextTab)}
+                >
+                  <span className="tabs__step-text">
+                    <span className="tabs__step-hint">Up next</span>
+                    <span className="tabs__step-label">{nextTab.label}</span>
+                  </span>
+                  <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="tabs__step tabs__step--next"
+                  onClick={() => stepTo(TABS[0])}
+                >
+                  <span className="tabs__step-text">
+                    <span className="tabs__step-hint">Start over</span>
+                    <span className="tabs__step-label">{TABS[0].label}</span>
+                  </span>
+                  <i className="fa-solid fa-rotate-left" aria-hidden="true" />
+                </button>
+              )}
+            </nav>
           </div>
         </div>
       </div>

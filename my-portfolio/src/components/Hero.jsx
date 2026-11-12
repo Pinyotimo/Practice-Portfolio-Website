@@ -17,27 +17,48 @@ const rise = (delay) => ({
   show: { opacity: 1, y: 0, transition: { duration: 0.55, delay, ease: EASE } },
 });
 
-/* One pill per tool in HERO.stack. Every 5th is accent-filled, every 7th
-   dark, so the pile reads as texture rather than a wall of identical chips. */
+/* Keep the pile focused on core languages and infrastructure tools. */
 const PILL_VARIANTS = (i) => {
   if (i % 5 === 0) return 'shape-hero__pill shape-hero__pill--accent';
   if (i % 7 === 3) return 'shape-hero__pill shape-hero__pill--dark';
   return 'shape-hero__pill';
 };
 
-const HERO_SHAPES = [
-  ...HERO.stack.map((tech, i) => ({
-    id: `tech-${tech}`,
-    content: tech,
-    className: PILL_VARIANTS(i),
-  })),
-  { id: 'dot-blue', className: 'shape-hero__dot shape-hero__dot--blue' },
-  { id: 'dot-rust', className: 'shape-hero__dot shape-hero__dot--rust' },
-  { id: 'dot-green', className: 'shape-hero__dot shape-hero__dot--green' },
+/* Roles go first: the pile hides whatever doesn't fit, starting from the end. */
+const HERO_ROLES = [
+  'Full-stack web development',
+  'Automation & AI integration',
+  'Payment integration',
 ];
 
-/* Share of the hero the pile may cover. The whole stack is ~60 pills, so
-   phones (less area, smaller pills via CSS) need a higher cap to fit them. */
+const ROLE_SHAPES = HERO_ROLES.map((role) => ({
+  id: `role-${role}`,
+  content: role,
+  className: 'shape-hero__pill shape-hero__pill--role',
+}));
+
+const TECH_SHAPES = [
+  'JavaScript',
+  'TypeScript',
+  'Python',
+  'Java',
+  'C++',
+  'PHP',
+  'HTML',
+  'CSS',
+  'GitHub',
+  'Docker',
+  'Kubernetes',
+  'React',
+].map((tech, i) => ({
+  id: `tech-${tech}`,
+  content: tech,
+  className: PILL_VARIANTS(i),
+}));
+
+const HERO_SHAPES = [...ROLE_SHAPES, ...TECH_SHAPES];
+
+/* Phones need a little more room because the pills are smaller via CSS. */
 const pileFill = () =>
   typeof window !== 'undefined' && window.matchMedia('(max-width: 899px)').matches ? 0.5 : 0.32;
 
@@ -205,14 +226,7 @@ export default function Hero() {
 
           <motion.h1 className="hero__title" variants={rise(0.16)}>
             {HERO.heading} <span className="hero__title-accent">{HERO.highlight}</span>
-            <motion.span
-              className="hero__wave"
-              aria-hidden="true"
-              animate={{ rotate: [0, 16, -8, 14, -4, 10, 0] }}
-              transition={{ duration: 1.6, delay: 1.1, ease: 'easeInOut' }}
-            >
-              👋
-            </motion.span>
+            <HeroSpark />
           </motion.h1>
 
           <motion.div className="hero__role-wrap" variants={rise(0.2)}>
@@ -266,5 +280,101 @@ export default function Hero() {
       </div>
 
     </motion.section>
+  );
+}
+
+/* Four-point star: long vertical and horizontal points with pinched sides */
+const STAR_PATH =
+  'M12 0C12.9 7.2 16.8 11.1 24 12C16.8 12.9 12.9 16.8 12 24C11.1 16.8 7.2 12.9 0 12C7.2 11.1 11.1 7.2 12 0Z';
+
+const SPARK_PARTICLES = Array.from({ length: 8 }, (_, index) => {
+  const angle = (index / 8) * Math.PI * 2;
+  const distance = index % 2 ? 1.05 : 1.4;
+  return {
+    x: `${Math.cos(angle) * distance}em`,
+    y: `${Math.sin(angle) * distance}em`,
+    size: index % 2 ? 4 : 6,
+  };
+});
+
+/**
+ * Sparkle beside the name. It spins in, bursts a ring of particles once,
+ * then idles with a slow breathing twinkle and a small companion star.
+ */
+function HeroSpark() {
+  const reduceMotion = useReducedMotion();
+  const ENTER = 1.1;
+
+  if (reduceMotion) {
+    return (
+      <span className="hero__spark" aria-hidden="true">
+        <svg className="hero__spark-star" viewBox="0 0 24 24">
+          <path d={STAR_PATH} />
+        </svg>
+      </span>
+    );
+  }
+
+  return (
+    <span className="hero__spark" aria-hidden="true">
+      {SPARK_PARTICLES.map((particle, index) => (
+        <motion.span
+          key={index}
+          className="hero__spark-particle"
+          style={{ width: particle.size, height: particle.size }}
+          initial={{ x: 0, y: 0, scale: 0, opacity: 0 }}
+          animate={{
+            x: particle.x,
+            y: particle.y,
+            scale: [0, 1, 0],
+            opacity: [0, 1, 0],
+          }}
+          transition={{ duration: 0.9, delay: ENTER + 0.15, ease: [0.22, 0.61, 0.36, 1] }}
+        />
+      ))}
+
+      <motion.span
+        className="hero__spark-ring"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: [0, 2.2], opacity: [0.7, 0] }}
+        transition={{ duration: 0.8, delay: ENTER + 0.1, ease: 'easeOut' }}
+      />
+
+      <motion.svg
+        className="hero__spark-star"
+        viewBox="0 0 24 24"
+        initial={{ scale: 0, rotate: -180 }}
+        animate={{ scale: 1, rotate: 0 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 14, delay: ENTER }}
+      >
+        <motion.path
+          d={STAR_PATH}
+          animate={{ scale: [1, 0.82, 1], rotate: [0, 45, 90] }}
+          style={{ originX: '50%', originY: '50%' }}
+          transition={{
+            duration: 3.2,
+            delay: ENTER + 0.9,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+      </motion.svg>
+
+      <motion.svg
+        className="hero__spark-mini"
+        viewBox="0 0 24 24"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: [0, 1, 0], opacity: [0, 1, 0], rotate: [0, 90] }}
+        transition={{
+          duration: 1.8,
+          delay: ENTER + 0.6,
+          repeat: Infinity,
+          repeatDelay: 1.4,
+          ease: 'easeInOut',
+        }}
+      >
+        <path d={STAR_PATH} />
+      </motion.svg>
+    </span>
   );
 }

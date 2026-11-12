@@ -26,7 +26,7 @@ export default function StackChart() {
 
   const table = (
     <div className="chart__table-wrap">
-      <table className="chart__table">
+      <table className="chart__table chart__table--stack">
         <caption className="sr-only">Technologies used per project, by discipline</caption>
         <thead>
           <tr>
@@ -44,9 +44,11 @@ export default function StackChart() {
             <tr key={row.id}>
               <th scope="row">{row.title}</th>
               {SERIES.map((series) => (
-                <td key={series.key}>{row.counts[series.key]}</td>
+                <td key={series.key} data-label={series.label}>
+                  {row.counts[series.key]}
+                </td>
               ))}
-              <td>{row.total}</td>
+              <td data-label="Total">{row.total}</td>
             </tr>
           ))}
         </tbody>

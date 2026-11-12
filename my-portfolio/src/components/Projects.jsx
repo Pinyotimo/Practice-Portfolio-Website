@@ -446,6 +446,24 @@ export default function Projects() {
             </div>
 
             {count > 1 && (
+              <button
+                type="button"
+                className="projects__next"
+                onClick={() => go(1)}
+                aria-label={`Next project: ${list[(activeIndex + 1) % count].title}`}
+              >
+                <span className="projects__next-hint">
+                  {activeIndex + 1 === count ? 'Back to start' : 'Up next'}
+                </span>
+                <span className="projects__next-title">
+                  {list[(activeIndex + 1) % count].title}
+                </span>
+                <span className="projects__next-type">{list[(activeIndex + 1) % count].type}</span>
+                <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+              </button>
+            )}
+
+            {count > 1 && (
               <div className="projects__controls">
                 <div className="projects__arrows">
                   <button

@@ -84,6 +84,24 @@
     color: var(--bg);
 }
 
+/* Roles: accent outline with a leading dot so they read apart from tech */
+.shape-hero__pill--role {
+    gap: 0.45em;
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--bg-elev) 80%, var(--accent));
+    color: var(--accent-ink);
+    font-weight: 600;
+}
+
+.shape-hero__pill--role::before {
+    content: '';
+    width: 0.45em;
+    height: 0.45em;
+    flex: none;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
 .shape-hero__dot {
     width: 3.5rem;
     height: 3.5rem;
@@ -523,13 +541,55 @@
     .hero__chip { display: none; }
 }
 
-/* --- Copy: wave, rotating role ------------------------------------------ */
+/* --- Copy: spark, rotating role ------------------------------------------ */
 
-.hero__wave {
-    display: inline-block;
-    margin-left: 0.25em;
-    font-size: 0.8em;
-    transform-origin: 70% 75%;
+.hero__spark {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: 0.7em;
+    height: 0.7em;
+    margin-left: 0.3em;
+    vertical-align: 0.05em;
+}
+
+.hero__spark > * {
+    grid-area: 1 / 1;
+}
+
+.hero__spark-star {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    fill: var(--accent);
+    filter: drop-shadow(0 0 0.12em var(--accent-soft-2));
+}
+
+.hero__spark-mini {
+    position: absolute;
+    top: -0.2em;
+    right: -0.35em;
+    width: 0.32em;
+    height: 0.32em;
+    fill: var(--rust);
+}
+
+.hero__spark-particle {
+    border-radius: 50%;
+    background: var(--accent);
+    pointer-events: none;
+}
+
+.hero__spark-particle:nth-child(even) {
+    background: var(--rust);
+}
+
+.hero__spark-ring {
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
 }
 
 .hero__role {

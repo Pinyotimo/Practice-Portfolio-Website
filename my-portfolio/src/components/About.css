@@ -277,3 +277,238 @@
 .tabs__panel:focus-visible {
     outline-offset: -3px;
 }
+
+/* Clear the sticky header when the pager scrolls back up to the tabs */
+.tabs {
+    scroll-margin-top: calc(var(--header-h) + 0.75rem);
+}
+
+/* --- Unvisited marker ---------------------------------------------------- */
+
+.tabs__new {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.45rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--rust);
+    box-shadow: 0 0 0 2px var(--bg-soft);
+}
+
+.tabs__new::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--rust);
+    animation: tabs-new-pulse 2.2s var(--ease-out) infinite;
+}
+
+@keyframes tabs-new-pulse {
+    from { transform: scale(1); opacity: 0.55; }
+    to   { transform: scale(2.6); opacity: 0; }
+}
+
+/* --- Pager under each panel ---------------------------------------------- */
+
+.tabs__pager {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem clamp(1rem, 3vw, 2rem);
+    border-top: 1px solid var(--line);
+    background: var(--bg-soft);
+}
+
+.tabs__step {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-height: 44px;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--bg-elev);
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: border-color var(--dur) var(--ease-out),
+                color var(--dur) var(--ease-out),
+                box-shadow var(--dur) var(--ease-out);
+}
+
+.tabs__step--prev {
+    justify-self: start;
+    text-align: left;
+}
+
+.tabs__step--next {
+    justify-self: end;
+    text-align: right;
+    border-color: var(--accent);
+    color: var(--accent-ink);
+}
+
+.tabs__step:hover,
+.tabs__step:focus-visible {
+    border-color: var(--accent);
+    color: var(--accent-ink);
+    box-shadow: var(--shadow-hard);
+}
+
+.tabs__step i {
+    font-size: 0.8rem;
+    transition: transform var(--dur) var(--ease-spring);
+}
+
+.tabs__step--next:hover i { transform: translateX(3px); }
+.tabs__step--prev:hover i { transform: translateX(-3px); }
+
+.tabs__step-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.25;
+}
+
+.tabs__step-hint {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+}
+
+.tabs__step-label {
+    overflow: hidden;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tabs__progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.tabs__progress-dots {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.tabs__progress-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--r-pill);
+    background: var(--line-strong);
+    transition: width var(--dur) var(--ease-out),
+                background-color var(--dur) var(--ease-out);
+}
+
+.tabs__progress-dot.is-seen {
+    background: var(--accent-soft-2);
+}
+
+.tabs__progress-dot.is-active {
+    width: 18px;
+    background: var(--accent);
+}
+
+.tabs__progress-text {
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    white-space: nowrap;
+}
+
+/* --- Phones -------------------------------------------------------------- */
+
+@media (max-width: 639px) {
+    /* All six sections visible at once as a 3 x 2 grid of tiles */
+    .tabs {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.35rem;
+        padding: 0.5rem;
+    }
+
+    .tabs__tab {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.3rem;
+        min-height: 62px;
+        padding: 0.55rem 0.3rem;
+        border: 1px solid var(--line);
+        border-radius: var(--r-md);
+        background: var(--bg-elev);
+        font-size: 0.7rem;
+        white-space: normal;
+        text-align: center;
+        transition: color var(--dur) var(--ease-out),
+                    border-color var(--dur) var(--ease-out),
+                    background-color var(--dur) var(--ease-out);
+    }
+
+    .tabs__tab.is-active {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+    }
+
+    .tabs__icon {
+        margin-right: 0;
+        font-size: 1rem;
+    }
+
+    .tabs__label {
+        line-height: 1.2;
+    }
+
+    /* The tile border marks the active tab; the sliding underline is for desktop */
+    .tabs__underline {
+        display: none;
+    }
+
+    .tabs__new {
+        top: 0.4rem;
+        right: 0.4rem;
+        box-shadow: 0 0 0 2px var(--bg-elev);
+    }
+
+    /* Prev / next stretch to full-width tap targets, progress on top */
+    .tabs__pager {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        padding: 0.75rem;
+    }
+
+    .tabs__progress {
+        grid-column: 1 / -1;
+        grid-row: 1;
+    }
+
+    .tabs__step {
+        width: 100%;
+        justify-content: space-between;
+        padding-inline: 0.7rem;
+    }
+
+    /* First tab has no "previous", so "next" takes the full row */
+    .tabs__step-spacer {
+        display: none;
+    }
+
+    .tabs__step-spacer + .tabs__progress + .tabs__step {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tabs__new::after {
+        animation: none;
+    }
+}

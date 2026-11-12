@@ -40,6 +40,18 @@ export default function Contact() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: EASE }}
           >
+            <div className="contact__intro">
+              <span className="contact__status">
+                <span className="contact__status-dot" aria-hidden="true" />
+                Available for new work
+              </span>
+              <h3 className="contact__title">Reach me directly</h3>
+              <p className="contact__text">
+                Prefer a quick call or a WhatsApp message? Pick whichever works
+                best for you.
+              </p>
+            </div>
+
             <ul className="contact__details">
               {CONTACT_DETAILS.map((detail) => {
                 const body = (
@@ -51,6 +63,14 @@ export default function Contact() {
                       <span className="contact__detail-label">{detail.label}</span>
                       <span className="contact__detail-value">{detail.value}</span>
                     </span>
+                    {detail.href && (
+                      <i
+                        className={`contact__detail-arrow fa-solid ${
+                          detail.external ? 'fa-arrow-up-right-from-square' : 'fa-arrow-right'
+                        }`}
+                        aria-hidden="true"
+                      />
+                    )}
                   </>
                 );
 
@@ -112,6 +132,14 @@ export default function Contact() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1, ease: EASE }}
           >
+            <div className="contact__form-head">
+              <h3 className="contact__title">Send a message</h3>
+              <p className="contact__text">
+                Tell me a little about the project and I’ll get back to you
+                within a day.
+              </p>
+            </div>
+
             <form
               action="https://formsubmit.co/steveotieno2012005@gmail.com"
               method="POST"
@@ -186,13 +214,19 @@ export default function Contact() {
                 </span>
               </div>
 
-              <button type="submit" className="btn btn--accent" disabled={isSending}>
-                <i
-                  className={isSending ? 'fa-solid fa-spinner fa-spin' : 'fa-solid fa-paper-plane'}
-                  aria-hidden="true"
-                />
-                {isSending ? 'Sending…' : 'Send message'}
-              </button>
+              <div className="contact__submit">
+                <p className="contact__note">
+                  <i className="fa-solid fa-lock" aria-hidden="true" />
+                  Your details are only used to reply to you.
+                </p>
+                <button type="submit" className="btn btn--accent contact__send" disabled={isSending}>
+                  <i
+                    className={isSending ? 'fa-solid fa-spinner fa-spin' : 'fa-solid fa-paper-plane'}
+                    aria-hidden="true"
+                  />
+                  {isSending ? 'Sending…' : 'Send message'}
+                </button>
+              </div>
             </form>
           </motion.div>
         </div>
