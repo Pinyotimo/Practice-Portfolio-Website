@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { EASE } from '../lib/motion';
 import { HACKATHONS, PROJECTS } from '../data/portfolio';
+import { familyFor, ProjectGlyph } from '../lib/shapes';
+import SectionDecor from './section-decor';
 import './Projects.css';
 import './ProjectsGrid.css';
 
@@ -63,7 +65,7 @@ const displayHost = (href) => {
 };
 
 /* Screenshot in a browser-window frame. `ghost` skips the image (sizer). */
-function ProjectFrame({ project, ghost = false }) {
+function ProjectFrame({ project, ghost = false, glyph = null }) {
   return (
     <div className="projects__window">
       <div className="projects__chrome" aria-hidden="true">
@@ -78,6 +80,7 @@ function ProjectFrame({ project, ghost = false }) {
         </span>
       </div>
       <div className="projects__shot">
+        {glyph}
         {!ghost && (
           <img
             src={project.img}
@@ -153,10 +156,16 @@ function ProjectLink({ project, ghost = false, compact = false }) {
 /* One showcase slide. `ghost` renders an inert, image-free copy used only
    to reserve height (see .projects__sizer). */
 function SlideContent({ project, index, count, ghost = false }) {
+  const family = familyFor(project.title);
+
   return (
     <>
       <div className="projects__media">
-        <ProjectFrame project={project} ghost={ghost} />
+        <ProjectFrame
+          project={project}
+          ghost={ghost}
+          glyph={<ProjectGlyph text={project.title} family={family} className="projects__glyph" />}
+        />
       </div>
 
       <div className="projects__body">
@@ -180,9 +189,11 @@ function SlideContent({ project, index, count, ghost = false }) {
 }
 
 function GridCard({ project, onDetails, index }) {
+  const family = familyFor(project.title);
+
   return (
     <motion.li
-      className="project-card"
+      className="project-card card card--hover"
       layout
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
@@ -190,7 +201,10 @@ function GridCard({ project, onDetails, index }) {
       transition={{ duration: 0.32, delay: Math.min(index, 8) * 0.04, ease: EASE }}
     >
       <div className="project-card__media">
-        <ProjectFrame project={project} />
+        <ProjectFrame
+          project={project}
+          glyph={<ProjectGlyph text={project.title} family={family} className="projects__glyph" />}
+        />
       </div>
       <div className="project-card__body">
         <div className="projects__meta">
@@ -316,6 +330,7 @@ export default function Projects() {
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.6, ease: EASE }}
     >
+      <SectionDecor variant="grid" />
       <div className="container">
         <div className="section-head">
           <div>

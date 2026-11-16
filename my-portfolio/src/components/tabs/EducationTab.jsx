@@ -76,7 +76,7 @@ export default function EducationTab() {
         </h3>
         <motion.ul className="hack-grid" variants={stagger(0.06, 0.15)} initial="hidden" animate="show">
           {TRAINING.map((item) => (
-            <motion.li key={item.bold} className="edu-card" variants={rise}>
+            <motion.li key={item.bold} className="edu-card card card--hover" variants={rise}>
               <span className="edu-card__icon" aria-hidden="true">
                 <i className={item.icon} />
               </span>
@@ -99,7 +99,7 @@ export default function EducationTab() {
         </h3>
         <motion.ul className="cert-grid" variants={stagger(0.05, 0.25)} initial="hidden" animate="show">
           {CERTIFICATIONS.map((cert) => (
-            <motion.li key={cert.text} className="cert-card" variants={rise}>
+            <motion.li key={cert.text} className="cert-card card card--hover" variants={rise}>
               <span className="cert-card__ribbon" aria-hidden="true">
                 <i className={AREA_ICONS[cert.area] ?? 'fa-solid fa-certificate'} />
               </span>

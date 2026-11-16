@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { EASE } from '../lib/motion';
 import { SERVICES } from '../data/portfolio';
+import SectionDecor from './section-decor';
 import './Services.css';
 
 const cardVariants = {
@@ -22,6 +23,7 @@ export default function Services() {
       whileInView="show"
       viewport={{ once: true, amount: 0.1 }}
     >
+      <SectionDecor variant="pool" />
       <div className="container">
         <div className="section-head">
           <div>
@@ -38,9 +40,9 @@ export default function Services() {
           {SERVICES.map((service, index) => (
             <motion.li
               key={service.id}
-              className="service-card"
+              className="service-card card card--glow"
               variants={cardVariants}
-              whileHover={{ y: -4 }}
+              whileHover={{ y: -5 }}
               transition={{ duration: 0.22, ease: EASE }}
             >
               <span className="service-card__index" aria-hidden="true">

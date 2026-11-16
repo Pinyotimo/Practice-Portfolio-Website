@@ -334,6 +334,9 @@ textarea:focus-visible,
 .section {
     position: relative;
     padding-block: clamp(4rem, 8vw, 7.5rem);
+    /* Decorative layers (rings, pools, orbs) bleed past the section box;
+       clip horizontally so they never widen the page. */
+    overflow-x: clip;
 }
 
 .section--soft {
@@ -588,9 +591,9 @@ textarea:focus-visible,
     transform: translateY(0);
 }
 
-/* --------------------------------------------------------------------------
+/* ==========================================================================
    7. Reduced motion
-   -------------------------------------------------------------------------- */
+   ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
     html {
@@ -605,4 +608,219 @@ textarea:focus-visible,
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
+
+    /* A scene must stay fully visible at its resting rotation. */
+    .scene__float {
+        animation: none;
+        transform: translateZ(var(--tz, 40px));
+    }
+}
+
+/* ==========================================================================
+   8. Card system
+   One surface language for every panel on the page: a token-driven surface,
+   an accent spine, a media well and a chip. Components opt in with these
+   classes rather than restating border/radius/shadow.
+   ========================================================================== */
+
+.card {
+    position: relative;
+    isolation: isolate;
+    background:
+        linear-gradient(
+            180deg,
+            color-mix(in srgb, var(--bg-elev) 92%, var(--accent) 8%) 0%,
+            var(--bg-elev) 60%
+        );
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-soft);
+    transition:
+        transform var(--dur) var(--ease-out),
+        box-shadow var(--dur) var(--ease-out),
+        border-color var(--dur) var(--ease-out);
+}
+
+.card--hover:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+    box-shadow: var(--shadow-lift);
+}
+
+/* Accent spine down the left edge, revealed on hover */
+.card--spine::before {
+    content: '';
+    position: absolute;
+    inset: 12px auto 12px 0;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(var(--accent), var(--rust));
+    opacity: 0.35;
+    transition: opacity var(--dur) var(--ease-out), inset var(--dur) var(--ease-out);
+    pointer-events: none;
+}
+
+.card--spine:hover::before {
+    opacity: 1;
+    inset: 0 auto 0 0;
+}
+
+/* Corner glow, tinted from the same tokens */
+.card--glow::after {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -20%;
+    width: 65%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-soft), transparent 68%);
+    opacity: 0.55;
+    z-index: -1;
+    pointer-events: none;
+    transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
+}
+
+.card--glow:hover::after {
+    opacity: 1;
+    transform: scale(1.12);
+}
+
+/* Media well: the framed screenshot / glyph sits in a recessed panel */
+.card__media {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--r-md);
+    background:
+        radial-gradient(var(--line) 1px, transparent 1.2px) 0 0 / 16px 16px,
+        linear-gradient(135deg, var(--accent-soft), var(--rust-soft));
+    border: 1px solid var(--line);
+}
+
+.card__media > * {
+    transition: transform 700ms var(--ease-out);
+}
+
+.card--hover:hover .card__media > * {
+    transform: scale(1.03);
+}
+
+/* A labelled chip used for type, status and counts */
+.card__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.65rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    background: var(--bg-soft);
+    color: var(--ink-2);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   9. Section decoration — CSS 3D scenes and 2D texture fields
+   Every effect reads theme tokens, so a theme swap re-tints the whole page.
+   -------------------------------------------------------------------------- */
+
+/* A perspective stage. Children opt into depth with `--tz` (px). */
+.scene {
+    position: relative;
+    perspective: 1200px;
+    perspective-origin: 50% 40%;
+    transform-style: preserve-3d;
+}
+
+.scene__layer {
+    position: absolute;
+    inset: 0;
+    transform: translateZ(var(--tz, 0)) scale(var(--tscale, 1));
+    transform-style: preserve-3d;
+    pointer-events: none;
+}
+
+/* A receding grid floor, the base of every 3D scene. */
+.scene__floor {
+    position: absolute;
+    left: 50%;
+    bottom: -6%;
+    width: 190%;
+    height: 62%;
+    translate: -50% 0;
+    transform: rotateX(74deg);
+    transform-origin: 50% 100%;
+    background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 60% 70% at 50% 100%, #000 10%, transparent 72%);
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+/* A soft radial pool of accent light. */
+.scene__pool {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(46px);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Floating planes in a scene: an outer element carries the depth, an inner
+   one carries the float animation, so the two transforms never fight. */
+.scene__float {
+    position: absolute;
+    transform: translateZ(var(--tz, 40px));
+    animation: scene-float var(--float-dur, 9s) var(--ease-in-out) infinite alternate;
+    animation-delay: var(--float-delay, 0s);
+}
+
+@keyframes scene-float {
+    from { transform: translateZ(var(--tz, 40px)) translateY(-7px); }
+    to   { transform: translateZ(var(--tz, 40px)) translateY(9px); }
+}
+
+/* A glass panel inside a scene. */
+.scene__panel {
+    background: color-mix(in srgb, var(--bg-elev) 82%, transparent);
+    border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+    border-radius: var(--r-lg);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-lift);
+}
+
+/* A 2D texture field: a dot grid that fades toward the edges. */
+.field-dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(var(--line-strong) 1px, transparent 1.2px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 15%, transparent 72%);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Concentric ring texture, used behind section headings. */
+.field-rings {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px dashed var(--line-strong);
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+/* A hairline that draws itself in when the section enters. */
+.draw-line {
+    transform-origin: 0 50%;
+    animation: draw-line 900ms var(--ease-out) both;
+}
+
+@keyframes draw-line {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
 }

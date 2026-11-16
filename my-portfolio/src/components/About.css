@@ -26,7 +26,15 @@
 
 @media (min-width: 900px) {
     .about__intro {
-        grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+        padding: clamp(2rem, 3.5vw, 3rem);
+    }
+}
+
+@media (min-width: 1280px) {
+    .about__intro {
+        grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+        gap: clamp(2.5rem, 4vw, 4rem);
     }
 }
 
@@ -35,28 +43,28 @@
     z-index: 1;
 }
 
-/* Slow-breathing glow in the panel corner */
-.about__glow {
-    position: absolute;
-    top: -30%;
-    right: -15%;
-    width: 60%;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--accent-soft-2), transparent 65%);
-    animation: about-breathe 9s var(--ease-in-out) infinite alternate;
-    pointer-events: none;
-}
-
-@keyframes about-breathe {
-    from { transform: scale(0.85); opacity: 0.6; }
-    to   { transform: scale(1.1); opacity: 1; }
-}
-
 .about__body {
+    position: relative;
+    max-width: 64ch;
+    padding-left: 1.1rem;
     color: var(--ink-2);
     font-size: var(--fs-lead);
     line-height: 1.8;
+}
+
+/* Accent rule down the left of the intro paragraph */
+.about__body::before {
+    content: '';
+    position: absolute;
+    inset: 0.4em auto 0.4em 0;
+    width: 3px;
+    border-radius: 3px;
+    background: linear-gradient(var(--accent), var(--rust));
+}
+
+.about__body::first-line {
+    color: var(--ink);
+    font-weight: 600;
 }
 
 .about__highlights {
@@ -80,12 +88,14 @@
     border-radius: var(--r-md);
     background: var(--bg-elev);
     box-shadow: var(--shadow-hard);
-    transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
+    transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out),
+                transform var(--dur) var(--ease-out);
 }
 
 .about__highlight:hover {
     border-color: var(--accent);
     box-shadow: var(--shadow-hard-lg);
+    transform: translateY(-2px);
 }
 
 .about__highlight-icon {
@@ -120,11 +130,29 @@
 .code-card {
     position: relative;
     z-index: 1;
+    align-self: center;
+    width: 100%;
+    max-width: 560px;
+    justify-self: center;
     border: 1px solid var(--line);
     border-radius: var(--r-lg);
     background: var(--bg-sunken);
     box-shadow: var(--shadow-lift);
     overflow: hidden;
+}
+
+@media (min-width: 900px) {
+    .code-card {
+        box-shadow:
+            var(--shadow-lift),
+            0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent),
+            0 30px 80px -30px color-mix(in srgb, var(--accent) 55%, transparent);
+        transition: transform var(--dur) var(--ease-out);
+    }
+
+    .code-card:hover {
+        transform: translateY(-4px) rotate(-0.4deg);
+    }
 }
 
 .code-card__bar {
@@ -232,9 +260,10 @@
     transition: color var(--dur) var(--ease-out);
 }
 
+/* Desktop: tabs share the full bar width instead of bunching on the left */
 @media (min-width: 640px) {
     .tabs__tab {
-        flex: 0 0 auto;
+        flex: 1 1 0;
         padding-inline: 1.1rem;
     }
 }
@@ -266,7 +295,7 @@
     right: 0.4rem;
     bottom: -1px;
     height: 2px;
-    background: var(--accent);
+    background: linear-gradient(90deg, var(--accent), var(--rust));
     border-radius: 2px 2px 0 0;
 }
 
@@ -510,5 +539,10 @@
 @media (prefers-reduced-motion: reduce) {
     .tabs__new::after {
         animation: none;
+    }
+
+    .about__highlight:hover,
+    .code-card:hover {
+        transform: none;
     }
 }

@@ -93,25 +93,21 @@
     list-style: none;
 }
 
+/* The grid item stretches to the row height, so every card in a row is the
+   same height even when its description is shorter. */
+.projects__grid > .project-card {
+    align-self: stretch;
+}
+
+/* The shared card supplies the surface; this is the project anatomy.
+   The `<li>` is the grid item and a flex column, so `margin-block: auto`
+   on the action row pins it to the bottom of the tallest card in the row. */
 .project-card {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: var(--r-lg);
-    background: var(--bg-elev);
-    box-shadow: var(--shadow-soft);
-    transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out),
-                transform var(--dur) var(--ease-out);
 }
 
-.project-card:hover {
-    border-color: var(--accent);
-    box-shadow: var(--shadow-lift);
-    transform: translateY(-4px);
-}
-
-/* Same frame as the showcase, smaller padding */
 .project-card__media {
     padding: 0.9rem;
     border-bottom: 1px solid var(--line);
@@ -122,10 +118,6 @@
 
 .project-card__media .projects__window {
     box-shadow: var(--shadow-soft);
-}
-
-.project-card:hover .projects__shot img {
-    transform: scale(1.04);
 }
 
 .project-card__body {

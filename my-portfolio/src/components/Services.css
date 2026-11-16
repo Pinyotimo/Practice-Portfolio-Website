@@ -14,23 +14,17 @@
     }
 }
 
+/* The card itself comes from the shared `.card` system; this is the
+   services-specific anatomy: index numeral, icon chip, rule. */
 .service-card {
-    position: relative;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    height: 100%;
     padding: clamp(1.35rem, 2.5vw, 1.9rem);
-    background: var(--bg-elev);
-    border: 1px solid var(--line);
-    border-radius: var(--r-md);
-    box-shadow: var(--shadow-soft);
-    transition: border-color var(--dur) var(--ease-out),
-                box-shadow var(--dur) var(--ease-out);
 }
 
 .service-card:hover {
-    border-color: var(--line-strong);
-    box-shadow: var(--shadow-lift);
+    transform: translateY(-5px);
 }
 
 /* Oversized index numeral, clipped by the card */
@@ -38,6 +32,7 @@
     position: absolute;
     top: -0.35rem;
     right: 0.6rem;
+    z-index: 1;
     font-family: var(--font-display);
     font-size: 4rem;
     font-weight: 700;
@@ -45,15 +40,17 @@
     color: var(--accent-soft-2);
     user-select: none;
     pointer-events: none;
-    transition: color var(--dur) var(--ease-out);
+    transition: color var(--dur) var(--ease-out), transform var(--dur) var(--ease-spring);
 }
 
 .service-card:hover .service-card__index {
     color: var(--accent-soft);
+    transform: translateY(-2px) rotate(-2deg);
 }
 
 .service-card__icon {
     position: relative;
+    z-index: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -67,23 +64,27 @@
     font-size: 1.1rem;
     transition: transform var(--dur) var(--ease-spring),
                 background-color var(--dur) var(--ease-out),
-                color var(--dur) var(--ease-out);
+                color var(--dur) var(--ease-out),
+                border-color var(--dur) var(--ease-out);
 }
 
 .service-card:hover .service-card__icon {
     transform: translateY(-2px) rotate(-3deg);
     background: var(--accent);
+    border-color: var(--accent);
     color: var(--ink-on-accent);
 }
 
 .service-card__title {
     position: relative;
+    z-index: 1;
     margin-bottom: 0.5rem;
     font-size: var(--fs-h3);
 }
 
 .service-card__desc {
     position: relative;
+    z-index: 1;
     color: var(--ink-2);
     font-size: var(--fs-sm);
     line-height: 1.7;
@@ -96,7 +97,7 @@
     bottom: 0;
     width: 100%;
     height: 3px;
-    background: var(--accent);
+    background: linear-gradient(90deg, var(--accent), var(--rust));
     transform: scaleX(0);
     transform-origin: 0 50%;
     transition: transform var(--dur) var(--ease-out);
@@ -104,4 +105,10 @@
 
 .service-card:hover .service-card__rule {
     transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .service-card:hover {
+        transform: none;
+    }
 }

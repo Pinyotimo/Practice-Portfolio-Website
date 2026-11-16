@@ -8,59 +8,47 @@ import {
   useTransform,
 } from 'framer-motion';
 import { EASE } from '../lib/motion';
-import { HERO } from '../data/portfolio';
-import ShapeHero from './kokonutui/shape-hero';
+import { ALL_CERTIFICATES, HACKATHONS, HERO, PROJECTS } from '../data/portfolio';
+import HeroSceneLayer from './kokonutui/hero-scene-layer';
 import './Hero.css';
+
+/* Counted from the same data the rest of the page renders. */
+const HERO_STATS = [
+  { value: PROJECTS.length, label: 'Projects built' },
+  { value: HACKATHONS.length, label: 'Hackathon builds' },
+  { value: ALL_CERTIFICATES.length, label: 'Certifications' },
+];
+
+/* Two rows of tools drifting in opposite directions. Each row is rendered
+   twice so the loop is seamless; the copy is hidden from assistive tech. */
+function ToolMarquee({ tools }) {
+  const half = Math.ceil(tools.length / 2);
+  const rows = [tools.slice(0, half), tools.slice(half)];
+
+  return (
+    <div className="marquee" role="region" aria-label="Tools I work with">
+      {rows.map((row, r) => (
+        <div key={r} className={`marquee__row${r ? ' marquee__row--reverse' : ''}`}>
+          {[0, 1].map((copy) => (
+            <ul key={copy} className="marquee__track" aria-hidden={copy ? 'true' : undefined}>
+              {row.map((tool) => (
+                <li key={tool} className="marquee__chip">
+                  <span className="marquee__dot" aria-hidden="true" />
+                  {tool}
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 const rise = (delay) => ({
   hidden: { opacity: 0, y: 22 },
   show: { opacity: 1, y: 0, transition: { duration: 0.55, delay, ease: EASE } },
 });
-
-/* Keep the pile focused on core languages and infrastructure tools. */
-const PILL_VARIANTS = (i) => {
-  if (i % 5 === 0) return 'shape-hero__pill shape-hero__pill--accent';
-  if (i % 7 === 3) return 'shape-hero__pill shape-hero__pill--dark';
-  return 'shape-hero__pill';
-};
-
-/* Roles go first: the pile hides whatever doesn't fit, starting from the end. */
-const HERO_ROLES = [
-  'Full-stack web development',
-  'Automation & AI integration',
-  'Payment integration',
-];
-
-const ROLE_SHAPES = HERO_ROLES.map((role) => ({
-  id: `role-${role}`,
-  content: role,
-  className: 'shape-hero__pill shape-hero__pill--role',
-}));
-
-const TECH_SHAPES = [
-  'JavaScript',
-  'TypeScript',
-  'Python',
-  'Java',
-  'C++',
-  'PHP',
-  'HTML',
-  'CSS',
-  'GitHub',
-  'Docker',
-  'Kubernetes',
-  'React',
-].map((tech, i) => ({
-  id: `tech-${tech}`,
-  content: tech,
-  className: PILL_VARIANTS(i),
-}));
-
-const HERO_SHAPES = [...ROLE_SHAPES, ...TECH_SHAPES];
-
-/* Phones need a little more room because the pills are smaller via CSS. */
-const pileFill = () =>
-  typeof window !== 'undefined' && window.matchMedia('(max-width: 899px)').matches ? 0.5 : 0.32;
 
 const ROLE_INTERVAL = 2800;
 
@@ -155,18 +143,11 @@ export default function Hero() {
       animate="show"
     >
       <HeroBackdrop />
-      <ShapeHero
-        className="shape-hero--background"
-        title={null}
-        description={null}
-        actions={null}
-        shapes={HERO_SHAPES}
-        fill={pileFill()}
-      />
-      <div className="container hero__grid">
+      <HeroSceneLayer />
+      <div className="container container--wide hero__grid">
         <motion.div className="hero__figure" variants={rise(0.05)}>
           {/* Slowly turning dashed orbit with a travelling dot */}
-          <svg className="hero__orbit" viewBox="0 0 200 200" aria-hidden="true">
+          <svg className="hero__orbit-svg" viewBox="0 0 200 200" aria-hidden="true">
             <circle cx="100" cy="100" r="96" />
             <circle className="hero__orbit-dot" cx="100" cy="4" r="3.5" />
           </svg>
@@ -237,29 +218,7 @@ export default function Hero() {
             {HERO.lead}
           </motion.p>
 
-          <motion.ul
-            className="hero__tools"
-            variants={{
-              hidden: {},
-              show: { transition: { staggerChildren: 0.05, delayChildren: 0.32 } },
-            }}
-          >
-            {HERO.tools.map((tool) => (
-              <motion.li
-                key={tool}
-                className="tag tag--plain"
-                variants={{
-                  hidden: { opacity: 0, y: 10, scale: 0.9 },
-                  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.35, ease: EASE } },
-                }}
-                whileHover={{ y: -3 }}
-              >
-                {tool}
-              </motion.li>
-            ))}
-          </motion.ul>
-
-          <motion.div className="hero__actions" variants={rise(0.4)}>
+          <motion.div className="hero__actions" variants={rise(0.3)}>
             <a href="#portfolio" className="btn btn--accent hero__cta">
               See my work
               <i className="fa-solid fa-arrow-right" aria-hidden="true" />
@@ -276,8 +235,21 @@ export default function Hero() {
               Download CV
             </a>
           </motion.div>
+
+          <motion.dl className="hero__stats" variants={rise(0.38)}>
+            {HERO_STATS.map((stat) => (
+              <div key={stat.label} className="hero__stat">
+                <dt>{stat.label}</dt>
+                <dd>{stat.value}</dd>
+              </div>
+            ))}
+          </motion.dl>
         </div>
       </div>
+
+      <motion.div className="hero__marquee" variants={rise(0.46)}>
+        <ToolMarquee tools={HERO.stack} />
+      </motion.div>
 
     </motion.section>
   );

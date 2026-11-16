@@ -2,13 +2,11 @@
    Charts — stat tiles, timeline, stacked bar, category bar, tables
    ========================================================================== */
 
+/* The shared `.card` supplies the surface; this is the chart anatomy. */
 .chart {
     margin: 0;
     padding: clamp(1.15rem, 2.5vw, 1.6rem);
-    background: var(--bg-elev);
-    border: 1px solid var(--line);
-    border-radius: var(--r-md);
-    box-shadow: var(--shadow-soft);
+    border-radius: var(--r-lg);
     position: relative;
 }
 
@@ -265,6 +263,7 @@
     }
 }
 
+/* The shared card supplies the surface; this is the stat anatomy. */
 .stat-tile {
     position: relative;
     display: flex;
@@ -272,13 +271,7 @@
     gap: 0.2rem;
     padding: clamp(0.9rem, 2vw, 1.35rem);
     overflow: hidden;
-    background: var(--bg-elev);
-    border: 1px solid var(--line);
-    border-radius: var(--r-md);
-    box-shadow: var(--shadow-hard);
-    transition: transform var(--dur) var(--ease-out),
-                box-shadow var(--dur) var(--ease-out),
-                border-color var(--dur) var(--ease-out);
+    border-radius: var(--r-lg);
 }
 
 /* Accent bar along the top that draws in on hover */
@@ -308,8 +301,6 @@
 
 .stat-tile:hover {
     transform: translateY(-3px);
-    border-color: var(--accent);
-    box-shadow: var(--shadow-hard-lg);
 }
 
 .stat-tile:hover::before {
@@ -660,4 +651,11 @@
     font-weight: 500;
     line-height: 1;
     font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stat-tile:hover,
+    .chart--hover:hover {
+        transform: none;
+    }
 }

@@ -17,7 +17,7 @@ export default function ChartCard({
   const bodyId = useId();
 
   return (
-    <figure className={`chart ${className}`}>
+    <figure className={`chart card${className ? ` ${className}` : ''}`}>
       <figcaption className="chart__head">
         <div className="chart__heading">
           <h3 className="chart__title">{title}</h3>

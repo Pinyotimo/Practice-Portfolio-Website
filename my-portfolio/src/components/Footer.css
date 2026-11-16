@@ -26,6 +26,12 @@
     border: 1px solid var(--line);
     border-radius: var(--r-lg);
     box-shadow: var(--shadow-hard-lg);
+    transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
+}
+
+.site-footer__cta:hover {
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+    box-shadow: var(--shadow-lift);
 }
 
 .site-footer__cta-text {

@@ -29,7 +29,7 @@ export default function StatTile({ value, label, note, icon, index = 0 }) {
   }, [inView, reduceMotion, value, index]);
 
   return (
-    <div className="stat-tile" ref={tileRef} style={{ '--stat-i': index }}>
+    <div className="stat-tile card card--hover" ref={tileRef} style={{ '--stat-i': index }}>
       <div className="stat-tile__top">
         {icon && (
           <span className="stat-tile__icon" aria-hidden="true">

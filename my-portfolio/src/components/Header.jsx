@@ -91,8 +91,9 @@ export default function Header() {
       transition={{ duration: 0.55, ease: EASE }}
     >
       <motion.div className="site-header__progress" style={{ scaleX: progress }} />
+      <div className="site-header__edge" aria-hidden="true" />
 
-      <div className="container site-header__inner">
+      <div className="container container--wide site-header__inner">
         <a href="#home" className="brand" aria-label="Go to the top of the page">
           <span className="brand__mark" aria-hidden="true">
             SO

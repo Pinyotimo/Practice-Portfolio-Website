@@ -4,6 +4,7 @@ import StatTile from './charts/StatTile';
 import TimelineChart from './charts/TimelineChart';
 import StackChart from './charts/StackChart';
 import CategoryBarChart from './charts/CategoryBarChart';
+import SectionDecor from './section-decor';
 import { ALL_CERTIFICATES, CERT_AREAS, EXPERIENCE, HACKATHONS, PROJECTS } from '../data/portfolio';
 import './Impact.css';
 
@@ -52,6 +53,7 @@ export default function Impact() {
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.6, ease: EASE }}
     >
+      <SectionDecor variant="grid" />
       <div className="container">
         <div className="section-head">
           <div>

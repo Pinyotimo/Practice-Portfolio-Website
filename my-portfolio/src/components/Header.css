@@ -2,23 +2,56 @@
    Header — sticky navigation, scroll progress, mobile drawer
    ========================================================================== */
 
+/* The header itself is an invisible sticky rail; the visible bar is the
+   floating glass pill inside it (.site-header__inner). */
 .site-header {
     position: sticky;
     top: 0;
     z-index: 100;
-    /* Opaque on purpose. A translucent bar over a busy page ghosts the
-       content behind it, and the blur that would hide that is not
-       available everywhere (older browsers, GPU-less renders). */
-    background: var(--bg);
-    border-bottom: 1px solid transparent;
-    transition: border-color var(--dur) var(--ease-out),
-                background-color var(--dur) var(--ease-out),
-                box-shadow var(--dur) var(--ease-out);
+    padding-top: 0.7rem;
+    pointer-events: none;
 }
 
-.site-header--scrolled {
-    border-bottom-color: var(--line);
-    box-shadow: 0 1px 0 var(--bg-inset), 0 10px 24px -22px rgba(0, 0, 0, 0.5);
+.site-header > * {
+    pointer-events: auto;
+}
+
+.site-header__inner {
+    /* A translucent bar over a busy page ghosts the content behind it; the
+       blur is what hides that. Falls back to a solid bar without it. */
+    background: color-mix(in srgb, var(--bg-elev) 62%, transparent);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    backdrop-filter: blur(16px) saturate(1.3);
+    border: 1px solid color-mix(in srgb, var(--line-strong) 70%, transparent);
+    border-radius: 18px;
+    box-shadow:
+        inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent),
+        0 10px 30px -18px rgba(0, 0, 0, 0.45);
+    transition: background-color var(--dur) var(--ease-out),
+                box-shadow var(--dur) var(--ease-out),
+                border-color var(--dur) var(--ease-out),
+                width var(--dur) var(--ease-out);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .site-header__inner {
+        background: var(--bg-elev);
+    }
+}
+
+/* Once the page moves, the bar firms up and tucks in slightly */
+.site-header--scrolled .site-header__inner {
+    background: color-mix(in srgb, var(--bg-elev) 82%, transparent);
+    border-color: var(--line-strong);
+    box-shadow:
+        inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent),
+        0 18px 40px -20px rgba(0, 0, 0, 0.6);
+}
+
+@media (min-width: 1024px) {
+    .site-header--scrolled .site-header__inner {
+        width: min(100% - (2 * var(--gutter)), calc(var(--container) - 4rem));
+    }
 }
 
 /* Scroll progress hairline */
@@ -26,8 +59,13 @@
     position: absolute;
     inset: 0 0 auto 0;
     height: 2px;
-    background: var(--accent);
+    background: linear-gradient(90deg, var(--accent), var(--rust));
     transform-origin: 0 50%;
+}
+
+/* The floating pill replaces the full-width hairline */
+.site-header__edge {
+    display: none;
 }
 
 .site-header__inner {
@@ -35,8 +73,8 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--sp-5);
-    min-height: var(--header-h);
-    padding-block: 0.6rem;
+    min-height: calc(var(--header-h) - 0.7rem);
+    padding: 0.5rem 0.6rem 0.5rem 0.6rem;
 }
 
 /* --- Brand ------------------------------------------------------------- */
@@ -115,17 +153,22 @@
     }
 }
 
+/* Links sit in their own recessed track inside the bar */
 .site-nav__list {
     display: flex;
     align-items: center;
-    gap: 0.15rem;
+    gap: 0.1rem;
+    padding: 0.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    background: color-mix(in srgb, var(--bg) 55%, transparent);
 }
 
 .site-nav__link {
     position: relative;
     display: block;
-    padding: 0.5rem 0.8rem;
-    border-radius: var(--r-sm);
+    padding: 0.45rem 0.95rem;
+    border-radius: var(--r-pill);
     color: var(--ink-2);
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
@@ -153,9 +196,20 @@
     position: absolute;
     inset: 0;
     z-index: 0;
-    border-radius: var(--r-sm);
+    border-radius: var(--r-pill);
     background: var(--accent-soft);
-    box-shadow: inset 0 -2px 0 var(--accent);
+    box-shadow:
+        inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent),
+        0 4px 14px -6px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.brand__mark {
+    border-radius: 11px;
+    background: linear-gradient(135deg, var(--accent), var(--rust));
+}
+
+.site-header__cta {
+    border-radius: 11px;
 }
 
 /* --- Header actions ---------------------------------------------------- */
@@ -225,10 +279,14 @@
 @media (max-width: 1023px) {
     .mobile-nav {
         display: block;
+        /* A card that drops from the floating bar, same width */
+        width: min(100% - (2 * var(--gutter)), var(--container));
+        margin: 0.5rem auto 0;
         overflow: hidden;
-        padding: 0.5rem var(--gutter) 1.25rem;
-        background: var(--bg);
-        border-bottom: 1px solid var(--line);
+        padding: 0.5rem 1.1rem 1.1rem;
+        background: var(--bg-elev);
+        border: 1px solid var(--line-strong);
+        border-radius: 18px;
         box-shadow: var(--shadow-lift);
     }
 }

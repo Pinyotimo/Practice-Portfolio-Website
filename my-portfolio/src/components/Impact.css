@@ -13,6 +13,12 @@
     gap: var(--sp-4);
 }
 
+/* A chart card rises slightly when it enters, so the section reads as
+   layered rather than as a flat stack of panels. */
+.impact__pair > * {
+    min-width: 0;
+}
+
 @media (min-width: 1000px) {
     .impact__pair {
         grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
@@ -20,6 +26,21 @@
            stretching to the stack chart's and leaving a blank panel */
         align-items: start;
     }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .impact__charts > *,
+    .impact__pair > * {
+        animation: chart-rise 620ms var(--ease-out) both;
+    }
+
+    .impact__charts > *:nth-child(2) { animation-delay: 90ms; }
+    .impact__pair > *:nth-child(2)   { animation-delay: 160ms; }
+}
+
+@keyframes chart-rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
 }
 
 .impact__note {

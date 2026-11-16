@@ -36,7 +36,7 @@ function TechTile({ item, tint, index }) {
   const count = item.projects.length;
   return (
     <motion.li
-      className="tech-tile"
+      className="tech-tile card card--hover"
       layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}

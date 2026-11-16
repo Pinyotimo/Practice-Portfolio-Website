@@ -55,7 +55,7 @@ export default function ExperienceTab() {
               <span className="xp-timeline__marker" aria-hidden="true">
                 <i className={exp.icon} />
               </span>
-              <div className="xp-timeline__card">
+              <div className="xp-timeline__card card card--hover">
                 <div className="xp-timeline__meta">
                   <span className="xp-timeline__period">{exp.period}</span>
                   <span className="xp-timeline__duration">{duration(exp.start, exp.end)}</span>
@@ -85,7 +85,7 @@ export default function ExperienceTab() {
             return (
               <motion.li
                 key={hack.id}
-                className={`hack-card${hack.result ? ' hack-card--placed' : ''}`}
+                className={`hack-card card card--hover${hack.result ? ' hack-card--placed' : ''}`}
                 variants={rise}
               >
                 <div className="hack-card__top">

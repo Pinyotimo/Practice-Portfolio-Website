@@ -488,21 +488,17 @@
     }
 }
 
+/* The shared `.card` supplies the surface; this is the skill anatomy. */
 .skill-card {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+    height: 100%;
     padding: 1rem;
-    border: 1px solid var(--line);
     border-radius: var(--r-md);
-    background: var(--bg-elev);
-    transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out),
-                transform var(--dur) var(--ease-out);
 }
 
 .skill-card:hover {
-    border-color: var(--accent);
-    box-shadow: var(--shadow-hard);
     transform: translateY(-2px);
 }
 
@@ -730,16 +726,10 @@
     align-items: flex-start;
     gap: 0.75rem;
     padding: 0.8rem 0.85rem;
-    border: 1px solid var(--line);
     border-radius: var(--r-md);
-    background: var(--bg-elev);
-    transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out),
-                transform var(--dur) var(--ease-out);
 }
 
 .tech-tile:hover {
-    border-color: var(--accent);
-    box-shadow: var(--shadow-hard);
     transform: translateY(-2px);
 }
 

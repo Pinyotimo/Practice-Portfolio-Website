@@ -90,7 +90,7 @@ export default function SkillsTab() {
           {visible.map((skill, index) => (
             <motion.li
               key={skill.title}
-              className="skill-card"
+              className="skill-card card card--hover"
               layout
               initial={{ opacity: 0, y: 14, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}

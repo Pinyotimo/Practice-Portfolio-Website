@@ -1,0 +1,222 @@
+/* ==========================================================================
+   OrbitStack — a tilted cover-flow ring of tool cards
+
+   `.orbit__plane` is the floor plane (rotateX). `.orbit__spinner` rotates
+   about the vertical axis through the stage centre; each card's transform is
+   written inline from its solved ring position.
+   ========================================================================== */
+
+.orbit {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: clamp(0.5rem, 2vw, 1.25rem) 0;
+    perspective: 1800px;
+    perspective-origin: 50% 10%;
+    touch-action: pan-y;
+    cursor: grab;
+    user-select: none;
+    outline-offset: 6px;
+}
+
+.orbit.is-dragging {
+    cursor: grabbing;
+}
+
+.orbit__stage {
+    position: relative;
+    width: 100%;
+    height: clamp(250px, 29vw, 340px);
+    transform-style: preserve-3d;
+}
+
+.orbit__plane {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transform: rotateX(63deg);
+}
+
+.orbit__spinner {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+}
+
+/* --- Ring guide ---------------------------------------------------------- */
+
+.orbit__ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 68%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    border: 1px dashed var(--line-strong);
+    border-radius: 50%;
+    opacity: 0.45;
+    transform: rotateX(63deg);
+    pointer-events: none;
+}
+
+/* --- Cards --------------------------------------------------------------- */
+
+.orbit-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--card-w, 116px);
+    height: var(--card-h, 34px);
+    margin: calc(var(--card-h, 34px) / -2) 0 0 calc(var(--card-w, 116px) / -2);
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+}
+
+.orbit-card__face {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    width: 100%;
+    height: 100%;
+    padding: 0 0.6rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-sm);
+    background: var(--bg-elev);
+    box-shadow: var(--shadow-soft);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    transition:
+        background-color var(--dur) var(--ease-out),
+        color var(--dur) var(--ease-out),
+        border-color var(--dur) var(--ease-out),
+        box-shadow var(--dur) var(--ease-out);
+}
+
+.orbit-card__index {
+    color: var(--ink-3);
+    font-size: 0.6rem;
+    font-weight: 500;
+}
+
+.orbit-card:hover .orbit-card__face,
+.orbit-card:focus-visible .orbit-card__face {
+    border-color: var(--accent);
+    color: var(--ink);
+}
+
+.orbit-card.is-active .orbit-card__face {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--ink-on-accent);
+    box-shadow: var(--shadow-lift);
+}
+
+.orbit-card.is-active .orbit-card__index {
+    color: inherit;
+    opacity: 0.75;
+}
+
+.orbit-card:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: var(--r-sm);
+}
+
+/* --- Core ---------------------------------------------------------------- */
+
+/* The hub sits on the floor at the ring's centre, behind the cards. It is
+   deliberately smaller than the active card so it never covers a label. */
+.orbit__core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 56px;
+    height: 56px;
+    margin: -28px 0 0 -28px;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.orbit__core-disc {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 38% 32%, color-mix(in srgb, var(--bg-elev) 92%, var(--accent) 8%), var(--bg-soft) 72%);
+    border: 1px solid var(--line-strong);
+    box-shadow: var(--shadow-lift), inset 0 0 0 5px color-mix(in srgb, var(--bg) 55%, transparent);
+}
+
+.orbit__core-dot {
+    position: relative;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 5px var(--accent-soft);
+    animation: orbit-core-pulse 3.2s var(--ease-in-out) infinite;
+}
+
+@keyframes orbit-core-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(0.7); opacity: 0.7; }
+}
+
+/* --- Caption ------------------------------------------------------------- */
+
+.orbit__caption {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+}
+
+.orbit__caption-count {
+    color: var(--accent-ink);
+    font-weight: 600;
+}
+
+.orbit__caption-label {
+    margin-left: 0.5rem;
+    color: var(--ink);
+    font-weight: 600;
+}
+
+/* --- Small screens ------------------------------------------------------- */
+
+@media (max-width: 639px) {
+    .orbit {
+        gap: 0.7rem;
+    }
+
+    .orbit__stage {
+        height: 215px;
+    }
+
+    .orbit-card {
+        --card-w: 100px;
+        --card-h: 30px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orbit__core-dot {
+        animation: none;
+    }
+}

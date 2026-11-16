@@ -121,16 +121,10 @@
 
 .xp-timeline__card {
     padding: 0.8rem 1rem;
-    border: 1px solid var(--line);
     border-radius: var(--r-md);
-    background: var(--bg-elev);
-    transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out),
-                transform var(--dur) var(--ease-out);
 }
 
 .xp-timeline__item:hover .xp-timeline__card {
-    border-color: var(--accent);
-    box-shadow: var(--shadow-hard);
     transform: translateX(3px);
 }
 
@@ -222,18 +216,13 @@
     display: flex;
     flex-direction: column;
     gap: 0.45rem;
+    height: 100%;
     padding: 1rem;
-    border: 1px solid var(--line);
     border-radius: var(--r-md);
-    background: var(--bg-elev);
-    transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out),
-                transform var(--dur) var(--ease-out);
 }
 
 .hack-card:hover,
 .edu-card:hover {
-    border-color: var(--accent);
-    box-shadow: var(--shadow-hard);
     transform: translateY(-2px);
 }
 
@@ -306,6 +295,11 @@
     border-radius: var(--r-sm);
     background: var(--accent-soft);
     color: var(--accent-ink);
+    transition: transform var(--dur) var(--ease-spring);
+}
+
+.edu-card:hover .edu-card__icon {
+    transform: rotate(-6deg) scale(1.06);
 }
 
 .edu-card__body {
@@ -331,24 +325,19 @@
 }
 
 .cert-card {
-    position: relative;
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
+    height: 100%;
     padding: 1rem;
-    overflow: hidden;
-    border: 1px solid var(--line);
     border-radius: var(--r-md);
+    /* The shared card supplies the base surface; this adds the corner tint */
     background:
         radial-gradient(circle at 100% 0, var(--accent-soft-2), transparent 55%),
-        var(--bg-elev);
-    transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out),
-                transform var(--dur) var(--ease-out);
+        linear-gradient(180deg, color-mix(in srgb, var(--bg-elev) 92%, var(--accent) 8%) 0%, var(--bg-elev) 60%);
 }
 
 .cert-card:hover {
-    border-color: var(--accent);
-    box-shadow: var(--shadow-hard);
     transform: translateY(-2px);
 }
 
@@ -435,5 +424,14 @@
         justify-self: start;
         margin-top: 0.35rem;
         padding: 0.25rem 0.65rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .xp-timeline__item:hover .xp-timeline__card,
+    .hack-card:hover,
+    .edu-card:hover,
+    .cert-card:hover {
+        transform: none;
     }
 }

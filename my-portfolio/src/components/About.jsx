@@ -8,6 +8,7 @@ import EducationTab from './tabs/EducationTab';
 import CoreTechTab from './tabs/CoreTechTab';
 import ProficiencyTab from './tabs/ProficiencyTab';
 import HobbiesTab from './tabs/HobbiesTab';
+import SectionDecor from './section-decor';
 import './About.css';
 
 const TABS = [
@@ -57,10 +58,10 @@ function CodeCard({ highlights }) {
     <motion.div
       className="code-card"
       aria-hidden="true"
-      initial={{ opacity: 0, y: 20, rotate: 1.5 }}
+      initial={{ opacity: 0, y: 16, rotate: 1.5 }}
       whileInView={{ opacity: 1, y: 0, rotate: 0 }}
-      viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.6, ease: EASE }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.45, ease: EASE }}
     >
       <div className="code-card__bar">
         <span />
@@ -70,10 +71,10 @@ function CodeCard({ highlights }) {
       </div>
       <motion.pre
         className="code-card__body"
-        variants={stagger(0.11, 0.35)}
+        variants={stagger(0.05, 0.15)}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.4 }}
+        viewport={{ once: true, amount: 0.15 }}
       >
         {lines.map((tokens, i) => (
           <motion.code
@@ -81,7 +82,7 @@ function CodeCard({ highlights }) {
             className="code-card__line"
             variants={{
               hidden: { opacity: 0, x: -8 },
-              show: { opacity: 1, x: 0, transition: { duration: 0.3, ease: EASE } },
+              show: { opacity: 1, x: 0, transition: { duration: 0.22, ease: EASE } },
             }}
           >
             <span className="code-card__ln">{i + 1}</span>
@@ -142,36 +143,34 @@ export default function About() {
   };
 
   return (
-    <motion.section
-      id="about"
-      className="section section--soft"
-      initial={{ opacity: 0, y: 26 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.6, ease: EASE }}
-    >
-      <div className="container">
-        <div className="section-head">
+    <section id="about" className="section section--soft about">
+      <SectionDecor variant="rings" />
+      <div className="container container--wide">
+        <motion.div
+          className="section-head"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '0px 0px -10% 0px' }}
+          transition={{ duration: 0.45, ease: EASE }}
+        >
           <div>
             <span className="kicker">{ABOUT.kicker}</span>
             <h2 className="section-head__title">{ABOUT.title}</h2>
           </div>
           <p className="section-head__lede">{ABOUT.lead}</p>
-        </div>
+        </motion.div>
 
         <div className="about__grid">
-          <div className="about__intro panel">
-            <span className="about__glow" aria-hidden="true" />
-
+          <div className="about__intro card card--glow">
             <div className="about__intro-copy">
               <p className="about__body">{ABOUT.body}</p>
 
               <motion.dl
                 className="about__highlights"
-                variants={stagger(0.09, 0.15)}
+                variants={stagger(0.06, 0.05)}
                 initial="hidden"
                 whileInView="show"
-                viewport={{ once: true, amount: 0.4 }}
+                viewport={{ once: true, amount: 0.15 }}
               >
                 {ABOUT.highlights.map((item) => (
                   <motion.div
@@ -200,7 +199,7 @@ export default function About() {
             <CodeCard highlights={ABOUT.highlights} />
           </div>
 
-          <div className="about__detail panel">
+          <div className="about__detail card">
             <div
               ref={tablistRef}
               className="tabs"
@@ -324,6 +323,6 @@ export default function About() {
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

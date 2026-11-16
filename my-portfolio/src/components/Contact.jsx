@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { EASE } from '../lib/motion';
 import { CONTACT_DETAILS, SOCIAL_LINKS } from '../data/portfolio';
+import SectionDecor from './section-decor';
 import './Contact.css';
 
 const MESSAGE_LIMIT = 1200;
@@ -20,6 +21,7 @@ export default function Contact() {
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.6, ease: EASE }}
     >
+      <SectionDecor variant="rings" />
       <div className="container">
         <div className="section-head">
           <div>
@@ -34,7 +36,7 @@ export default function Contact() {
 
         <div className="contact__grid">
           <motion.div
-            className="contact__aside panel"
+            className="contact__aside card card--glow"
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -126,7 +128,7 @@ export default function Contact() {
           </motion.div>
 
           <motion.div
-            className="contact__form-wrap panel"
+            className="contact__form-wrap card"
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

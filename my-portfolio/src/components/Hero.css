@@ -2,150 +2,19 @@
    Hero
    ========================================================================== */
 
-.shape-hero {
-    position: relative;
-    display: flex;
-    width: 100%;
-    min-height: 45rem;
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden;
-    color: var(--ink);
-}
-
 .hero {
     position: relative;
-    padding-block: clamp(2.5rem, 6vw, 5.5rem) clamp(3rem, 7vw, 6rem);
-    overflow: hidden;
-}
-
-.shape-hero--background {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    min-height: 100%;
-    pointer-events: none;
-    background: transparent;
-}
-
-.shape-hero--background .shape-hero__layer {
-    pointer-events: auto;
-}
-
-.shape-hero__layer {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    touch-action: pan-y;
-}
-
-.shape-hero__shape {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    border-radius: var(--r-pill);
-    cursor: grab;
-    user-select: none;
-    touch-action: none;
-    will-change: transform;
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
-    font-weight: 600;
-}
-
-.shape-hero__layer[data-dragging] .shape-hero__shape {
-    cursor: grabbing;
-}
-
-.shape-hero__pill {
-    /* Sized for ~60 pills: the whole stack has to fit in the pile */
-    min-height: 2.2rem;
-    padding-inline: 0.85rem;
-    font-size: 0.74rem;
-    border: 1px solid var(--line);
-    background: color-mix(in srgb, var(--bg-elev) 86%, transparent);
-    color: var(--ink-2);
-    box-shadow: var(--shadow-soft);
-}
-
-.shape-hero__pill--accent {
-    border-color: var(--accent);
-    background: var(--accent);
-    color: var(--ink-on-accent);
-}
-
-.shape-hero__pill--dark {
-    border-color: var(--ink);
-    background: var(--ink);
-    color: var(--bg);
-}
-
-/* Roles: accent outline with a leading dot so they read apart from tech */
-.shape-hero__pill--role {
-    gap: 0.45em;
-    border-color: var(--accent);
-    background: color-mix(in srgb, var(--bg-elev) 80%, var(--accent));
-    color: var(--accent-ink);
-    font-weight: 600;
-}
-
-.shape-hero__pill--role::before {
-    content: '';
-    width: 0.45em;
-    height: 0.45em;
-    flex: none;
-    border-radius: 50%;
-    background: var(--accent);
-}
-
-.shape-hero__dot {
-    width: 3.5rem;
-    height: 3.5rem;
-    box-shadow: var(--shadow-soft);
-}
-
-.shape-hero__dot--blue { background: var(--chart-1); }
-.shape-hero__dot--rust { background: var(--rust); }
-.shape-hero__dot--green { background: var(--chart-3); }
-
-.shape-hero__content {
-    position: relative;
+    /* Fill the first screen: photo + copy centred, tool strip along the foot */
     display: flex;
     flex-direction: column;
-    align-items: center;
-    max-width: 42rem;
-    text-align: center;
-    pointer-events: none;
-}
-
-.shape-hero__eyebrow,
-.shape-hero__actions {
-    pointer-events: auto;
-}
-
-.shape-hero__title {
-    font-size: var(--fs-display);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-}
-
-.shape-hero__description {
-    max-width: 32rem;
-    margin-top: 1.25rem;
-    color: var(--ink-2);
-    font-size: var(--fs-lead);
-}
-
-.shape-hero__actions {
-    display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 0.75rem;
-    margin-top: 2rem;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    min-height: calc(100svh - var(--header-h));
+    padding-block: clamp(2.5rem, 5vw, 4.5rem) clamp(2.5rem, 4vw, 3.5rem);
+    /* Clipped horizontally only: a tilted 3D plane inside the hero is wider
+       than its layout box, and clipping vertically would cut the orbit. */
+    overflow-x: clip;
+    overflow-y: visible;
 }
 
 .hero__grid {
@@ -158,7 +27,7 @@
 
 @media (min-width: 900px) {
     .hero__grid {
-        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+        grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
         gap: clamp(3rem, 6vw, 5.5rem);
     }
 }
@@ -265,6 +134,7 @@
 
 .hero__body {
     order: 1;
+    min-width: 0;
 }
 
 @media (min-width: 900px) {
@@ -351,23 +221,229 @@
     margin-bottom: 1.5rem;
 }
 
-.hero__tools {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem;
-    margin-bottom: 1.9rem;
-}
-
 .hero__actions {
     display: flex;
     flex-wrap: wrap;
     gap: 0.7rem;
+    margin-top: 1.75rem;
+}
+
+.hero__title {
+    letter-spacing: -0.03em;
+}
+
+/* Gradient name instead of a flat accent */
+.hero__title-accent {
+    background: linear-gradient(100deg, var(--accent-ink) 10%, var(--accent) 55%, var(--rust) 110%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero__cta {
+    box-shadow: 0 10px 30px -12px color-mix(in srgb, var(--accent) 80%, transparent);
+}
+
+/* --- Stats strip ---------------------------------------------------------- */
+
+.hero__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 0;
+    margin-top: clamp(1.75rem, 3vw, 2.5rem);
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+}
+
+.hero__stat {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.25rem;
+    padding-right: clamp(1.25rem, 3vw, 2.5rem);
+}
+
+.hero__stat + .hero__stat {
+    padding-left: clamp(1.25rem, 3vw, 2.5rem);
+    border-left: 1px solid var(--line);
+}
+
+.hero__stat dd {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--ink);
+}
+
+.hero__stat dt {
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* --- Tool marquee --------------------------------------------------------- */
+
+.hero__marquee {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+.marquee {
+    display: grid;
+    gap: 0.7rem;
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.marquee__row {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 70s linear infinite;
+}
+
+.marquee__row--reverse {
+    animation-direction: reverse;
+    animation-duration: 80s;
+}
+
+.marquee:hover .marquee__row {
+    animation-play-state: paused;
+}
+
+.marquee__track {
+    display: flex;
+    gap: 0.7rem;
+    padding-right: 0.7rem;
+}
+
+.marquee__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.95rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    background: color-mix(in srgb, var(--bg-elev) 85%, transparent);
+    color: var(--ink-2);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    white-space: nowrap;
+    transition: border-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
+}
+
+.marquee__chip:hover {
+    border-color: var(--accent);
+    color: var(--accent-ink);
+}
+
+.marquee__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.marquee__row--reverse .marquee__dot {
+    background: var(--rust);
+}
+
+@keyframes marquee-scroll {
+    to { transform: translateX(-50%); }
+}
+
+/* Reduced motion: a static, centred cloud of every tool, no duplicates */
+@media (prefers-reduced-motion: reduce) {
+    .marquee {
+        mask-image: none;
+    }
+
+    .marquee__row {
+        width: auto;
+        justify-content: center;
+        animation: none;
+    }
+
+    .marquee__track {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .marquee__track[aria-hidden] {
+        display: none;
+    }
 }
 
 /* ==========================================================================
    Hero graphics & motion
    Every colour is a theme token, so the whole layer re-tints per theme.
    ========================================================================== */
+
+/* --- WebGL / fallback scene layer --------------------------------------- */
+
+.hero-scene {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    /* Horizontal only: the WebGL field leans with the pointer and its drawn
+       bounds exceed the layout box. */
+    overflow-x: clip;
+    overflow-y: visible;
+    pointer-events: none;
+}
+
+/* The canvas itself takes the pointer so the field can be turned by hand.
+   The wrapper stays out of the hit-test path for everything else. */
+.hero-scene__canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    pointer-events: auto;
+    cursor: grab;
+}
+
+.hero-scene__canvas:active {
+    cursor: grabbing;
+}
+
+.hero-scene__svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.hero-scene__tile {
+    fill: color-mix(in srgb, var(--bg-elev) 70%, var(--line));
+}
+
+.hero-scene__tile--accent { fill: var(--accent); }
+.hero-scene__tile--rust { fill: var(--rust); }
+.hero-scene__tile--green { fill: var(--chart-3); }
+
+.hero-scene__tile-top {
+    fill: color-mix(in srgb, var(--bg-elev) 40%, transparent);
+}
+
+.hero-scene__solid { opacity: 0.85; }
+.hero-scene__solid--accent { fill: var(--accent); }
+.hero-scene__solid--rust { fill: var(--rust); }
+.hero-scene__solid--green { fill: var(--chart-3); }
+
+/* Fade the scene into the page so it never ends on a hard edge. The scene
+   sits low in the hero, so the scrim must leave the lower half readable and
+   only close the very bottom. */
+.hero-scene__scrim {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 58% 42% at 50% 16%, transparent 0%, var(--bg) 78%),
+        linear-gradient(to bottom, var(--bg) 0%, transparent 26%, transparent 62%, var(--bg) 100%);
+    pointer-events: none;
+}
 
 /* --- Backdrop: dot grid + drifting orbs --------------------------------- */
 
@@ -379,6 +455,16 @@
     pointer-events: none;
     /* Fade into the next section instead of ending on a hard edge */
     mask-image: linear-gradient(to bottom, #000 65%, transparent);
+}
+
+/* The drifting orbs are larger than the hero; clip them so they never
+   widen the page. */
+.hero__orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.5;
+    will-change: transform;
 }
 
 .hero__grid-dots {
@@ -471,7 +557,8 @@
     to { background-position: -40% 0; }
 }
 
-.hero__orbit {
+/* Slowly turning dashed orbit with a travelling dot */
+.hero__orbit-svg {
     position: absolute;
     inset: -9%;
     z-index: -1;
@@ -482,7 +569,7 @@
     pointer-events: none;
 }
 
-.hero__orbit circle:first-child {
+.hero__orbit-svg circle:first-child {
     fill: none;
     stroke: var(--line-strong);
     stroke-width: 0.6;
@@ -648,19 +735,16 @@
     transform: translateX(4px);
 }
 
-/* Room under the content for the full tech-stack pile to land in */
-.hero {
-    padding-bottom: clamp(9rem, 14vw, 12rem);
-}
-
 /* ==========================================================================
    Below 900px: round avatar with the status + heading beside it
    ========================================================================== */
 
 @media (max-width: 899px) {
     .hero {
+        min-height: 0;
+        gap: 2.25rem;
         padding-top: 1.75rem;
-        padding-bottom: 19rem;
+        padding-bottom: 3rem;
     }
 
     /* Flatten figure + body so their children share one grid */
@@ -676,20 +760,20 @@
             'photo title'
             'role  role'
             'lead  lead'
-            'tools tools'
             'actions actions'
+            'stats stats'
             'badge badge';
         gap: 0 1rem;
         align-items: center;
     }
 
-    .hero__tilt    { grid-area: photo; }
-    .hero__status  { grid-area: status; align-self: end; justify-self: start; margin-bottom: 0.5rem; }
-    .hero__title   { grid-area: title; align-self: start; margin-bottom: 0; }
+    .hero__tilt      { grid-area: photo; }
+    .hero__status    { grid-area: status; align-self: end; justify-self: start; margin-bottom: 0.5rem; }
+    .hero__title     { grid-area: title; align-self: start; margin-bottom: 0; }
     .hero__role-wrap { grid-area: role; margin-top: 1.1rem; }
-    .hero__lead    { grid-area: lead; }
-    .hero__tools   { grid-area: tools; }
-    .hero__actions { grid-area: actions; }
+    .hero__lead      { grid-area: lead; }
+    .hero__actions   { grid-area: actions; margin-top: 1.25rem; }
+    .hero__stats     { grid-area: stats; }
 
     .hero__photo {
         width: clamp(88px, 26vw, 132px);
@@ -709,7 +793,7 @@
 
     /* Desktop-only decoration */
     .hero__figure::before,
-    .hero__orbit,
+    .hero__orbit-svg,
     .hero__chip {
         display: none;
     }
@@ -732,17 +816,5 @@
     .hero__title {
         font-size: clamp(1.85rem, 1.2rem + 3.6vw, 2.6rem);
         line-height: 1.1;
-    }
-
-    /* Smaller pills so the whole stack fits on a narrow screen */
-    .shape-hero__pill {
-        min-height: 1.75rem;
-        padding-inline: 0.6rem;
-        font-size: 0.64rem;
-    }
-
-    .shape-hero__dot {
-        width: 2.5rem;
-        height: 2.5rem;
     }
 }

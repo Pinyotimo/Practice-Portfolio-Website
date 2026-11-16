@@ -1,0 +1,110 @@
+/* ==========================================================================
+   SectionDecor — 2D graphic layer behind a section heading
+   ========================================================================== */
+
+.section-decor {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* --- Concentric rings ---------------------------------------------------- */
+
+.section-decor__ring {
+    position: absolute;
+    top: clamp(-9rem, -8vw, -5rem);
+    right: clamp(-7rem, -6vw, -3rem);
+    border: 1px dashed var(--line-strong);
+    border-radius: 50%;
+    animation: decor-spin 70s linear infinite;
+}
+
+.section-decor__ring:nth-child(2) {
+    animation-duration: 52s;
+    animation-direction: reverse;
+}
+
+.section-decor__ring:nth-child(3) {
+    animation-duration: 38s;
+}
+
+@keyframes decor-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- Dot grid ------------------------------------------------------------ */
+
+.section-decor__grid {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(var(--line-strong) 1px, transparent 1.2px);
+    background-size: 20px 20px;
+    mask-image: radial-gradient(ellipse 55% 60% at 85% 15%, #000 10%, transparent 72%);
+    opacity: 0.5;
+}
+
+/* --- Accent pools -------------------------------------------------------- */
+
+.section-decor__pool {
+    position: absolute;
+    width: 44vmax;
+    height: 44vmax;
+    max-width: 560px;
+    max-height: 560px;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.42;
+}
+
+.section-decor__pool--a {
+    top: -18%;
+    right: -12%;
+    background: var(--accent-soft-2);
+    animation: decor-drift-a 26s var(--ease-in-out) infinite alternate;
+}
+
+.section-decor__pool--b {
+    bottom: -24%;
+    left: -14%;
+    background: var(--rust-soft);
+    animation: decor-drift-b 32s var(--ease-in-out) infinite alternate;
+}
+
+@keyframes decor-drift-a {
+    to { transform: translate(-10%, 14%) scale(1.14); }
+}
+
+@keyframes decor-drift-b {
+    to { transform: translate(14%, -12%) scale(1.1); }
+}
+
+/* --- A slow scan line ---------------------------------------------------- */
+
+.section-decor__scan {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        100deg,
+        transparent 30%,
+        color-mix(in srgb, var(--accent-soft) 55%, transparent) 48%,
+        transparent 62%
+    );
+    background-size: 260% 100%;
+    background-position: 120% 0;
+    animation: decor-scan 9s var(--ease-in-out) infinite;
+}
+
+@keyframes decor-scan {
+    0%   { background-position: 120% 0; }
+    55%  { background-position: -30% 0; }
+    100% { background-position: -30% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .section-decor__ring,
+    .section-decor__pool,
+    .section-decor__scan {
+        animation: none;
+    }
+}
