@@ -54,6 +54,8 @@
     --chart-1-ink:     #ffffff;
     --chart-2-ink:     #1c0c03;
     --chart-3-ink:     #04231a;
+    --chart-4:         #7c3aed;   /* slot 4 — AI & automation */
+    --chart-4-ink:     #ffffff;
     --chart-track:     #dbe4f3;   /* meter track — lighter step of slot 1 */
     --chart-muted:     #9db2d6;   /* de-emphasis step of slot 1 */
     --chart-grid:      #e2e0d8;
@@ -147,6 +149,8 @@
     --chart-1-ink:     #071018;
     --chart-2-ink:     #ffffff;
     --chart-3-ink:     #04231a;
+    --chart-4:         #a78bfa;   /* slot 4 — AI & automation */
+    --chart-4-ink:     #1a0b3d;
     --chart-track:     #1e2a3d;
     --chart-muted:     #35507d;
     --chart-grid:      #262b32;
@@ -192,6 +196,8 @@
         --chart-1-ink:     #071018;
         --chart-2-ink:     #ffffff;
         --chart-3-ink:     #04231a;
+        --chart-4:         #a78bfa;   /* slot 4 — AI & automation */
+        --chart-4-ink:     #1a0b3d;
         --chart-track:     #1e2a3d;
         --chart-muted:     #35507d;
         --chart-grid:      #262b32;

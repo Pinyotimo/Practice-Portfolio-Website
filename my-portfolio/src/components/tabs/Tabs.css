@@ -849,3 +849,99 @@
         padding: 0.3rem 0.65rem;
     }
 }
+
+/* ==========================================================================
+   Hobbies tab — three illustrated cards
+   ========================================================================== */
+
+.hobbies__intro {
+    margin-bottom: 1.1rem;
+    color: var(--ink-3);
+    font-size: var(--fs-sm);
+}
+
+.hobbies__grid {
+    display: grid;
+    gap: var(--sp-4);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+}
+
+.hobby-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 1.4rem;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background:
+        radial-gradient(110% 90% at 100% 0%, var(--accent-soft) 0%, transparent 55%),
+        var(--bg-elev);
+    transition: transform var(--dur) var(--ease-out),
+                border-color var(--dur) var(--ease-out),
+                box-shadow var(--dur) var(--ease-out);
+}
+
+.hobby-card:nth-child(2) {
+    background:
+        radial-gradient(110% 90% at 100% 0%, var(--rust-soft) 0%, transparent 55%),
+        var(--bg-elev);
+}
+
+.hobby-card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
+    box-shadow: var(--shadow-lift);
+}
+
+.hobby-card__art {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    margin-bottom: 1.1rem;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--accent), var(--rust));
+    color: var(--ink-on-accent);
+    font-size: 1.3rem;
+    box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--accent) 80%, transparent);
+    transition: transform var(--dur) var(--ease-spring);
+}
+
+.hobby-card:hover .hobby-card__art {
+    transform: rotate(-8deg) scale(1.06);
+}
+
+/* Large faded numeral in the corner */
+.hobby-card__index {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.9rem;
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--line-strong);
+    opacity: 0.6;
+    user-select: none;
+}
+
+.hobby-card__title {
+    margin-bottom: 0.4rem;
+    font-size: var(--fs-h3);
+    color: var(--ink);
+}
+
+.hobby-card__desc {
+    color: var(--ink-2);
+    font-size: var(--fs-sm);
+    line-height: 1.65;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hobby-card:hover,
+    .hobby-card:hover .hobby-card__art {
+        transform: none;
+    }
+}

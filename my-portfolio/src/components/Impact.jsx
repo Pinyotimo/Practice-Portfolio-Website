@@ -75,10 +75,10 @@ export default function Impact() {
         <div className="impact__charts">
           <TimelineChart />
 
-          <div className="impact__pair">
-            <StackChart />
-            <CategoryBarChart />
-          </div>
+          {/* Full width each: side by side, the short certifications chart
+              left a large empty panel beside the tall stack chart. */}
+          <StackChart />
+          <CategoryBarChart />
         </div>
 
         <p className="impact__note">

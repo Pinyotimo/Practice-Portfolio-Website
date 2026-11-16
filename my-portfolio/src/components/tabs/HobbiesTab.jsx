@@ -4,8 +4,8 @@ import { HOBBIES } from '../../data/portfolio';
 import './Tabs.css';
 
 const itemVariants = {
-  hidden: { opacity: 0, x: -12 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.35, ease: EASE } },
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: EASE } },
 };
 
 const containerVariants = {
@@ -15,15 +15,23 @@ const containerVariants = {
 
 export default function HobbiesTab() {
   return (
-    <motion.ul className="detail-list" variants={containerVariants} initial="hidden" animate="show">
-      {HOBBIES.map((hobby) => (
-        <motion.li key={hobby.title} className="detail-list__item" variants={itemVariants}>
-          <span className="detail-list__tag">{hobby.title}</span>
-          <span className="detail-list__body">
-            <span className="detail-list__desc">{hobby.desc}</span>
-          </span>
-        </motion.li>
-      ))}
-    </motion.ul>
+    <div className="hobbies">
+      <p className="hobbies__intro">Away from the keyboard — what keeps me curious and recharged.</p>
+
+      <motion.ul className="hobbies__grid" variants={containerVariants} initial="hidden" animate="show">
+        {HOBBIES.map((hobby, index) => (
+          <motion.li key={hobby.title} className="hobby-card" variants={itemVariants}>
+            <span className="hobby-card__art" aria-hidden="true">
+              <i className={hobby.icon ?? 'fa-solid fa-star'} />
+            </span>
+            <span className="hobby-card__index" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <h3 className="hobby-card__title">{hobby.title}</h3>
+            <p className="hobby-card__desc">{hobby.desc}</p>
+          </motion.li>
+        ))}
+      </motion.ul>
+    </div>
   );
 }

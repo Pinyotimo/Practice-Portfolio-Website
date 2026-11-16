@@ -3,7 +3,7 @@ import { DISCIPLINES, PROJECT_STACK_ROWS } from '../../data/portfolio';
 import ChartCard from './ChartCard';
 import useChartTooltip from './useChartTooltip.jsx';
 
-const SERIES = [DISCIPLINES.frontend, DISCIPLINES.backend, DISCIPLINES.data];
+const SERIES = [DISCIPLINES.frontend, DISCIPLINES.backend, DISCIPLINES.data, DISCIPLINES.ai];
 
 /**
  * How the technologies behind the shipped projects are distributed.
@@ -16,13 +16,23 @@ const SERIES = [DISCIPLINES.frontend, DISCIPLINES.backend, DISCIPLINES.data];
 export default function StackChart() {
   const { bind, tooltip } = useChartTooltip();
 
-  const { rows, max } = useMemo(() => {
+  const { rows, max, totals, grand } = useMemo(() => {
     const sorted = [...PROJECT_STACK_ROWS].sort((a, b) => b.total - a.total);
+    const sums = Object.fromEntries(
+      SERIES.map((series) => [
+        series.key,
+        sorted.reduce((sum, row) => sum + (row.counts[series.key] ?? 0), 0),
+      ]),
+    );
     return {
       rows: sorted,
       max: Math.max(...sorted.map((row) => row.total)),
+      totals: sums,
+      grand: Object.values(sums).reduce((a, b) => a + b, 0),
     };
   }, []);
+
+  const pct = (value) => Math.round((value / grand) * 100);
 
   const table = (
     <div className="chart__table-wrap">
@@ -77,11 +87,51 @@ export default function StackChart() {
       subtitle="Technologies behind each shipped project, grouped by the kind of work they do."
       legend={legend}
       table={table}
+      className="chart--stack"
     >
-      <div className="stack">
+      {/* Overview: every technology across every project, split by discipline */}
+      <div className="stack-summary">
+        <div className="stack-summary__bar" aria-hidden="true">
+          {SERIES.map((series) => (
+            <span
+              key={series.key}
+              className="stack-summary__segment"
+              style={{ flexGrow: totals[series.key], background: series.color }}
+            />
+          ))}
+        </div>
+        <dl className="stack-summary__stats">
+          {SERIES.map((series) => (
+            <div key={series.key} className="stack-summary__stat">
+              <dt>
+                <span
+                  className="chart__swatch"
+                  style={{ background: series.color }}
+                  aria-hidden="true"
+                />
+                {series.label}
+              </dt>
+              <dd>
+                <strong>{pct(totals[series.key])}%</strong>
+                <span>{totals[series.key]} uses</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      <div className="stack" style={{ '--stack-rows': Math.ceil(rows.length / 2) }}>
         {rows.map((row) => (
           <div key={row.id} className="stack__row">
-            <span className="stack__name">{row.title}</span>
+            <span className="stack__name" title={row.title}>
+              {row.title}
+              {row.counts.ai > 0 && (
+                <span className="stack__ai" title={`${row.counts.ai} AI & automation technologies`}>
+                  <i className="fa-solid fa-wand-magic-sparkles" aria-hidden="true" />
+                  AI
+                </span>
+              )}
+            </span>
 
             <div className="stack__track">
               <div className="stack__bar" style={{ width: `${(row.total / max) * 100}%` }}>

@@ -75,84 +75,60 @@ export const ABOUT = {
 /* Services                                                            */
 /* ------------------------------------------------------------------ */
 
+/* The seven areas I take work in. `featured` cards take a double-width
+   tile in the services grid; `tools` are drawn from the Skills tab. */
 export const SERVICES = [
   {
-    id: 1,
+    id: 'web',
     icon: 'fa-solid fa-code',
     title: 'Web Development',
-    desc: 'Full-stack applications built on React and Node — typed, tested, and deployed rather than demoed.',
+    featured: true,
+    desc: 'Full-stack web applications built on React and Node — typed, tested and deployed rather than demoed, from the interface down to the API and database.',
+    tools: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Supabase'],
   },
   {
-    id: 2,
-    icon: 'fa-solid fa-crop-simple',
+    id: 'uiux',
+    icon: 'fa-solid fa-pen-ruler',
     title: 'UI/UX Design',
-    desc: 'Interfaces designed against real constraints: readable type scales, sensible spacing, and motion that clarifies rather than decorates.',
+    desc: 'Interfaces designed against real constraints: readable type scales, sensible spacing, accessible contrast and motion that clarifies rather than decorates.',
+    tools: ['Design systems', 'Accessibility', 'Motion'],
   },
   {
-    id: 3,
+    id: 'app',
     icon: 'fa-solid fa-mobile-screen',
-    title: 'App Design',
-    desc: 'Responsive layouts that hold up from a 360px phone to a wide desktop, with accessible touch targets and clear hierarchy.',
+    title: 'App Development',
+    desc: 'Responsive apps that hold up from a 360px phone to a wide desktop, with touch-friendly controls, offline-aware flows and mobile-money payments.',
+    tools: ['React', 'Vite', 'M-Pesa Daraja'],
   },
   {
-    id: 4,
+    id: 'ai',
     icon: 'fa-solid fa-robot',
-    title: 'AI Data Support',
-    desc: 'Dataset preparation and labelling for model training with Roboflow, Labelbox and Label Prism — clean data, honest annotation guidelines.',
+    title: 'AI Integration',
+    featured: true,
+    desc: 'Wiring local and hosted language models into real products, preparing and labelling training data, and turning model output into explanations a person can review.',
+    tools: ['Ollama', 'Gemini', 'Groq', 'OpenAI SDK', 'Roboflow'],
   },
   {
-    id: 5,
-    icon: 'fa-solid fa-shop',
-    title: 'E-commerce Support',
-    desc: 'Storefront setup and optimisation on Shopify and the web — product pages, checkout flows, and the plumbing behind them.',
-  },
-  {
-    id: 6,
+    id: 'security',
     icon: 'fa-solid fa-shield-halved',
-    title: 'Cybersecurity Basics',
-    desc: 'Security awareness, network fundamentals and beginner offensive thinking, applied to keeping shipped systems safer.',
+    title: 'Cybersecurity',
+    desc: 'Security awareness, vulnerability thinking and beginner penetration-testing concepts, applied to keeping shipped systems and their users safer.',
+    tools: ['Security awareness', 'Pentesting concepts'],
   },
   {
-    id: 7,
+    id: 'linux',
+    icon: 'fa-brands fa-linux',
+    title: 'Linux & Systems',
+    desc: 'Working comfortably on the command line — setting up servers and dev environments, managing services and containers, and scripting the repetitive parts.',
+    tools: ['Command line', 'Shell scripting', 'Docker'],
+  },
+  {
+    id: 'network',
     icon: 'fa-solid fa-network-wired',
     title: 'IT Support & Network Design',
-    desc: 'Support, troubleshooting and network design grounded in HCIA training — from IP addressing to structured cabling and small-business LANs.',
-  },
-  {
-    id: 8,
-    icon: 'fa-solid fa-lightbulb',
-    title: 'Explainable AI Products',
-    desc: 'Turning complex data and model outputs into trustworthy product experiences with deterministic evidence, clear explanations and audience-aware narratives.',
-  },
-  {
-    id: 9,
-    icon: 'fa-solid fa-rss',
-    title: 'Personal Intelligence Briefings',
-    desc: 'Scheduled data collection and reporting systems that turn technology, open-source, community and market signals into clear, actionable briefings and alerts.',
-  },
-  {
-    id: 10,
-    icon: 'fa-solid fa-server',
-    title: 'Cloud Cost & Reliability Tools',
-    desc: 'Recommendation-only infrastructure tools that turn usage evidence into safer, reviewable rightsizing decisions without applying changes automatically.',
-  },
-  {
-    id: 11,
-    icon: 'fa-solid fa-house',
-    title: 'AI-Assisted Product Prototypes',
-    desc: 'Full-stack prototypes that use vision models and human review to make operational workflows clearer, safer and easier to complete.',
-  },
-  {
-    id: 12,
-    icon: 'fa-solid fa-calendar-check',
-    title: 'Event & Workflow Automation',
-    desc: 'Building communication-first event workflows that connect organizers, attendees and safety teams through practical channels such as SMS, voice and dashboards.',
-  },
-  {
-    id: 13,
-    icon: 'fa-solid fa-seedling',
-    title: 'Agricultural Coordination Platforms',
-    desc: 'Designing data-rich tools that connect producers with buyers, storage and transport options to support better harvest decisions and reduce avoidable losses.',
+    featured: true,
+    desc: 'Support, troubleshooting and network design grounded in HCIA and Network Technician training — from IP addressing and subnetting to structured cabling and small-business LANs.',
+    tools: ['Troubleshooting', 'IP addressing', 'LAN design', 'Secure communication'],
   },
 ];
 
@@ -179,6 +155,13 @@ export const DISCIPLINES = {
     color: 'var(--chart-3)',
     ink: 'var(--chart-3-ink)',
   },
+  /* LLM and vision integrations, plus the scheduled automation around them */
+  ai: {
+    key: 'ai',
+    label: 'AI & automation',
+    color: 'var(--chart-4)',
+    ink: 'var(--chart-4-ink)',
+  },
 };
 
 const TECH_DISCIPLINE = {
@@ -198,16 +181,16 @@ const TECH_DISCIPLINE = {
   FastAPI: 'backend',
   SQLite: 'data',
   Vite: 'frontend',
-  'NVIDIA-hosted LLM API': 'data',
+  'NVIDIA-hosted LLM API': 'ai',
   'Azure Container Apps': 'backend',
-  'GitHub Actions': 'backend',
+  'GitHub Actions': 'ai',
   'GitHub API': 'backend',
   RSS: 'data',
   Reddit: 'data',
   yfinance: 'data',
   Matplotlib: 'data',
   ReportLab: 'backend',
-  'Groq client': 'backend',
+  'Groq client': 'ai',
   Kubernetes: 'backend',
   Pydantic: 'backend',
   pytest: 'backend',
@@ -218,12 +201,12 @@ const TECH_DISCIPLINE = {
   SMS: 'backend',
   'M-Pesa': 'data',
   'QR tickets': 'frontend',
-  'AI assistant': 'backend',
-  'MAVUNO AI': 'backend',
+  'AI assistant': 'ai',
+  'MAVUNO AI': 'ai',
   'Sample data': 'data',
   Express: 'backend',
   MongoDB: 'data',
-  Gemini: 'backend',
+  Gemini: 'ai',
   'Africa’s Talking': 'backend',
   USSD: 'backend',
   'OpenStreetMap': 'data',
@@ -237,15 +220,15 @@ const TECH_DISCIPLINE = {
   'QR scanning/generation': 'frontend',
   'Framer Motion': 'frontend',
   'M-Pesa Daraja': 'data',
-  Ollama: 'backend',
-  Llama: 'backend',
+  Ollama: 'ai',
+  Llama: 'ai',
   'pdf-parse': 'backend',
   JavaScript: 'frontend',
   'PHP sessions': 'backend',
   'JSON file storage': 'data',
   'Supabase/PostgreSQL': 'data',
-  'NVIDIA NIM': 'backend',
-  'Ollama/Llama': 'backend',
+  'NVIDIA NIM': 'ai',
+  'Ollama/Llama': 'ai',
   'JavaScript / JSX': 'frontend',
   'Tailwind CSS': 'frontend',
   'shadcn/Base UI': 'frontend',
@@ -259,10 +242,10 @@ const TECH_DISCIPLINE = {
   Helmet: 'backend',
   'Rate limiting': 'backend',
   Uvicorn: 'backend',
-  'OpenAI SDK': 'backend',
+  'OpenAI SDK': 'ai',
   NumPy: 'data',
   Pandas: 'data',
-  OpenCV: 'data',
+  OpenCV: 'ai',
   Oracle: 'data',
   oracledb: 'data',
 };
@@ -519,12 +502,13 @@ export const PROJECTS = [
 
 /* Per-project technology counts, split by discipline — feeds the stacked bar. */
 export const PROJECT_STACK_ROWS = PROJECTS.map((project) => {
-  const counts = { frontend: 0, backend: 0, data: 0 };
+  const counts = { frontend: 0, backend: 0, data: 0, ai: 0 };
   project.stack.forEach((tech) => {
     const key = TECH_DISCIPLINE[tech];
     if (key) counts[key] += 1;
   });
-  return { id: project.id, title: project.title, counts, total: counts.frontend + counts.backend + counts.data };
+  const total = Object.values(counts).reduce((sum, n) => sum + n, 0);
+  return { id: project.id, title: project.title, counts, total };
 });
 
 /* ------------------------------------------------------------------ */
@@ -1012,9 +996,9 @@ export const PROFICIENCY = [
 ];
 
 export const HOBBIES = [
-  { title: 'Travelling', desc: 'Exploring new places, cultures and perspectives across Kenya and beyond.' },
-  { title: 'Reading', desc: 'Technical books, biographies, and anything that sharpens the way I think.' },
-  { title: 'Swimming', desc: 'The fastest way I know to stay active and clear my head.' },
+  { title: 'Travelling', icon: 'fa-solid fa-plane-departure', desc: 'Exploring new places, cultures and perspectives across Kenya and beyond.' },
+  { title: 'Reading', icon: 'fa-solid fa-book-open', desc: 'Technical books, biographies, and anything that sharpens the way I think.' },
+  { title: 'Hiking', icon: 'fa-solid fa-person-hiking', desc: 'Trails, hills and long walks outdoors — the best way I know to stay active and clear my head.' },
 ];
 
 /* ------------------------------------------------------------------ */

@@ -246,10 +246,10 @@
 
 /* --- Stats strip ---------------------------------------------------------- */
 
+/* Always one row of three: columns size to content and never wrap */
 .hero__stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, max-content));
     margin-top: clamp(1.75rem, 3vw, 2.5rem);
     padding-top: 1.25rem;
     border-top: 1px solid var(--line);
@@ -259,11 +259,11 @@
     display: flex;
     flex-direction: column-reverse;
     gap: 0.25rem;
-    padding-right: clamp(1.25rem, 3vw, 2.5rem);
+    padding-right: clamp(0.85rem, 2.2vw, 2.5rem);
 }
 
 .hero__stat + .hero__stat {
-    padding-left: clamp(1.25rem, 3vw, 2.5rem);
+    padding-left: clamp(0.85rem, 2.2vw, 2.5rem);
     border-left: 1px solid var(--line);
 }
 

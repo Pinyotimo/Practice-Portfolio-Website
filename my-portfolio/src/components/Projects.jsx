@@ -321,18 +321,16 @@ export default function Projects() {
   const activeIndex = Math.min(index, count - 1);
 
   return (
-    <motion.section
-      id="portfolio"
-      ref={sectionRef}
-      className="section section--soft"
-      initial={{ opacity: 0, y: 26 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.6, ease: EASE }}
-    >
+    <section id="portfolio" ref={sectionRef} className="section section--soft projects-section">
       <SectionDecor variant="grid" />
-      <div className="container">
-        <div className="section-head">
+      <div className="container container--wide">
+        <motion.div
+          className="section-head"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '0px 0px -10% 0px' }}
+          transition={{ duration: 0.45, ease: EASE }}
+        >
           <div>
             <span className="kicker">Selected work</span>
             <h2 className="section-head__title">My projects</h2>
@@ -342,7 +340,7 @@ export default function Projects() {
             that is still running. {liveCount} are live or open source; the rest have case studies on
             the way.
           </p>
-        </div>
+        </motion.div>
 
         <div className="projects__toolbar">
           <div className="skills__filters" role="group" aria-label="Filter projects">
@@ -564,6 +562,6 @@ export default function Projects() {
           </div>
         )}
       </div>
-    </motion.section>
+    </section>
   );
 }

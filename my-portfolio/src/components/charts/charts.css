@@ -659,3 +659,457 @@
         transform: none;
     }
 }
+
+/* ==========================================================================
+   "Where the stack sits" — restyle
+   Overview bar on top, then the projects in two columns on wide screens
+   with full names and a faint track showing the scale.
+   ========================================================================== */
+
+.stack-summary {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: color-mix(in srgb, var(--bg) 45%, transparent);
+}
+
+.stack-summary__bar {
+    display: flex;
+    gap: 3px;
+    height: 14px;
+    overflow: hidden;
+    border-radius: var(--r-pill);
+}
+
+.stack-summary__segment {
+    min-width: 6px;
+    transform-origin: 0 50%;
+    animation: stack-grow 900ms var(--ease-out) both;
+}
+
+.stack-summary__segment:nth-child(2) { animation-delay: 120ms; }
+.stack-summary__segment:nth-child(3) { animation-delay: 240ms; }
+.stack-summary__segment:nth-child(4) { animation-delay: 360ms; }
+
+.stack-summary__stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.stack-summary__stat {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.stack-summary__stat + .stack-summary__stat {
+    padding-left: 0.75rem;
+    border-left: 1px solid var(--line);
+}
+
+.stack-summary__stat dt {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.stack-summary__stat dd {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.2rem 0.5rem;
+}
+
+.stack-summary__stat strong {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.9rem);
+    line-height: 1;
+    color: var(--ink);
+}
+
+.stack-summary__stat dd span {
+    color: var(--ink-3);
+    font-size: var(--fs-xs);
+}
+
+/* --- Rows ------------------------------------------------------------------ */
+
+.chart--stack .stack {
+    gap: 0.35rem 2.5rem;
+}
+
+@media (min-width: 1100px) {
+    .chart--stack .stack {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        /* Fill column by column so the ranking reads top-down */
+        grid-auto-flow: column;
+        grid-template-rows: repeat(var(--stack-rows, 7), auto);
+    }
+}
+
+.chart--stack .stack__row {
+    padding: 0.5rem 0.6rem;
+    border-radius: var(--r-sm);
+    transition: background-color var(--dur) var(--ease-out);
+}
+
+.chart--stack .stack__row:hover {
+    background: var(--accent-soft);
+}
+
+@media (min-width: 700px) {
+    .chart--stack .stack__row {
+        grid-template-columns: minmax(0, 15rem) minmax(0, 1fr) 2rem;
+    }
+}
+
+/* Full names: wrap to a second line instead of cutting off */
+.chart--stack .stack__name {
+    white-space: normal;
+    line-height: 1.3;
+}
+
+/* Faint full-width track, so short bars still read against the scale */
+.chart--stack .stack__track {
+    padding: 3px;
+    border-radius: var(--r-pill);
+    background: color-mix(in srgb, var(--line) 55%, transparent);
+}
+
+.chart--stack .stack__bar {
+    height: 16px;
+    transform-origin: 0 50%;
+    animation: stack-grow 800ms var(--ease-out) both;
+}
+
+.chart--stack .stack__segment {
+    border-radius: 3px;
+}
+
+.chart--stack .stack__segment:first-child {
+    border-radius: var(--r-pill) 3px 3px var(--r-pill);
+}
+
+.chart--stack .stack__segment:last-child {
+    border-radius: 3px var(--r-pill) var(--r-pill) 3px;
+}
+
+.chart--stack .stack__segment:only-child {
+    border-radius: var(--r-pill);
+}
+
+.chart--stack .stack__total {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+@keyframes stack-grow {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+}
+
+/* Two by two below tablet width */
+@media (max-width: 759px) {
+    .stack-summary__stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.9rem 0.75rem;
+    }
+
+    .stack-summary__stat:nth-child(odd) {
+        padding-left: 0;
+        border-left: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stack-summary__segment,
+    .chart--stack .stack__bar {
+        animation: none;
+    }
+}
+
+/* Marks the projects with AI or automation in their stack */
+.stack__ai {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-left: 0.45rem;
+    padding: 0.05rem 0.4rem;
+    border: 1px solid color-mix(in srgb, var(--chart-4) 55%, transparent);
+    border-radius: var(--r-pill);
+    background: color-mix(in srgb, var(--chart-4) 16%, transparent);
+    color: var(--chart-4);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    vertical-align: 0.1em;
+    white-space: nowrap;
+}
+
+.stack__ai i {
+    font-size: 0.55rem;
+}
+
+/* ==========================================================================
+   "Where the time went" — restyle
+   Summary strip, kind-coloured pill bars, icon chips and a live marker.
+   ========================================================================== */
+
+.tl-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, auto)) minmax(0, 1fr);
+    gap: 0.9rem 0;
+    margin-bottom: 1.75rem;
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: color-mix(in srgb, var(--bg) 45%, transparent);
+}
+
+.tl-summary__item {
+    display: grid;
+    gap: 0.3rem;
+    padding-inline: clamp(0.9rem, 2.2vw, 2rem);
+}
+
+.tl-summary__item:first-child {
+    padding-left: 0;
+}
+
+.tl-summary__item + .tl-summary__item {
+    border-left: 1px solid var(--line);
+}
+
+.tl-summary__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.tl-summary__value {
+    color: var(--ink-3);
+    font-size: var(--fs-xs);
+}
+
+.tl-summary__value strong {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.9rem);
+    line-height: 1;
+    color: var(--ink);
+}
+
+.tl-summary__item--now .tl-summary__value {
+    color: var(--ink-2);
+    font-size: var(--fs-sm);
+}
+
+.tl-summary__item--now .tl-summary__value strong {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body, 1rem);
+    font-weight: 700;
+}
+
+@media (max-width: 759px) {
+    .tl-summary {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .tl-summary__item--now {
+        grid-column: 1 / -1;
+        padding: 0.9rem 0 0;
+        border-left: 0 !important;
+        border-top: 1px solid var(--line);
+    }
+}
+
+/* Pulsing dot — legend, summary and the end of the ongoing bar */
+.timeline__live-dot {
+    position: relative;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+}
+
+.timeline__live-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    animation: tl-pulse 1.8s var(--ease-out) infinite;
+}
+
+@keyframes tl-pulse {
+    from { transform: scale(1); opacity: 0.6; }
+    to   { transform: scale(2.8); opacity: 0; }
+}
+
+/* --- Axis ------------------------------------------------------------------- */
+
+.chart--timeline .timeline {
+    gap: 0.35rem;
+}
+
+.chart--timeline .timeline__month {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 2.1rem;
+}
+
+.chart--timeline .timeline__month em {
+    color: var(--accent-ink);
+    font-style: normal;
+    font-weight: 600;
+}
+
+.chart--timeline .timeline__grid span.is-year {
+    border-left: 1px dashed var(--line-strong);
+}
+
+/* --- Rows ------------------------------------------------------------------- */
+
+.chart--timeline .timeline__row:not(.timeline__row--axis) {
+    padding: 0.55rem 0.6rem;
+    border-radius: var(--r-md);
+    transition: background-color var(--dur) var(--ease-out);
+}
+
+.chart--timeline .timeline__row:not(.timeline__row--axis):hover {
+    background: color-mix(in srgb, var(--kind) 10%, transparent);
+}
+
+@media (min-width: 860px) {
+    .chart--timeline .timeline__row {
+        grid-template-columns: minmax(0, 19.5rem) minmax(0, 1fr);
+    }
+
+    .chart--timeline .timeline__row--axis {
+        padding-inline: 0.6rem;
+    }
+}
+
+.chart--timeline .timeline__label {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.timeline__icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid color-mix(in srgb, var(--kind) 45%, transparent);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--kind) 16%, transparent);
+    color: var(--kind);
+    font-size: 0.85rem;
+}
+
+.timeline__text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.05rem;
+    min-width: 0;
+}
+
+/* --- Bars ------------------------------------------------------------------- */
+
+.chart--timeline .timeline__track {
+    min-height: 40px;
+}
+
+.chart--timeline .timeline__bar {
+    height: 24px;
+    border-radius: var(--r-pill);
+    background: linear-gradient(90deg,
+        color-mix(in srgb, var(--kind) 70%, transparent),
+        var(--kind));
+    box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 18%, transparent);
+    transform-origin: 0 50%;
+    animation: tl-grow 900ms var(--ease-out) both;
+}
+
+.chart--timeline .timeline__bar-label {
+    right: 10px;
+    color: var(--kind-ink);
+    font-weight: 600;
+}
+
+/* Ongoing: a glow and a live dot at the leading edge */
+.chart--timeline .timeline__bar--current {
+    box-shadow:
+        inset 0 1px 0 color-mix(in srgb, #fff 18%, transparent),
+        0 0 0 3px color-mix(in srgb, var(--kind) 22%, transparent),
+        0 8px 24px -8px var(--kind);
+}
+
+.chart--timeline .timeline__bar--current .timeline__bar-label {
+    right: 22px;
+}
+
+.chart--timeline .timeline__bar--current::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 7px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fff;
+    transform: translateY(-50%);
+    animation: tl-blink 1.6s ease-in-out infinite;
+}
+
+.timeline__now {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 6px);
+    padding: 0.1rem 0.45rem;
+    border-radius: var(--r-pill);
+    background: #22c55e;
+    color: #052e14;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* Wipe in from the left. The insets reach past the bar so the glow and
+   the "Now" tag are not clipped once the wipe finishes. */
+@keyframes tl-grow {
+    from { clip-path: inset(-40px 100% -40px -40px); }
+    to   { clip-path: inset(-40px -40px -40px -40px); }
+}
+
+@keyframes tl-blink {
+    50% { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .timeline__live-dot::after,
+    .chart--timeline .timeline__bar,
+    .chart--timeline .timeline__bar--current::after {
+        animation: none;
+    }
+}

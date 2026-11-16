@@ -44,6 +44,8 @@
     --chart-1-ink:     #04211d;
     --chart-2-ink:     #2a1503;
     --chart-3-ink:     #0b1033;
+    --chart-4:         #f472b6;   /* slot 4 — AI & automation */
+    --chart-4-ink:     #2a0616;
     --chart-track:     #123a40;
     --chart-muted:     #1f6b66;
     --chart-grid:      #163240;
@@ -89,6 +91,8 @@
     --chart-1-ink:     #ffffff;
     --chart-2-ink:     #1f0f02;
     --chart-3-ink:     #ffffff;
+    --chart-4:         #9b5fc0;   /* slot 4 — AI & automation */
+    --chart-4-ink:     #ffffff;
     --chart-track:     #d3e3d2;
     --chart-muted:     #93b59b;
     --chart-grid:      #dbe2d5;
@@ -134,6 +138,8 @@
     --chart-1-ink:     #1a0b04;
     --chart-2-ink:     #241a02;
     --chart-3-ink:     #04201d;
+    --chart-4:         #b38cf5;   /* slot 4 — AI & automation */
+    --chart-4-ink:     #1a0b3d;
     --chart-track:     #3a2219;
     --chart-muted:     #7a3f28;
     --chart-grid:      #2c211d;
@@ -179,6 +185,8 @@
     --chart-1-ink:     #ffffff;
     --chart-2-ink:     #2a0715;
     --chart-3-ink:     #ffffff;
+    --chart-4:         #e0a526;   /* slot 4 — AI & automation */
+    --chart-4-ink:     #241a02;
     --chart-track:     #e2dbf6;
     --chart-muted:     #b3a5e3;
     --chart-grid:      #e4e0ee;

@@ -17,7 +17,7 @@ const TABS = [
   { id: 'proficiency', label: 'Proficiency', icon: 'fa-solid fa-gauge-high' },
   { id: 'experience', label: 'Experience', icon: 'fa-solid fa-briefcase' },
   { id: 'education', label: 'Education', icon: 'fa-solid fa-graduation-cap' },
-  { id: 'hobbies', label: 'Hobbies', icon: 'fa-solid fa-person-swimming' },
+  { id: 'hobbies', label: 'Hobbies', icon: 'fa-solid fa-person-hiking' },
 ];
 
 const TAB_COMPONENTS = {
