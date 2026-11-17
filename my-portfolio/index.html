@@ -4,26 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Stephen Oduor — Software Engineer in Nairobi, Kenya</title>
+    <title>{{site.title}}</title>
     <meta
       name="description"
-      content="Software engineer and Computer Science undergraduate in Nairobi. I build full-stack web applications with React, Node, Postgres and real-time systems — and I am looking for an internship or freelance work."
+      content="{{site.description}}"
     />
-    <meta name="author" content="Stephen Oduor" />
-    <meta name="theme-color" content="#f1f0ec" />
-    <link rel="canonical" href="https://stephenoduor-software-developer-por.vercel.app/" />
+    <meta name="author" content="{{site.name}}" />
+    <meta name="theme-color" content="{{theme.defaultMeta}}" />
+    <link rel="canonical" href="{{site.url}}" />
 
-    <!-- Open Graph / social preview -->
+    <!-- Open Graph / social preview. {{site.*}} tokens are filled from
+         SITE in src/data/portfolio.js at build time (vite.config.js). -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Stephen Oduor" />
-    <meta property="og:title" content="Stephen Oduor — Software Engineer" />
+    <meta property="og:site_name" content="{{site.name}}" />
+    <meta property="og:title" content="{{site.ogTitle}}" />
     <meta
       property="og:description"
-      content="Full-stack developer building React, Node and real-time web applications. Based in Nairobi, Kenya."
+      content="{{site.description}}"
     />
-    <meta property="og:url" content="https://stephenoduor-software-developer-por.vercel.app/" />
-    <meta property="og:image" content="/Images/profile-photo.jpg" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:url" content="{{site.url}}" />
+    <meta property="og:image" content="{{site.ogImage}}" />
+    <meta property="og:image:alt" content="Portrait of {{site.name}}" />
+    <!-- The portrait is square, so the compact card shows it uncropped. -->
+    <meta name="twitter:card" content="summary" />
+
+    <script type="application/ld+json">{{site.jsonLd}}</script>
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
@@ -43,13 +48,11 @@
 
     <script>
       /* Stamp the theme before first paint so the page never flashes the
-         wrong background. Mirrors src/theme/themes.js — keep the ids in sync. */
+         wrong background. The id → mode map is filled in from
+         src/theme/themes.js at build time (vite.config.js). */
       (function () {
         try {
-          var modes = {
-            light: 'light', dark: 'dark', ocean: 'dark',
-            forest: 'light', ember: 'dark', lavender: 'light'
-          };
+          var modes = {{theme.modes}};
           var stored = localStorage.getItem('st-theme');
           var theme = modes[stored]
             ? stored

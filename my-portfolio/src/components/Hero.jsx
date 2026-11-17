@@ -8,7 +8,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import { EASE } from '../lib/motion';
-import { ALL_CERTIFICATES, HACKATHONS, HERO, PROJECTS } from '../data/portfolio';
+import { ALL_CERTIFICATES, HACKATHONS, HERO, PROJECTS, SITE } from '../data/portfolio';
 import HeroSceneLayer from './kokonutui/hero-scene-layer';
 import './Hero.css';
 
@@ -155,10 +155,12 @@ export default function Hero() {
           <TiltFigure>
             <div className="hero__photo">
               <img
-                src="/Images/profile-photo.jpg"
+                src={SITE.photo}
+                srcSet={`${SITE.photo.replace(/\.webp$/, '-512.webp')} 512w, ${SITE.photo} 1024w`}
+                sizes="(min-width: 860px) 420px, 70vw"
                 width="1024"
                 height="1024"
-                alt="Portrait of Stephen Oduor"
+                alt={`Portrait of ${SITE.name}`}
                 fetchPriority="high"
                 decoding="async"
               />
@@ -226,13 +228,9 @@ export default function Hero() {
             <a href="#contact" className="btn btn--ghost">
               Get in touch
             </a>
-            <a
-              href="/Images/Stephen-Oduor-CV.pdf"
-              download
-              className="btn btn--ghost"
-            >
-              <i className="fa-solid fa-download" aria-hidden="true" />
-              Download CV
+            <a href={SITE.cvUrl} className="btn btn--ghost">
+              <i className="fa-solid fa-file-lines" aria-hidden="true" />
+              View CV
             </a>
           </motion.div>
 

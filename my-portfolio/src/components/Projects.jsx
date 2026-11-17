@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { EASE } from '../lib/motion';
-import { HACKATHONS, PROJECTS } from '../data/portfolio';
+import { HACKATHONS, PROJECTS, smallImage } from '../data/portfolio';
 import { familyFor, ProjectGlyph } from '../lib/shapes';
 import SectionDecor from './section-decor';
 import './Projects.css';
@@ -84,6 +84,8 @@ function ProjectFrame({ project, ghost = false, glyph = null }) {
         {!ghost && (
           <img
             src={project.img}
+            srcSet={`${smallImage(project.img)} 640w, ${project.img} ${project.imgWidth}w`}
+            sizes="(min-width: 860px) 55vw, 100vw"
             width={project.imgWidth}
             height={project.imgHeight}
             alt={`Screenshot of ${project.title}`}

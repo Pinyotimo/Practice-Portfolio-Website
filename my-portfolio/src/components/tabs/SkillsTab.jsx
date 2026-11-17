@@ -7,7 +7,7 @@ import './Tabs.css';
 
 const MAX_NAMED = 2;
 
-const projectsFor = (skill) => projectsUsing(skill.match);
+const projectsFor = (skill) => projectsUsing(skill.evidence);
 
 const certFor = (skill) => CERTIFICATIONS.find((cert) => cert.text === skill.cert);
 

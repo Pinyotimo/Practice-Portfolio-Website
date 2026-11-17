@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from 'framer-motion';
 import { EASE } from '../lib/motion';
-import { NAV_LINKS } from '../data/portfolio';
+import { NAV_LINKS, SITE } from '../data/portfolio';
 import useScrollSpy from '../hooks/useScrollSpy';
 import ThemePicker from './ThemePicker';
 import './Header.css';
@@ -99,8 +99,8 @@ export default function Header() {
             SO
           </span>
           <span className="brand__text">
-            <span className="brand__name">Stephen Oduor</span>
-            <span className="brand__role">Software Engineer</span>
+            <span className="brand__name">{SITE.name}</span>
+            <span className="brand__role">{SITE.role}</span>
           </span>
         </a>
 

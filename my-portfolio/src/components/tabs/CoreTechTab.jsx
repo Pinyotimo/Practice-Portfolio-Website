@@ -2,13 +2,13 @@ import { useId, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { EASE } from '../../lib/motion';
 import { TECH_CATEGORIES } from '../../data/portfolio';
-import { projectsUsing, splitTag } from '../../lib/evidence';
+import { projectsUsing } from '../../lib/evidence';
 import './Tabs.css';
 
 /* Two-character badge for tools without a logo: "C++" stays "C++",
    "Pydantic" → "Py", "FastAPI" → "Fa". */
-const monogram = (tag) => {
-  const first = splitTag(tag)[0] ?? tag;
+const monogram = (item) => {
+  const first = item.tools[0] ?? item.tag;
   if (first.length <= 3) return first;
   return first[0].toUpperCase() + first[1].toLowerCase();
 };
@@ -21,7 +21,7 @@ const CATEGORIES = TECH_CATEGORIES.map((category, groupIndex) => ({
   tint: TINTS[groupIndex % TINTS.length],
   items: category.items.map((item) => ({
     ...item,
-    projects: item.count === false ? [] : projectsUsing(item.match ?? splitTag(item.tag)),
+    projects: item.count === false ? [] : projectsUsing(item.tools),
   })),
 }));
 
@@ -44,7 +44,7 @@ function TechTile({ item, tint, index }) {
       transition={{ duration: 0.28, delay: Math.min(index, 10) * 0.03, ease: EASE }}
     >
       <span className={`tech-tile__logo${item.icon ? '' : ` tech-tile__logo--mono ${tint}`}`} aria-hidden="true">
-        {item.icon ? <i className={item.icon} /> : monogram(item.tag)}
+        {item.icon ? <i className={item.icon} /> : monogram(item)}
       </span>
       <span className="tech-tile__text">
         <span className="tech-tile__name">{item.tag}</span>
