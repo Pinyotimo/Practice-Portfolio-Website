@@ -66,6 +66,13 @@ export default function ExperienceTab() {
                   {exp.role} <span>at</span> {exp.company}
                 </p>
                 {exp.desc && <p className="xp-timeline__desc">{exp.desc}</p>}
+                {exp.highlights?.length > 0 && (
+                  <ul className="xp-timeline__points">
+                    {exp.highlights.map((point) => (
+                      <li key={point}>{point}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </motion.li>
           ))}

@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { EASE, riseIn, stagger } from '../lib/motion';
-import { ABOUT, HERO } from '../data/portfolio';
+import { ABOUT, HERO, ROLE_TIERS, rolesIn } from '../data/portfolio';
 import SkillsTab from './tabs/SkillsTab';
 import ExperienceTab from './tabs/ExperienceTab';
 import EducationTab from './tabs/EducationTab';
@@ -187,6 +187,29 @@ export default function About() {
                   </motion.div>
                 ))}
               </motion.dl>
+
+              {/* The same ROLES as the Services cards — each chip jumps to its card. */}
+              <div className="about__roles">
+                <h3 className="about__roles-title">Roles I can take on</h3>
+                {ROLE_TIERS.map((tier) => (
+                  <div key={tier.id} className="about__roles-tier">
+                    <span className="about__roles-label">{tier.label}</span>
+                    <ul className="about__roles-list">
+                      {rolesIn(tier.id).map((role) => (
+                        <li key={role.id}>
+                          <a
+                            href={`#service-${role.id}`}
+                            className={`role-chip role-chip--${tier.id}`}
+                          >
+                            <i className={role.icon} aria-hidden="true" />
+                            {role.title}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
 
               <div className="about__cta">
                 <a href="#impact" className="btn btn--ghost btn--sm">

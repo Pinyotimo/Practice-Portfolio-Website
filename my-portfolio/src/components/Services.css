@@ -1,8 +1,8 @@
 /* ==========================================================================
-   Services — bento grid of seven cards
+   Services — bento grid, one card per role in ROLES (src/data/portfolio.js)
 
    Phones: one column. Tablets: two columns, featured cards span both.
-   Desktop: four columns — Web and AI take double tiles, the network card
+   Desktop: four columns — lead roles take double tiles, the last card
    runs the full width as a horizontal banner.
    ========================================================================== */
 
@@ -56,6 +56,7 @@
 /* --- Card ----------------------------------------------------------------- */
 
 .service-card {
+    scroll-margin-top: 6.5rem; /* clear the sticky header when linked from About */
     position: relative;
     display: flex;
     flex-direction: column;
@@ -151,6 +152,49 @@
 .service-card__body {
     position: relative;
     flex: 1;
+}
+
+.service-card__role {
+    margin-bottom: 0.3rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+}
+
+/* Highlight the card a role chip in About jumped to */
+.service-card:target {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-lift);
+}
+
+.service-card__proof {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+    margin-top: 0.85rem;
+    color: var(--ink-3);
+    font-size: var(--fs-xs);
+}
+
+.service-card__proof li,
+.service-card__proof a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.service-card__proof a {
+    color: var(--ink-2);
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-underline-offset: 3px;
+}
+
+.service-card__proof a:hover {
+    color: var(--accent-ink);
+    text-decoration-color: currentColor;
 }
 
 .service-card__title {

@@ -11,9 +11,6 @@ const AREA_ICONS = {
   'Digital skills': 'fa-solid fa-globe',
 };
 
-/* Data titles end in " — " so they read as "Course — School" inline. */
-const cleanTitle = (title) => title.replace(/\s*—\s*$/, '');
-
 const DEGREES = EDUCATION.filter((e) => e.kind === 'degree');
 const TRAINING = EDUCATION.filter((e) => e.kind !== 'degree');
 
@@ -48,7 +45,7 @@ export default function EducationTab() {
         <motion.ol className="xp-timeline" variants={stagger(0.08)} initial="hidden" animate="show">
           {DEGREES.map((item, index) => (
             <motion.li
-              key={item.bold}
+              key={item.institution}
               className={`xp-timeline__item${index === 0 ? ' is-ongoing' : ''}`}
               variants={rise}
             >
@@ -60,8 +57,8 @@ export default function EducationTab() {
                   <span className="xp-timeline__period">{item.label}</span>
                   {index === 0 && <span className="xp-timeline__now">In progress</span>}
                 </div>
-                <p className="xp-timeline__title">{item.bold}</p>
-                {item.title && <p className="xp-timeline__desc">{cleanTitle(item.title)}</p>}
+                <p className="xp-timeline__title">{item.institution}</p>
+                {item.title && <p className="xp-timeline__desc">{item.title}</p>}
               </div>
             </motion.li>
           ))}
@@ -76,15 +73,15 @@ export default function EducationTab() {
         </h3>
         <motion.ul className="hack-grid" variants={stagger(0.06, 0.15)} initial="hidden" animate="show">
           {TRAINING.map((item) => (
-            <motion.li key={item.bold} className="edu-card card card--hover" variants={rise}>
+            <motion.li key={item.institution} className="edu-card card card--hover" variants={rise}>
               <span className="edu-card__icon" aria-hidden="true">
                 <i className={item.icon} />
               </span>
               <div className="edu-card__body">
                 <span className="hack-card__event">{item.label}</span>
-                <p className="hack-card__project">{cleanTitle(item.title)}</p>
-                <p className="edu-card__school">{item.bold}</p>
-                {item.link && <CertificateLink href={item.link} label={item.bold} compact />}
+                <p className="hack-card__project">{item.title}</p>
+                <p className="edu-card__school">{item.institution}</p>
+                {item.link && <CertificateLink href={item.link} label={item.title} compact />}
               </div>
             </motion.li>
           ))}

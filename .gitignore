@@ -51,3 +51,9 @@ dist/
 # Misc
 # ========================
 *.jsonl
+# ========================
+# Logs and scratch files
+# ========================
+*.log
+login_attempts.txt
+my-portfolio/tmp/

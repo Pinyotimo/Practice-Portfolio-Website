@@ -2,7 +2,8 @@
    Each id maps to a `:root[data-theme="<id>"]` token block in themes.css.
    `mode` drives `color-scheme` (native form controls, scrollbars), and
    `meta` is the browser chrome colour. `swatch` is only for the picker.
-   index.html has a pre-paint copy of the ids and dark modes — keep in sync. */
+   index.html's pre-paint script gets the id → mode map from here at
+   build time (vite.config.js). */
 
 export const THEMES = [
   {

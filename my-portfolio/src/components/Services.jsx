@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { EASE } from '../lib/motion';
-import { SERVICES } from '../data/portfolio';
+import { CERTIFICATIONS, SERVICES, SERVICES_INTRO, SKILLS } from '../data/portfolio';
+import { projectsUsing } from '../lib/evidence';
 import SectionDecor from './section-decor';
 import './Services.css';
 
@@ -8,6 +9,15 @@ const cardVariants = {
   hidden: { opacity: 0, y: 22 },
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE } },
 };
+
+/* Each role is backed by its Skills cards: their projects and certificates
+   become the card's evidence line, so the claim and the proof can't drift. */
+const CARDS = SERVICES.map((service) => {
+  const skills = SKILLS.filter((skill) => service.skills.includes(skill.title));
+  const projects = projectsUsing(skills.flatMap((skill) => skill.evidence));
+  const certs = CERTIFICATIONS.filter((cert) => skills.some((skill) => skill.cert === cert.text));
+  return { ...service, projects, certs };
+});
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -30,11 +40,7 @@ export default function Services() {
             <span className="kicker">What I do</span>
             <h2 className="section-head__title">My services</h2>
           </div>
-          <p className="section-head__lede">
-            Seven areas I take work in — from shipping a full-stack product to
-            securing it, keeping its servers running and wiring up the network
-            underneath.
-          </p>
+          <p className="section-head__lede">{SERVICES_INTRO}</p>
         </motion.div>
 
         <motion.ul
@@ -44,9 +50,10 @@ export default function Services() {
           whileInView="show"
           viewport={{ once: true, amount: 0.1 }}
         >
-          {SERVICES.map((service, index) => (
+          {CARDS.map((service, index) => (
             <motion.li
               key={service.id}
+              id={`service-${service.id}`}
               className={`service-card card${service.featured ? ' service-card--featured' : ''}`}
               variants={cardVariants}
             >
@@ -62,8 +69,29 @@ export default function Services() {
               </div>
 
               <div className="service-card__body">
+                <p className="service-card__role">{service.role}</p>
                 <h3 className="service-card__title">{service.title}</h3>
                 <p className="service-card__desc">{service.desc}</p>
+                {(service.projects.length > 0 || service.certs.length > 0) && (
+                  <ul className="service-card__proof">
+                    {service.projects.length > 0 && (
+                      <li title={service.projects.map((p) => p.title).join(', ')}>
+                        <i className="fa-solid fa-folder-open" aria-hidden="true" />
+                        Used in {service.projects.length} project
+                        {service.projects.length > 1 ? 's' : ''}
+                      </li>
+                    )}
+                    {service.certs.map((cert) => (
+                      <li key={cert.text}>
+                        <a href={cert.link} target="_blank" rel="noopener noreferrer">
+                          <i className="fa-solid fa-certificate" aria-hidden="true" />
+                          {cert.text}
+                          <span className="sr-only"> (opens in a new tab)</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
 
               {service.tools?.length > 0 && (

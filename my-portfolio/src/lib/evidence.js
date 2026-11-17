@@ -1,24 +1,10 @@
 import { PROJECTS } from '../data/portfolio';
 
-const escape = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-/* Whole-word, case-insensitive: "Java" must not match "JavaScript", "Git"
-   must not match "GitHub". Hyphens and slashes count as word breaks. */
-const mentions = (tech, name) =>
-  new RegExp(`(^|[^a-z0-9])${escape(name)}($|[^a-z0-9])`, 'i').test(tech);
-
-/* Projects whose stack names any of `names`. */
+/* Projects whose stack lists any of `names`. Names are TECH registry names
+   and project stacks use the same spelling (enforced by check:data), so an
+   exact match is enough — no fuzzy "Java" vs "JavaScript" guessing. */
 export function projectsUsing(names) {
-  const wanted = names.filter((name) => name.trim().length > 1);
-  if (!wanted.length) return [];
-  return PROJECTS.filter((project) =>
-    project.stack.some((tech) => wanted.some((name) => mentions(tech, name))),
-  );
+  if (!names?.length) return [];
+  const wanted = new Set(names);
+  return PROJECTS.filter((project) => project.stack.some((tech) => wanted.has(tech)));
 }
-
-/* "Tailwind CSS & Base UI" → ["Tailwind CSS", "Base UI"] */
-export const splitTag = (tag) =>
-  tag
-    .split(/\s*(?:&|,|\/)\s*/)
-    .map((part) => part.trim())
-    .filter(Boolean);

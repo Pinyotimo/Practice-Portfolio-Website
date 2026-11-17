@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { EASE } from '../lib/motion';
-import { CONTACT_DETAILS, SOCIAL_LINKS } from '../data/portfolio';
+import { CONTACT_DETAILS, SITE, SOCIAL_LINKS } from '../data/portfolio';
 import SectionDecor from './section-decor';
 import './Contact.css';
 
@@ -113,15 +113,11 @@ export default function Contact() {
             </ul>
 
             <div className="contact__actions">
-              <a
-                href="/Images/Stephen-Oduor-CV.pdf"
-                download
-                className="btn btn--accent"
-              >
-                <i className="fa-solid fa-download" aria-hidden="true" />
-                Download CV
+              <a href={SITE.cvUrl} className="btn btn--accent">
+                <i className="fa-solid fa-file-lines" aria-hidden="true" />
+                View CV
               </a>
-              <a href="mailto:steveotieno2012005@gmail.com" className="btn btn--ghost">
+              <a href={`mailto:${SITE.email}`} className="btn btn--ghost">
                 Email me
               </a>
             </div>
@@ -143,7 +139,7 @@ export default function Contact() {
             </div>
 
             <form
-              action="https://formsubmit.co/steveotieno2012005@gmail.com"
+              action={`https://formsubmit.co/${SITE.email}`}
               method="POST"
               className="contact__form"
               onSubmit={() => setIsSending(true)}
